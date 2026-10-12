@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="100%" height="100%">
+  <defs>
+    <linearGradient id="veloceBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181b" />
+      <stop offset="100%" stop-color="#27272a" />
+    </linearGradient>
+    <linearGradient id="warmCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f4" />
+      <stop offset="100%" stop-color="#e7e5e4" />
+    </linearGradient>
+    <filter id="veloceShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="550" fill="url(#veloceBg)" />
+
+  <!-- Subtle ambient aura -->
+  <circle cx="200" cy="180" r="220" fill="#f43f5e" opacity="0.08" filter="blur(60px)" />
+  <circle cx="650" cy="380" r="200" fill="#fb923c" opacity="0.07" filter="blur(60px)" />
+
+  <!-- Center Storefront Mockup -->
+  <g transform="translate(60, 45)" filter="url(#veloceShadow)">
+    <rect width="680" height="460" rx="16" fill="#09090b" stroke="#3f3f46" stroke-width="1" />
+
+    <!-- Top Navigation -->
+    <rect width="680" height="52" rx="16" fill="#18181b" />
+    <rect y="38" width="680" height="14" fill="#18181b" />
+    <text x="32" y="32" font-family="Georgia, serif" font-size="16" font-style="italic" font-weight="600" fill="#fafafa">VELOCE</text>
+    <rect x="140" y="20" width="60" height="12" rx="4" fill="#3f3f46" opacity="0.6" />
+    <rect x="220" y="20" width="70" height="12" rx="4" fill="#3f3f46" opacity="0.4" />
+    <rect x="310" y="20" width="55" height="12" rx="4" fill="#3f3f46" opacity="0.4" />
+
+    <rect x="540" y="16" width="108" height="24" rx="12" fill="#fafafa" />
+    <text x="562" y="32" font-family="-apple-system, system-ui, sans-serif" font-size="10" font-weight="700" fill="#09090b" letter-spacing="0.5">BAG (02) · $480</text>
+
+    <!-- Hero Product Feature Card -->
+    <g transform="translate(32, 76)">
+      <rect width="360" height="352" rx="14" fill="url(#warmCard)" />
+      
+      <!-- Minimalist Watch / Hardware graphic -->
+      <circle cx="180" cy="150" r="88" fill="#d6d3d1" />
+      <circle cx="180" cy="150" r="74" fill="#1c1917" />
+      <circle cx="180" cy="150" r="66" stroke="#fbbf24" stroke-width="1.5" fill="none" opacity="0.8" />
+      <line x1="180" y1="150" x2="180" y2="105" stroke="#fafafa" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="180" y1="150" x2="215" y2="150" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" />
+      <circle cx="180" cy="150" r="4" fill="#fafafa" />
+
+      <text x="24" y="280" font-family="-apple-system, system-ui, sans-serif" font-size="10" font-weight="700" fill="#78716c" letter-spacing="1">SWISS CHRONOGRAPH / ED. 04</text>
+      <text x="24" y="306" font-family="Georgia, serif" font-size="20" font-weight="600" fill="#1c1917">Precision Automatic</text>
+      <text x="24" y="332" font-family="-apple-system, system-ui, sans-serif" font-size="14" font-weight="700" fill="#0c0a09">$1,280.00</text>
+      <rect x="250" y="296" width="90" height="36" rx="18" fill="#1c1917" />
+      <text x="272" y="318" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="600" fill="#fafafa">Quick Add</text>
+    </g>
+
+    <!-- Side Grid: 2 Smaller Product Cards -->
+    <g transform="translate(414, 76)">
+      <!-- Item 1 -->
+      <rect width="234" height="166" rx="12" fill="#18181b" stroke="#27272a" stroke-width="1" />
+      <rect x="18" y="18" width="198" height="88" rx="8" fill="#27272a" />
+      <circle cx="117" cy="62" r="30" fill="#3f3f46" opacity="0.6" />
+      <text x="18" y="126" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="600" fill="#fafafa">Modular Audio Core</text>
+      <text x="18" y="146" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="700" fill="#a1a1aa">$340</text>
+      
+      <!-- Item 2 -->
+      <g transform="translate(0, 186)">
+        <rect width="234" height="166" rx="12" fill="#18181b" stroke="#27272a" stroke-width="1" />
+        <rect x="18" y="18" width="198" height="88" rx="8" fill="#27272a" />
+        <rect x="92" y="37" width="50" height="50" rx="6" fill="#3f3f46" opacity="0.6" />
+        <text x="18" y="126" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="600" fill="#fafafa">Tactile Keypad M1</text>
+        <text x="18" y="146" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="700" fill="#a1a1aa">$220</text>
+      </g>
+    </g>
+  </g>
+</svg>

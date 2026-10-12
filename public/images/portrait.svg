@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="portraitBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5e8e6" />
+      <stop offset="50%" stop-color="#ebd8d5" />
+      <stop offset="100%" stop-color="#dfc5c1" />
+    </linearGradient>
+    <linearGradient id="portraitSkin" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6b4423" />
+      <stop offset="100%" stop-color="#4a2e16" />
+    </linearGradient>
+  </defs>
+
+  <rect width="640" height="800" fill="url(#portraitBg)" />
+
+  <!-- Abstract Editorial Studio Backdrop -->
+  <circle cx="320" cy="380" r="260" fill="#ffffff" opacity="0.4" />
+  <circle cx="480" cy="200" r="140" fill="#d69e9e" opacity="0.35" />
+
+  <!-- Modern Stylized Editorial Portrait Silhouette -->
+  <g transform="translate(140, 160)">
+    <!-- Shoulders & Coat -->
+    <path d="M40 480 C 40 380, 100 340, 180 340 C 260 340, 320 380, 320 480 Z" fill="#1c1917" />
+    <!-- Coat Lapel -->
+    <path d="M140 340 L 180 440 L 220 340 Z" fill="#292524" />
+    <path d="M160 350 L 180 410 L 200 350 Z" fill="#fdf8f6" />
+
+    <!-- Neck -->
+    <rect x="156" y="270" width="48" height="80" rx="10" fill="url(#portraitSkin)" />
+
+    <!-- Head & Face Silhouette -->
+    <ellipse cx="180" cy="210" rx="64" ry="80" fill="url(#portraitSkin)" />
+
+    <!-- Hair Silhouette -->
+    <path d="M110 200 C 105 120, 140 80, 180 80 C 220 80, 255 120, 250 200 C 240 160, 220 130, 180 130 C 140 130, 120 160, 110 200 Z" fill="#18181b" />
+    <path d="M112 180 C 95 190, 85 240, 95 300 C 110 280, 115 240, 115 200 Z" fill="#18181b" />
+    <path d="M248 180 C 265 190, 275 240, 265 300 C 250 280, 245 240, 245 200 Z" fill="#18181b" />
+
+    <!-- Minimalist Designer Glasses -->
+    <rect x="132" y="196" width="38" height="26" rx="6" fill="none" stroke="#e7e5e4" stroke-width="2.5" />
+    <rect x="190" y="196" width="38" height="26" rx="6" fill="none" stroke="#e7e5e4" stroke-width="2.5" />
+    <line x1="170" y1="208" x2="190" y2="208" stroke="#e7e5e4" stroke-width="2.5" />
+    <!-- Earring accent -->
+    <circle cx="112" cy="245" r="5" fill="#f59e0b" />
+  </g>
+
+  <!-- Editorial tag -->
+  <text x="320" y="720" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="700" fill="#8f7370" letter-spacing="2" text-anchor="middle">LINE MORELLE · LEAD ARCHITECT</text>
+  <text x="320" y="742" font-family="Georgia, serif" font-size="13" font-style="italic" fill="#a88c89" text-anchor="middle">Zürich, Switzerland</text>
+</svg>

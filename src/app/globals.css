@@ -1,26 +1,321 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f9fa;
+  --foreground: #1a1a22;
+  --muted: #6b7280;
+  --muted-light: #9ca3af;
+  --accent: #d69e9e;
+  --accent-hover: #c98e8e;
+  --accent-soft: #f5e8e6;
+  --accent-text: #c48888;
+  --italic: #c4a484;
+  --icon-bg: #e4ebf7;
+  --icon-stroke: #7b9bc7;
+  --testimonial: #f3eee6;
+  --cta: #1c1c24;
+  --border: #e5e7eb;
+  --card: #ffffff;
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-muted: var(--muted);
+  --color-muted-light: var(--muted-light);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-text: var(--accent-text);
+  --color-italic: var(--italic);
+  --color-icon-bg: var(--icon-bg);
+  --color-icon-stroke: var(--icon-stroke);
+  --color-testimonial: var(--testimonial);
+  --color-cta: var(--cta);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --font-sans: var(--font-dm-sans);
+  --font-serif: var(--font-playfair);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+.font-serif {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+.italic-accent {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--italic);
+}
+
+.italic-accent-rose {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent-text);
+}
+
+.cms-form input[type="text"],
+.cms-form input[type="email"],
+.cms-form input[type="url"],
+.cms-form input[type="number"],
+.cms-form input[type="password"],
+.cms-form textarea,
+.cms-form select,
+label.field + input,
+label.field + textarea,
+label.field + select,
+.cms-scope input[type="text"],
+.cms-scope input[type="email"],
+.cms-scope input[type="url"],
+.cms-scope input[type="number"],
+.cms-scope input[type="password"],
+.cms-scope textarea,
+.cms-scope select {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: white;
+  padding: 0.7rem 0.9rem;
+  font-size: 14px;
+  outline: none;
+}
+
+label.field {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Fade in, fade out & micro-animations                                       */
+/* -------------------------------------------------------------------------- */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-out {
+  animation: fadeOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-75 {
+  animation-delay: 75ms;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-150 {
+  animation-delay: 150ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.92;
+    filter: drop-shadow(0 0 0px rgba(214, 158, 158, 0));
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(214, 158, 158, 0.45));
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.2s ease-in-out infinite;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Blog post prose                                                            */
+/* -------------------------------------------------------------------------- */
+
+.prose-blog {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--foreground);
+}
+
+.prose-blog p {
+  margin-bottom: 1.35em;
+}
+
+.prose-blog h1,
+.prose-blog h2,
+.prose-blog h3,
+.prose-blog h4 {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 500;
+  line-height: 1.25;
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+  color: var(--foreground);
+}
+
+.prose-blog h1 { font-size: 2rem; }
+.prose-blog h2 { font-size: 1.6rem; }
+.prose-blog h3 { font-size: 1.25rem; }
+.prose-blog h4 { font-size: 1.05rem; }
+
+.prose-blog strong { font-weight: 600; }
+.prose-blog em { font-style: italic; color: var(--italic); }
+
+.prose-blog a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-blog a:hover { color: var(--foreground); }
+
+.prose-blog code {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: 0.875em;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+
+.prose-blog pre {
+  background: var(--foreground);
+  color: #f8f9fa;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 1.5em 0;
+  font-size: 0.875em;
+  line-height: 1.65;
+}
+
+.prose-blog pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
+.prose-blog blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1.25rem;
+  margin: 1.5em 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.prose-blog ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.35em;
+}
+
+.prose-blog ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.35em;
+}
+
+.prose-blog li {
+  margin-bottom: 0.4em;
+}
+
+.prose-blog hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5em 0;
 }
