@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getPublishedContent, pickSocials } from "@/lib/content";
 import { socialIcon } from "@/lib/icons-map";
+import { T } from "@/context/LanguageContext";
 
 export default async function Footer() {
   const { socials, settings } = await getPublishedContent();
@@ -10,7 +11,10 @@ export default async function Footer() {
     <footer className="border-t border-border">
       <div className="mx-auto flex max-w-[1120px] flex-col items-start justify-between gap-4 px-6 py-8 sm:flex-row sm:items-center lg:px-8">
         <p className="text-[13px] leading-relaxed text-muted-light">
-          © 2024 {settings?.display_name ?? "Line Morelle"}. All rights reserved. Built with precision and care.
+          © 2024 {settings?.display_name ?? "Line Morelle"}.{" "}
+          <T k="footer.allRightsReserved">
+            All rights reserved. Built with precision and care.
+          </T>
         </p>
         <ul className="flex items-center gap-6">
           {links.map((social) => {
@@ -35,3 +39,4 @@ export default async function Footer() {
     </footer>
   );
 }
+

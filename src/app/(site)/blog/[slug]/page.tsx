@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import FadeIn from "@/components/FadeIn";
 import { getPublishedPosts } from "@/lib/blog";
 import { publicMediaUrl } from "@/lib/media";
+import { T } from "@/context/LanguageContext";
 
 export const instant = false;
 
@@ -101,7 +102,7 @@ export default async function BlogPostPage({ params }: Props) {
                   className="group flex flex-col gap-1"
                 >
                   <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-light">
-                    ← Previous
+                    <T k="blog.previous">← Previous</T>
                   </span>
                   <span className="font-serif text-[1rem] font-medium text-foreground transition-colors group-hover:text-accent-text">
                     {prev.title}
@@ -116,7 +117,7 @@ export default async function BlogPostPage({ params }: Props) {
                   className="group flex flex-col items-end gap-1"
                 >
                   <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-light">
-                    Next →
+                    <T k="blog.next">Next →</T>
                   </span>
                   <span className="font-serif text-[1rem] font-medium text-foreground transition-colors group-hover:text-accent-text">
                     {next.title}
@@ -133,7 +134,7 @@ export default async function BlogPostPage({ params }: Props) {
             href="/blog"
             className="text-[13px] font-medium text-accent-text hover:text-foreground transition-colors"
           >
-            ← Back to all posts
+            <T k="blog.backToBlog">← Back to all posts</T>
           </Link>
         </div>
       </article>

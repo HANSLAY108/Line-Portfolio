@@ -7,6 +7,7 @@ import { EmailIcon, MapPinIcon, PhoneIcon } from "@/components/icons";
 import { getPublishedContent, pickSocials } from "@/lib/content";
 import { socialIcon } from "@/lib/icons-map";
 import { publicMediaUrl } from "@/lib/supabase";
+import { T } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Contact — Line Morelle",
@@ -24,18 +25,21 @@ export default async function ContactPage() {
   const details = [
     {
       label: "General Inquiries",
+      key: "contact.generalInquiries",
       value: s.email ?? "hello@linemorelle.com",
       href: `mailto:${s.email ?? "hello@linemorelle.com"}`,
       icon: EmailIcon,
     },
     {
       label: "Office Hours",
+      key: "contact.officeHours",
       value: s.phone ?? "+41 44 211 55 66",
       href: `tel:${(s.phone ?? "+41442115566").replace(/\s/g, "")}`,
       icon: PhoneIcon,
     },
     {
       label: "Studio Location",
+      key: "contact.studioLocation",
       value: s.location ?? "Zürich, Switzerland",
       href: `https://maps.google.com/?q=${encodeURIComponent(s.location ?? "Zurich,Switzerland")}`,
       icon: MapPinIcon,
@@ -50,20 +54,20 @@ export default async function ContactPage() {
           <div className="flex items-center gap-3">
             <span className="h-px w-8 bg-accent" />
             <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-accent-text">
-              {s.contact_eyebrow}
+              <T k="contact.eyebrow">{s.contact_eyebrow}</T>
             </p>
           </div>
 
           <h1 className="mt-5 max-w-2xl font-serif text-[2.5rem] font-medium leading-[1.15] tracking-tight text-foreground sm:text-[3.25rem] lg:text-[3.75rem]">
-            {s.contact_heading_before}
+            <T k="contact.heading_before">{s.contact_heading_before}</T>
             <br />
             <span className="font-serif italic font-medium text-accent-text">
-              {s.contact_heading_accent}
+              <T k="contact.heading_accent">{s.contact_heading_accent}</T>
             </span>
           </h1>
 
           <p className="mt-5 max-w-lg text-[16px] leading-[1.7] text-muted">
-            {s.contact_intro}
+            <T k="contact.intro">{s.contact_intro}</T>
           </p>
         </FadeIn>
       </section>
@@ -87,7 +91,7 @@ export default async function ContactPage() {
 
               {/* Contact detail rows */}
               <div className="space-y-7">
-                {details.map(({ label, value, href, icon: Icon }) => (
+                {details.map(({ label, key, value, href, icon: Icon }) => (
                   <a
                     key={label}
                     href={href}
@@ -100,7 +104,7 @@ export default async function ContactPage() {
                     </div>
                     <div>
                       <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-light">
-                        {label}
+                        <T k={key}>{label}</T>
                       </p>
                       <p className="mt-0.5 font-serif text-[1.05rem] font-medium text-foreground transition-colors group-hover:text-accent-text">
                         {value}
@@ -129,7 +133,7 @@ export default async function ContactPage() {
                     );
                   })}
                   <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-light">
-                    Follow my process
+                    <T k="contact.followProcess">Follow my process</T>
                   </span>
                 </div>
               )}
@@ -146,17 +150,19 @@ export default async function ContactPage() {
               <div className="flex items-center justify-between rounded-2xl border border-border bg-white px-6 py-4 shadow-sm">
                 <div>
                   <p className="text-[13px] font-medium text-foreground">
-                    Looking for my technical stack?
+                    <T k="contact.stackPromptTitle">Looking for my technical stack?</T>
                   </p>
                   <p className="text-[12px] text-muted leading-relaxed">
-                    {s.contact_stack_prompt ?? "Explore my specific expertise and previous works."}
+                    <T k="contact.stackPromptDesc">
+                      {s.contact_stack_prompt ?? "Explore my specific expertise and previous works."}
+                    </T>
                   </p>
                 </div>
                 <Link
                   href="/projects"
                   className="ml-4 shrink-0 text-[13px] font-semibold text-accent-text transition-colors hover:text-foreground whitespace-nowrap"
                 >
-                  View Projects →
+                  <T k="contact.viewProjectsLink">View Projects →</T>
                 </Link>
               </div>
             </div>

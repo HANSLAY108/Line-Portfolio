@@ -7,6 +7,7 @@ import { ArrowRightIcon, DownloadIcon } from "@/components/icons";
 import { getPublishedContent } from "@/lib/content";
 import { skillIcon } from "@/lib/icons-map";
 import { publicMediaUrl } from "@/lib/supabase";
+import { T } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Projects — Line Morelle",
@@ -25,19 +26,19 @@ export default async function ProjectsPage() {
       <section className="mx-auto max-w-[1120px] px-6 pb-6 pt-14 text-center lg:px-8 lg:pt-20">
         <FadeIn direction="up">
           <span className="inline-flex rounded-full bg-accent-soft px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-text">
-            {s.projects_badge}
+            <T k="projects_page.badge">{s.projects_badge}</T>
           </span>
 
           <h1 className="mt-6 font-serif text-[2.5rem] font-medium leading-[1.15] tracking-tight text-foreground sm:text-[3.25rem] lg:text-[3.5rem]">
-            {s.projects_heading_before}{" "}
+            <T k="projects_page.heading_before">{s.projects_heading_before}</T>{" "}
             <span className="font-serif italic font-medium text-accent-text">
-              {s.projects_heading_accent}
+              <T k="projects_page.heading_accent">{s.projects_heading_accent}</T>
             </span>{" "}
-            {s.projects_heading_after}
+            <T k="projects_page.heading_after">{s.projects_heading_after}</T>
           </h1>
 
           <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-[1.7] text-muted">
-            {s.projects_intro}
+            <T k="projects_page.intro">{s.projects_intro}</T>
           </p>
         </FadeIn>
       </section>
@@ -64,7 +65,7 @@ export default async function ProjectsPage() {
         <FadeIn direction="up">
           <div className="border-t border-border pt-10 text-center">
             <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-muted-light">
-              {s.archive_label}
+              <T k="projects_page.archiveLabel">{s.archive_label}</T>
             </p>
             {s.github_archive_url && (
               <a
@@ -73,7 +74,7 @@ export default async function ProjectsPage() {
                 rel="noopener noreferrer"
                 className="mt-3 inline-flex items-center gap-1.5 text-[14px] font-medium text-accent-text transition-colors hover:text-foreground"
               >
-                {s.archive_link_label || "View Project"}
+                <T k="projects_page.archiveLink">{s.archive_link_label || "View Project"}</T>
                 <ArrowRightIcon className="h-3.5 w-3.5" />
               </a>
             )}
@@ -86,17 +87,17 @@ export default async function ProjectsPage() {
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
               <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-accent-text">
-                {s.philosophy_label}
+                <T k="projects_page.philosophyLabel">{s.philosophy_label}</T>
               </span>
               <h2 className="mt-3 font-serif text-[2.2rem] font-medium leading-[1.2] tracking-tight text-foreground sm:text-[2.75rem]">
-                {s.philosophy_heading_before}{" "}
+                <T k="projects_page.philosophy_heading_before">{s.philosophy_heading_before}</T>{" "}
                 <span className="italic-accent">
-                  {s.philosophy_heading_accent}
+                  <T k="projects_page.philosophy_heading_accent">{s.philosophy_heading_accent}</T>
                 </span>{" "}
-                {s.philosophy_heading_after}
+                <T k="projects_page.philosophy_heading_after">{s.philosophy_heading_after}</T>
               </h2>
               <p className="mt-6 text-[16px] leading-[1.7] text-muted">
-                {s.philosophy_body}
+                <T k="projects_page.philosophy_body">{s.philosophy_body}</T>
               </p>
 
               <div className="mt-8 space-y-4">
@@ -127,13 +128,13 @@ export default async function ProjectsPage() {
                   className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-[14px] font-medium text-white transition-all hover:bg-accent-hover hover:shadow-md"
                 >
                   <DownloadIcon className="h-4 w-4" />
-                  Download Resume (PDF)
+                  <T k="projects_page.downloadCv">Download Resume (PDF)</T>
                 </a>
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center rounded-lg border border-foreground/15 bg-transparent px-6 py-3 text-[14px] font-medium text-foreground transition-colors hover:bg-foreground/5"
                 >
-                  Book an Intro Call
+                  <T k="projects_page.bookCall">Book an Intro Call</T>
                 </Link>
               </div>
             </div>
@@ -149,10 +150,10 @@ export default async function ProjectsPage() {
               </div>
               <div className="absolute -bottom-4 -right-4 rounded-xl bg-white px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.12)]">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-accent-text">
-                  01 / System Design
+                  <T k="projects_page.systemDesign">01 / System Design</T>
                 </p>
                 <p className="mt-0.5 font-serif text-[15px] font-medium text-foreground">
-                  {s.philosophy_badge}
+                  <T k="projects_page.vitalsBadge">{s.philosophy_badge}</T>
                 </p>
               </div>
             </div>
@@ -164,15 +165,15 @@ export default async function ProjectsPage() {
         <FadeIn direction="up">
           <div className="rounded-3xl bg-[#eef0f3] p-8 text-center sm:p-14 lg:p-20">
             <h2 className="font-serif text-[2.2rem] font-medium leading-[1.2] tracking-tight text-foreground sm:text-[3rem]">
-              {s.projects_cta_heading_before}{" "}
+              <T k="projects_page.cta_heading_before">{s.projects_cta_heading_before}</T>{" "}
               <span className="italic-accent">
-                {s.projects_cta_heading_accent}
+                <T k="projects_page.cta_heading_accent">{s.projects_cta_heading_accent}</T>
               </span>{" "}
-              {s.projects_cta_heading_after}
+              <T k="projects_page.cta_heading_after">{s.projects_cta_heading_after}</T>
             </h2>
 
             <p className="mx-auto mt-6 max-w-xl text-[16px] leading-[1.7] text-muted">
-              {s.projects_cta_body}
+              <T k="projects_page.cta_body">{s.projects_cta_body}</T>
             </p>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -180,14 +181,14 @@ export default async function ProjectsPage() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-lg bg-accent px-7 py-3.5 text-[14px] font-medium text-white transition-all hover:bg-accent-hover hover:shadow-md"
               >
-                Start a Project
+                <T k="projects_page.startProject">Start a Project</T>
               </Link>
               {s.email && (
                 <a
                   href={`mailto:${s.email}`}
                   className="inline-flex items-center justify-center rounded-lg border border-foreground/15 bg-white px-7 py-3.5 text-[14px] font-medium text-foreground transition-colors hover:bg-foreground/5"
                 >
-                  Send an Email
+                  <T k="home_cta.sendEmail">Send an Email</T>
                 </a>
               )}
             </div>
@@ -197,3 +198,4 @@ export default async function ProjectsPage() {
     </>
   );
 }
+

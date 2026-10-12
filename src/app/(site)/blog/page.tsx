@@ -3,6 +3,7 @@ import Link from "next/link";
 import FadeIn from "@/components/FadeIn";
 import { getPublishedPosts } from "@/lib/blog";
 import { publicMediaUrl } from "@/lib/media";
+import { T } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Blog — Line Morelle",
@@ -21,14 +22,16 @@ export default async function BlogPage() {
           <div className="flex items-center gap-3">
             <span className="h-px w-8 bg-accent" />
             <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-accent-text">
-              Writing
+              <T k="blog.badge">Writing</T>
             </p>
           </div>
           <h1 className="mt-5 font-serif text-[2.5rem] font-medium leading-[1.15] tracking-tight text-foreground sm:text-[3.25rem] lg:text-[3.75rem]">
-            Blog
+            <T k="nav.blog">Blog</T>
           </h1>
           <p className="mt-4 max-w-lg text-[16px] leading-[1.7] text-muted">
-            Thoughts on software architecture, engineering craft, and building meaningful things for the web.
+            <T k="blog.intro">
+              Thoughts on software architecture, engineering craft, and building meaningful things for the web.
+            </T>
           </p>
         </FadeIn>
       </section>
@@ -37,7 +40,9 @@ export default async function BlogPage() {
       <section className="mx-auto max-w-[1120px] px-6 pb-28 lg:px-8 lg:pb-36">
         {posts.length === 0 ? (
           <FadeIn direction="up">
-            <p className="text-[15px] text-muted">No posts published yet — check back soon.</p>
+            <p className="text-[15px] text-muted">
+              <T k="blog.noPosts">No posts published yet — check back soon.</T>
+            </p>
           </FadeIn>
         ) : (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

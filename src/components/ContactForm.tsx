@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { SendIcon } from "@/components/icons";
+import { useLanguage } from "@/context/LanguageContext";
 
 type ContactFormProps = {
   heading?: string | null;
@@ -9,6 +10,7 @@ type ContactFormProps = {
 };
 
 export default function ContactForm({ heading, intro }: ContactFormProps) {
+  const { t } = useLanguage();
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
     "idle",
   );
@@ -59,11 +61,14 @@ export default function ContactForm({ heading, intro }: ContactFormProps) {
   return (
     <div>
       <h2 className="font-serif text-[1.75rem] font-medium tracking-tight text-foreground sm:text-[2rem]">
-        {heading || "Send a Brief"}
+        {t("contact.formHeading", heading || "Send a Brief")}
       </h2>
       <p className="mt-3 max-w-lg text-[14px] leading-[1.7] text-muted">
-        {intro ||
-          "I am currently accepting new project inquiries for Q3 & Q4 2024. Please provide as much detail as possible to ensure a productive first conversation."}
+        {t(
+          "contact.formIntro",
+          intro ||
+            "I am currently accepting new project inquiries for Q3 & Q4 2024. Please provide as much detail as possible to ensure a productive first conversation.",
+        )}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-6">
@@ -77,16 +82,16 @@ export default function ContactForm({ heading, intro }: ContactFormProps) {
         <div className="grid gap-6 sm:grid-cols-2">
           <Field
             id="fullName"
-            label="Full Name"
+            label={t("contact.fullName", "Full Name")}
             type="text"
-            placeholder="Jane Doe"
+            placeholder={t("contact.fullNamePlaceholder", "Jane Doe")}
             required
           />
           <Field
             id="email"
-            label="Email Address"
+            label={t("contact.email", "Email Address")}
             type="email"
-            placeholder="jane@example.com"
+            placeholder={t("contact.emailPlaceholder", "jane@example.com")}
             required
           />
         </div>
@@ -94,9 +99,9 @@ export default function ContactForm({ heading, intro }: ContactFormProps) {
         {/* Subject */}
         <Field
           id="subject"
-          label="Subject"
+          label={t("contact.subject", "Subject")}
           type="text"
-          placeholder="Collaboration Inquiry"
+          placeholder={t("contact.subjectPlaceholder", "Collaboration Inquiry")}
           required
         />
 
@@ -106,7 +111,7 @@ export default function ContactForm({ heading, intro }: ContactFormProps) {
             htmlFor="message"
             className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em] text-muted"
           >
-            Message
+            {t("contact.message", "Message")}
           </label>
           <textarea
             id="message"
@@ -114,7 +119,7 @@ export default function ContactForm({ heading, intro }: ContactFormProps) {
             rows={5}
             required
             maxLength={5000}
-            placeholder="Tell me about your project or inquiry..."
+            placeholder={t("contact.messagePlaceholder", "Tell me about your project or inquiry...")}
             className="w-full resize-y rounded-xl border border-border bg-white px-4 py-3 text-[14px] text-foreground outline-none transition-shadow placeholder:text-muted-light focus:border-accent/50 focus:ring-2 focus:ring-accent/20"
           />
         </div>
@@ -125,17 +130,22 @@ export default function ContactForm({ heading, intro }: ContactFormProps) {
           disabled={status === "sending"}
           className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-[14px] font-medium text-white transition-colors hover:bg-accent-hover disabled:opacity-70"
         >
-          {status === "sending" ? "Sending..." : "Send Message"}
+          {status === "sending"
+            ? t("contact.sending", "Sending...")
+            : t("contact.send", "Send Message")}
           <SendIcon className="h-4 w-4" />
         </button>
 
         {status === "success" && (
           <div className="animate-fade-in space-y-2 rounded-xl bg-white/70 p-4 ring-1 ring-accent/20" role="status">
             <p className="font-serif text-[16px] font-medium text-foreground">
-              Message Received
+              {t("contact.successTitle", "Message Received")}
             </p>
             <p className="text-[13px] text-muted">
-              Thank you for reaching out. I&apos;ll get back to you within 24 hours.
+              {t(
+                "contact.successBody",
+                "Thank you for reaching out. I'll get back to you within 24 hours.",
+              )}
             </p>
           </div>
         )}
@@ -177,3 +187,4 @@ function Field({ id, label, type, placeholder, required }: FieldProps) {
     </div>
   );
 }
+

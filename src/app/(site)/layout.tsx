@@ -4,10 +4,11 @@ import Navbar from "@/components/Navbar";
 import Preloader from "@/components/Preloader";
 import RouteProgress from "@/components/RouteProgress";
 import PageTransition from "@/components/PageTransition";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <LanguageProvider>
       <Preloader />
       <RouteProgress />
       <Navbar />
@@ -17,6 +18,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <Suspense>
         <Footer />
       </Suspense>
-    </>
+    </LanguageProvider>
   );
 }
+

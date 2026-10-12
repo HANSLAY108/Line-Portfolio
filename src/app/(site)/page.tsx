@@ -6,6 +6,7 @@ import { UserIcon, ArrowRightIcon } from "@/components/icons";
 import { getPublishedContent, pickSocials } from "@/lib/content";
 import { skillIcon, socialIcon } from "@/lib/icons-map";
 import { publicMediaUrl } from "@/lib/supabase";
+import { T } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Line Morelle — Software Engineer",
@@ -35,19 +36,19 @@ export default async function Home() {
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div className="max-w-xl">
               <span className="inline-flex rounded-md bg-accent-soft px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-text">
-                {s.hero_badge}
+                <T k="hero.badge">{s.hero_badge}</T>
               </span>
 
               <h1 className="mt-6 font-serif text-[2.5rem] font-medium leading-[1.15] tracking-tight text-foreground sm:text-[3.25rem] lg:text-[3.5rem]">
-                {s.hero_heading_before}{" "}
+                <T k="hero.heading_before">{s.hero_heading_before}</T>{" "}
                 <span className="italic-accent">
-                  {s.hero_heading_accent}
+                  <T k="hero.heading_accent">{s.hero_heading_accent}</T>
                 </span>{" "}
-                {s.hero_heading_after}
+                <T k="hero.heading_after">{s.hero_heading_after}</T>
               </h1>
 
               <p className="mt-6 max-w-md text-[16px] leading-[1.7] text-muted">
-                {s.hero_body}
+                <T k="hero.body">{s.hero_body}</T>
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -55,13 +56,13 @@ export default async function Home() {
                   href="/projects"
                   className="inline-flex items-center justify-center rounded-lg bg-accent px-6 py-3 text-[14px] font-medium text-white transition-all hover:bg-accent-hover hover:shadow-md"
                 >
-                  View Projects
+                  <T k="hero.viewProjects">View Projects</T>
                 </Link>
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center rounded-lg border border-foreground/15 bg-transparent px-6 py-3 text-[14px] font-medium text-foreground transition-colors hover:bg-foreground/5"
                 >
-                  Get in Touch
+                  <T k="hero.getInTouch">Get in Touch</T>
                 </Link>
               </div>
             </div>
@@ -79,7 +80,7 @@ export default async function Home() {
                 <div className="absolute bottom-5 left-4 inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.1)] sm:left-5">
                   <span className="h-2 w-2 rounded-full bg-emerald-500" />
                   <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground">
-                    {s.available_label}
+                    <T k="hero.available">{s.available_label}</T>
                   </span>
                 </div>
               )}
@@ -91,10 +92,10 @@ export default async function Home() {
       <section className="mx-auto max-w-[1120px] px-6 py-16 lg:px-8 lg:py-24">
         <FadeIn direction="up">
           <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-accent-text">
-            {s.expertise_label}
+            <T k="expertise.label">{s.expertise_label}</T>
           </p>
           <h2 className="mt-3 font-serif text-[2rem] font-medium tracking-tight text-foreground sm:text-[2.5rem]">
-            {s.expertise_heading}
+            <T k="expertise.heading">{s.expertise_heading}</T>
           </h2>
 
           <div className="mt-12 grid gap-8 lg:grid-cols-[1.35fr_0.9fr] lg:items-stretch lg:gap-10">
@@ -120,7 +121,7 @@ export default async function Home() {
             {quote && (
               <div className="flex flex-col justify-between rounded-2xl bg-white p-8 ring-1 ring-border/80 shadow-sm lg:p-10">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-text">
-                  Client Endorsement
+                  <T k="quote.label">Client Endorsement</T>
                 </span>
                 <blockquote className="my-6 font-serif text-[1.2rem] font-medium leading-[1.4] text-foreground sm:text-[1.3rem]">
                   &ldquo;{quote.quote}&rdquo;
@@ -147,10 +148,10 @@ export default async function Home() {
       <section className="mx-auto max-w-[1120px] px-6 py-16 lg:px-8 lg:py-24">
         <FadeIn direction="up">
           <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-accent-text">
-            {s.portfolio_label}
+            <T k="featured.label">{s.portfolio_label}</T>
           </p>
           <h2 className="mt-3 font-serif text-[2rem] font-medium tracking-tight text-foreground sm:text-[2.5rem]">
-            {s.portfolio_heading}
+            <T k="featured.heading">{s.portfolio_heading}</T>
           </h2>
 
           {featured && (() => {
@@ -368,7 +369,7 @@ export default async function Home() {
               href="/projects"
               className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-6 py-3 text-[14px] font-medium text-foreground transition-colors hover:bg-accent-soft hover:border-accent-text/30"
             >
-              View All Projects
+              <T k="featured.allProjects">View All Projects</T>
               <ArrowRightIcon className="h-4 w-4" />
             </Link>
           </div>
@@ -379,15 +380,15 @@ export default async function Home() {
         <FadeIn direction="up">
           <div className="rounded-3xl bg-[#eef0f3] p-8 text-center sm:p-14 lg:p-20">
             <h2 className="font-serif text-[2.2rem] font-medium leading-[1.2] tracking-tight text-foreground sm:text-[3rem]">
-              {s.home_cta_heading_before}{" "}
+              <T k="home_cta.heading_before">{s.home_cta_heading_before}</T>{" "}
               <span className="italic-accent">
-                {s.home_cta_heading_accent}
+                <T k="home_cta.heading_accent">{s.home_cta_heading_accent}</T>
               </span>{" "}
-              {s.home_cta_heading_after}
+              <T k="home_cta.heading_after">{s.home_cta_heading_after}</T>
             </h2>
 
             <p className="mx-auto mt-6 max-w-xl text-[16px] leading-[1.7] text-muted">
-              {s.home_cta_body}
+              <T k="home_cta.body">{s.home_cta_body}</T>
             </p>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -395,14 +396,14 @@ export default async function Home() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-lg bg-accent px-7 py-3.5 text-[14px] font-medium text-white transition-all hover:bg-accent-hover hover:shadow-md"
               >
-                {s.home_cta_button || "Start a Conversation"}
+                <T k="home_cta.button">{s.home_cta_button || "Start a Conversation"}</T>
               </Link>
               {s.email && (
                 <a
                   href={`mailto:${s.email}`}
                   className="inline-flex items-center justify-center rounded-lg border border-foreground/15 bg-white px-7 py-3.5 text-[14px] font-medium text-foreground transition-colors hover:bg-foreground/5"
                 >
-                  Send an Email
+                  <T k="home_cta.sendEmail">Send an Email</T>
                 </a>
               )}
             </div>

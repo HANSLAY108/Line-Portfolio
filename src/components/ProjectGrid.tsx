@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import MediaFrame from "@/components/MediaFrame";
 import { ArrowUpRightIcon } from "@/components/icons";
+import { useLanguage } from "@/context/LanguageContext";
 
 export type Project = {
   title: string;
@@ -31,6 +32,7 @@ type ProjectGridProps = {
 };
 
 export default function ProjectGrid({ projects }: ProjectGridProps) {
+  const { t } = useLanguage();
   const [active, setActive] = useState<(typeof filters)[number]>("ALL WORK");
 
   const visible =
@@ -43,6 +45,10 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
       <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
         {filters.map((filter) => {
           const isActive = active === filter;
+          const displayLabel =
+            filter === "ALL WORK"
+              ? t("projects_page.allFilter", "ALL WORK")
+              : filter;
           return (
             <button
               key={filter}
@@ -54,7 +60,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
                   : "text-muted-light hover:text-foreground"
               }`}
             >
-              {filter}
+              {displayLabel}
               {isActive && (
                 <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-accent" />
               )}
@@ -181,7 +187,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 font-medium text-accent-text hover:underline"
                     >
-                      Live site
+                      {t("projects_page.liveSite", "Live site")}
                       <ArrowUpRightIcon className="h-3 w-3" />
                     </a>
                     <span className="text-border">·</span>
@@ -189,7 +195,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
                       href={internalHref}
                       className="font-medium text-muted hover:text-foreground hover:underline"
                     >
-                      Details
+                      {t("projects_page.details", "Details")}
                     </Link>
                   </div>
                 )}

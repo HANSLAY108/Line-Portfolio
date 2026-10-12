@@ -6,6 +6,7 @@ import MediaFrame from "@/components/MediaFrame";
 import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "@/components/icons";
 import { getPublishedContent } from "@/lib/content";
 import { publicMediaUrl } from "@/lib/supabase";
+import { T } from "@/context/LanguageContext";
 
 export const instant = false;
 
@@ -49,7 +50,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           className="inline-flex items-center gap-2 text-[13px] font-medium text-muted transition-colors hover:text-foreground"
         >
           <ArrowLeftIcon className="h-4 w-4" />
-          Back to Projects
+          <T k="projects_page.backToProjects">Back to Projects</T>
         </Link>
       </div>
 
@@ -86,7 +87,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-[14px] font-medium text-white transition-all hover:bg-accent-hover hover:shadow-md"
               >
-                View Live
+                <T k="projects_page.viewLive">View Live</T>
                 <ArrowUpRightIcon className="h-4 w-4" />
               </a>
             )}
@@ -97,7 +98,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-transparent px-6 py-3 text-[14px] font-medium text-foreground transition-colors hover:bg-foreground/5"
               >
-                Source Code
+                <T k="projects_page.sourceCode">Source Code</T>
                 <ArrowUpRightIcon className="h-4 w-4" />
               </a>
             )}
@@ -126,7 +127,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           <div className="grid gap-12 lg:grid-cols-[1fr_300px] lg:gap-20">
             <div>
               <h2 className="font-serif text-[1.5rem] font-medium tracking-tight text-foreground">
-                About this project
+                <T k="projects_page.aboutProject">About this project</T>
               </h2>
               <p className="mt-4 text-[16px] leading-[1.8] text-muted whitespace-pre-line">
                 {project.description}
@@ -137,7 +138,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               {project.tags.length > 0 && (
                 <div>
                   <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-light">
-                    Tech Stack
+                    <T k="projects_page.techStack">Tech Stack</T>
                   </p>
                   <ul className="mt-3 flex flex-wrap gap-2">
                     {project.tags.map((tag) => (
@@ -156,7 +157,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 {project.live_url && (
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-light">
-                      Live URL
+                      <T k="projects_page.liveUrl">Live URL</T>
                     </p>
                     <a
                       href={project.live_url}
@@ -171,7 +172,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 {project.repo_url && (
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-light">
-                      Repository
+                      <T k="projects_page.repository">Repository</T>
                     </p>
                     <a
                       href={project.repo_url}
@@ -203,7 +204,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 </div>
                 <div>
                   <span className="block text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-light">
-                    Previous
+                    <T k="blog.previous">Previous</T>
                   </span>
                   <span className="font-serif text-[15px] font-medium text-foreground transition-colors group-hover:text-accent-text">
                     {prevProject.title}
@@ -218,7 +219,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               href="/projects"
               className="rounded-full border border-border bg-white px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-foreground/30 hover:text-foreground"
             >
-              All Projects
+              <T k="projects_page.allProjects">All Projects</T>
             </Link>
 
             {nextProject ? (
@@ -228,7 +229,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               >
                 <div>
                   <span className="block text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-light">
-                    Next
+                    <T k="blog.next">Next</T>
                   </span>
                   <span className="font-serif text-[15px] font-medium text-foreground transition-colors group-hover:text-accent-text">
                     {nextProject.title}
