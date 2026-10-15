@@ -1,4 +1,3 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function proxy(request: NextRequest) {
@@ -6,46 +5,26 @@ export async function proxy(request: NextRequest) {
 
   // Supabase CMS authentication handling
   if (path.startsWith("/cms")) {
-    let response = NextResponse.next({ request });
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (!url || !key) {
-      if (!path.startsWith("/cms/login")) {
-        return NextResponse.redirect(new URL("/cms/login", request.url));
-      }
-      return response;
-    }
+    const isLogin = path === "/cms/login" || path.startsWith("/cms/login");
 
-    const supabase = createServerClient(url, key, {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-          response = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options),
-          );
-        },
-      },
-    });
+    // Check if Supabase auth cookie exists
+    const allCookies = request.cookies.getAll();
+    const hasAuthCookie = allCookies.some(
+      (c) =>
+        (c.name.startsWith("sb-") && c.name.includes("-auth-token")) ||
+        c.name === "supabase-auth-token" ||
+        c.name.startsWith("sb-access-token"),
+    );
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    const isLogin = path.startsWith("/cms/login");
-
-    if (!user && !isLogin) {
+    if (!hasAuthCookie && !isLogin) {
       return NextResponse.redirect(new URL("/cms/login", request.url));
     }
 
-    if (user && isLogin) {
+    if (hasAuthCookie && isLogin) {
       return NextResponse.redirect(new URL("/cms", request.url));
     }
 
-    return response;
+    return NextResponse.next();
   }
 
   return NextResponse.next();
