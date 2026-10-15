@@ -1,394 +1,258 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import MetricCard from "../components/MetricCard";
-import AnalyticsChart, { ChartDataPoint } from "../components/AnalyticsChart";
 import {
   ShieldCheck,
   Zap,
   Target,
-  BarChart2,
-  CheckCircle2,
+  Check,
   ArrowRight,
-  Eye,
-  Clock,
-  Sparkles,
-  MousePointerClick,
-  Users,
+  BookOpen,
+  AppWindow,
+  Globe,
+  Lock,
 } from "lucide-react";
-
-const SAMPLE_CHART_DATA: ChartDataPoint[] = [
-  { date: "Oct 9", visitors: 2840, pageviews: 9420 },
-  { date: "Oct 10", visitors: 3120, pageviews: 11250 },
-  { date: "Oct 11", visitors: 2950, pageviews: 10180 },
-  { date: "Oct 12", visitors: 3680, pageviews: 13400 },
-  { date: "Oct 13", visitors: 4100, pageviews: 15600 },
-  { date: "Oct 14", visitors: 3820, pageviews: 14210 },
-  { date: "Oct 15", visitors: 4070, pageviews: 15360 },
-];
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function LandingPage() {
-  const [activeFaq, setActiveFaq] = useState<number | null>(null);
-
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col font-sans">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
-        {/* Soft light blue radial gradient glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-tr from-sky-200/40 via-sky-100/30 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3.5 py-1 text-xs font-semibold text-sky-800 mb-6 shadow-xs">
-            <Sparkles className="h-3.5 w-3.5 text-sky-600" />
-            <span>The Lightweight, Privacy-First Google Analytics Alternative</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 max-w-4xl mx-auto leading-tight">
-            Simple, honest website analytics.{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-sky-400">
-              Zero cookie banners.
-            </span>
-          </h1>
-
-          <p className="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Get essential traffic insights in one clean, sub-second dashboard. No cookies, 100% GDPR & CCPA compliant, and a tracking snippet under 1KB.
-          </p>
-
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              href="/signup"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-sky-600 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-sky-600/25 hover:bg-sky-500 hover:shadow-lg transition-all"
-            >
-              Start 14-Day Free Trial
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/dashboard"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 shadow-xs hover:border-sky-300 hover:text-sky-700 transition-all"
-            >
-              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              Explore Interactive Demo
-            </Link>
-          </div>
-
-          <div className="mt-8 flex items-center justify-center gap-6 text-xs text-slate-500 font-medium">
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-sky-600" /> No credit card required
-            </span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-sky-600" /> 1-minute setup
-            </span>
-            <span className="flex items-center gap-1.5 hidden sm:flex">
-              <CheckCircle2 className="h-4 w-4 text-sky-600" /> Free demo sandbox
-            </span>
-          </div>
-
-          {/* Interactive Live Dashboard Preview */}
-          <div className="mt-14 relative mx-auto max-w-5xl rounded-2xl border border-sky-100 bg-white/80 p-3 sm:p-5 shadow-2xl shadow-sky-950/5 backdrop-blur-md">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4 text-left">
-              <div className="flex items-center gap-2.5">
-                <span className="h-3 w-3 rounded-full bg-rose-400" />
-                <span className="h-3 w-3 rounded-full bg-amber-400" />
-                <span className="h-3 w-3 rounded-full bg-emerald-400" />
-                <span className="ml-2 text-xs font-mono font-medium text-slate-400">
-                  https://nova-analytics.app/dashboard/demo
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200/60 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                  18 live visitors
-                </span>
-                <Link
-                  href="/dashboard"
-                  className="rounded-lg bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700 hover:bg-sky-100 transition-colors"
-                >
-                  Full View →
-                </Link>
-              </div>
-            </div>
-
-            {/* Quick 4 Metrics Preview */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 text-left mb-4">
-              <MetricCard
-                title="Unique Visitors"
-                value="24,580"
-                delta="+12.5%"
-                isPositive={true}
-                icon={Users}
-              />
-              <MetricCard
-                title="Total Pageviews"
-                value="89,420"
-                delta="+18.2%"
-                isPositive={true}
-                icon={Eye}
-              />
-              <MetricCard
-                title="Bounce Rate"
-                value="38.4%"
-                delta="-4.1%"
-                isPositive={true}
-                icon={MousePointerClick}
-              />
-              <MetricCard
-                title="Avg Visit Duration"
-                value="2m 45s"
-                delta="+8.6%"
-                isPositive={true}
-                icon={Clock}
-              />
-            </div>
-
-            {/* Main Interactive Chart */}
-            <AnalyticsChart data={SAMPLE_CHART_DATA} />
-          </div>
+      <section className="pt-16 pb-20 px-4 sm:px-6 lg:px-8 text-center max-w-4xl mx-auto w-full">
+        <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-medium text-sky-800 mb-6">
+          <span className="h-1.5 w-1.5 rounded-full bg-sky-600" />
+          <span>Simple, Privacy-Friendly Website Analytics</span>
         </div>
-      </section>
 
-      {/* Feature Pillars */}
-      <section id="features" className="py-20 bg-white border-y border-slate-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-sky-600 mb-2">
-              Why Nova Analytics
-            </h2>
-            <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">
-              Everything you need to understand your traffic, nothing you don&apos;t.
-            </h3>
-            <p className="mt-4 text-base text-slate-500">
-              Replace bloated tag managers with an intuitive, single-page command center.
-            </p>
-          </div>
+        <h1 className="text-4xl sm:text-5xl font-normal tracking-tight text-slate-900 leading-tight">
+          Website analytics that respect your visitors.
+        </h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="rounded-2xl border border-sky-100 bg-[#F0F7FF]/50 p-8 hover:bg-[#F0F7FF] transition-all">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-600 text-white mb-6 shadow-sm shadow-sky-600/30">
-                <ShieldCheck className="h-6 w-6" />
-              </div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">100% Privacy by Design</h4>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                No personal data, no IP addresses stored, and zero cross-site tracking cookies. Completely compliant with GDPR, CCPA, and PECR without needing annoying consent banners.
-              </p>
-            </div>
+        <p className="mt-4 text-base text-slate-500 max-w-2xl mx-auto leading-relaxed">
+          Clean, real-time website traffic intelligence without invasive tracking cookies or complex tag managers. 100% GDPR, CCPA & PECR compliant.
+        </p>
 
-            <div className="rounded-2xl border border-sky-100 bg-[#F0F7FF]/50 p-8 hover:bg-[#F0F7FF] transition-all">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-600 text-white mb-6 shadow-sm shadow-sky-600/30">
-                <Zap className="h-6 w-6" />
-              </div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">&lt; 1 KB Script Size</h4>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                45 times lighter than Google Analytics. Loads asynchronously without blocking page rendering, preserving your Google Core Web Vitals and lightning-fast SEO scores.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-sky-100 bg-[#F0F7FF]/50 p-8 hover:bg-[#F0F7FF] transition-all">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-600 text-white mb-6 shadow-sm shadow-sky-600/30">
-                <Target className="h-6 w-6" />
-              </div>
-              <h4 className="text-xl font-bold text-slate-900 mb-3">Custom Conversion Goals</h4>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Measure what actually drives revenue. Track newsletter signups, purchase button clicks, and trial activations with a single JavaScript helper or URL match rule.
-              </p>
-            </div>
-          </div>
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <Link
+            href="/signup"
+            className="w-full sm:w-auto rounded-full bg-sky-600 px-6 py-2.5 text-xs font-medium text-white hover:bg-sky-500 transition-colors shadow-xs"
+          >
+            Start 14-Day Free Trial
+          </Link>
+          <Link
+            href="/dashboard"
+            className="w-full sm:w-auto rounded-full border border-slate-200 bg-white px-6 py-2.5 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
+          >
+            View Live Dashboard →
+          </Link>
         </div>
-      </section>
 
-      {/* How it Works */}
-      <section id="how-it-works" className="py-20 bg-[#F8FAFC]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-sky-600 mb-2">
-              Setup in 60 Seconds
-            </h2>
-            <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">
-              From zero to live analytics in three quick steps
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-sky-700 font-bold text-sm mb-4">
-                1
-              </div>
-              <h4 className="text-base font-bold text-slate-900 mb-2">Create Your Account</h4>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Sign up with your email and enter your website domain name. No credit card or complex credentials required.
-              </p>
-            </div>
-
-            <div className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-sky-700 font-bold text-sm mb-4">
-                2
-              </div>
-              <h4 className="text-base font-bold text-slate-900 mb-2">Paste 1 Line of Code</h4>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Copy your customized lightweight snippet and insert it into your website&apos;s &lt;head&gt; tag or Next.js layout.
-              </p>
-            </div>
-
-            <div className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-sky-700 font-bold text-sm mb-4">
-                3
-              </div>
-              <h4 className="text-base font-bold text-slate-900 mb-2">Enjoy Real-Time Data</h4>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Watch visitors browse your pages in real time, monitor conversion funnels, and share private or public dashboards.
-              </p>
-            </div>
-          </div>
+        <div className="mt-8 flex items-center justify-center gap-6 text-xs text-slate-400">
+          <span className="flex items-center gap-1.5">
+            <Check className="h-3.5 w-3.5 text-sky-600" /> No credit card required
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Check className="h-3.5 w-3.5 text-sky-600" /> Script under 1KB
+          </span>
+          <span className="flex items-center gap-1.5 hidden sm:flex">
+            <Check className="h-3.5 w-3.5 text-sky-600" /> Zero cookies
+          </span>
         </div>
-      </section>
 
-      {/* Pricing Matrix */}
-      <section id="pricing" className="py-20 bg-white border-t border-slate-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-sky-600 mb-2">
-              Transparent Pricing
-            </h2>
-            <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">
-              Simple plans for projects of every scale
-            </h3>
-            <p className="mt-4 text-base text-slate-500">
-              All plans include complete privacy features, unlimited team seats, and zero cookie popups.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Starter */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm flex flex-col justify-between">
+        {/* Minimal Dashboard Preview Card */}
+        <div className="mt-12 rounded-2xl border border-slate-200/90 bg-white p-5 sm:p-7 shadow-xs text-left space-y-6">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-50 text-sky-600">
+                <AppWindow className="h-4 w-4" />
+              </div>
               <div>
-                <h4 className="text-base font-bold text-slate-900 mb-1">Starter</h4>
-                <p className="text-xs text-slate-500 mb-6">For personal blogs & side projects</p>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-extrabold text-slate-900">$0</span>
-                  <span className="text-xs text-slate-400">/month</span>
-                </div>
-                <ul className="space-y-3 text-xs text-slate-600 mb-8">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Up to 10,000 monthly pageviews
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> 1 website domain
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> 30 days data retention
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Standard traffic metrics
-                  </li>
-                </ul>
+                <span className="text-xs font-semibold text-slate-900 block">myportfolio.com</span>
+                <span className="text-[10px] text-slate-400">Live Traffic Intelligence</span>
               </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700 border border-emerald-200/60">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                18 active visitors
+              </span>
+              <Link
+                href="/dashboard"
+                className="rounded-full border border-slate-200 px-3 py-1 text-[11px] font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+              >
+                Open Full View
+              </Link>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+              <span className="text-[10px] uppercase font-medium text-slate-400">Unique Visitors</span>
+              <div className="text-2xl font-light text-slate-900 mt-1">31,220</div>
+              <span className="text-[11px] text-emerald-600 font-medium">+14.2%</span>
+            </div>
+            <div className="p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+              <span className="text-[10px] uppercase font-medium text-slate-400">Total Pageviews</span>
+              <div className="text-2xl font-light text-slate-900 mt-1">98,450</div>
+              <span className="text-[11px] text-emerald-600 font-medium">+18.5%</span>
+            </div>
+            <div className="p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+              <span className="text-[10px] uppercase font-medium text-slate-400">Bounce Rate</span>
+              <div className="text-2xl font-light text-slate-900 mt-1">36.4%</div>
+              <span className="text-[11px] text-emerald-600 font-medium">-3.2%</span>
+            </div>
+            <div className="p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+              <span className="text-[10px] uppercase font-medium text-slate-400">Avg Duration</span>
+              <div className="text-2xl font-light text-slate-900 mt-1">3m 12s</div>
+              <span className="text-[11px] text-emerald-600 font-medium">+8.1%</span>
+            </div>
+          </div>
+
+          {/* Minimal chart visual */}
+          <div className="h-32 w-full pt-2">
+            <svg viewBox="0 0 500 100" className="w-full h-full overflow-visible">
+              <defs>
+                <linearGradient id="previewGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#0284c7" stopOpacity="0.12" />
+                  <stop offset="100%" stopColor="#0284c7" stopOpacity="0.0" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M0,70 Q80,50 160,65 T320,35 T500,15 L500,100 L0,100 Z"
+                fill="url(#previewGrad)"
+              />
+              <path
+                d="M0,70 Q80,50 160,65 T320,35 T500,15"
+                fill="none"
+                stroke="#0284c7"
+                strokeWidth="2"
+              />
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      {/* 3 Core Minimal Value Props */}
+      <section className="py-16 border-t border-slate-200/80 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-xl mx-auto mb-12">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-sky-700 mb-1">
+              Privacy First
+            </h2>
+            <h3 className="text-2xl font-normal text-slate-900 tracking-tight">
+              Honest analytics built for modern websites
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="rounded-2xl border border-slate-200/80 bg-[#F8FAFC] p-6 space-y-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
+                <ShieldCheck className="h-4 w-4" />
+              </div>
+              <h4 className="text-sm font-semibold text-slate-900">100% Privacy by Design</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                No personal data, no IP storage, and zero cross-site cookies. Full compliance without annoying consent banners.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200/80 bg-[#F8FAFC] p-6 space-y-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
+                <Zap className="h-4 w-4" />
+              </div>
+              <h4 className="text-sm font-semibold text-slate-900">&lt; 1KB Lightweight Script</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                45 times smaller than Google Analytics. Loads asynchronously without delaying page rendering or harming Core Web Vitals.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200/80 bg-[#F8FAFC] p-6 space-y-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
+                <Target className="h-4 w-4" />
+              </div>
+              <h4 className="text-sm font-semibold text-slate-900">Custom Conversion Goals</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Measure key business milestones, newsletter signups, and trial activations via simple custom JavaScript events.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Minimal */}
+      <section className="py-16 border-t border-slate-200/80 bg-[#F8FAFC]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-sky-700 mb-1">
+            Pricing
+          </h2>
+          <h3 className="text-2xl font-normal text-slate-900 tracking-tight mb-10">
+            Simple plans for every project
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            <div className="rounded-2xl border border-slate-200/90 bg-white p-6 space-y-4">
+              <div>
+                <span className="text-xs font-semibold text-slate-900">Starter</span>
+                <div className="text-2xl font-light text-slate-900 mt-1">$0</div>
+                <span className="text-[11px] text-slate-400">For side projects & blogs</span>
+              </div>
+              <ul className="space-y-2 text-xs text-slate-500">
+                <li className="flex items-center gap-2"><Check className="h-3 w-3 text-sky-600" /> Up to 10k pageviews/mo</li>
+                <li className="flex items-center gap-2"><Check className="h-3 w-3 text-sky-600" /> 1 registered website</li>
+                <li className="flex items-center gap-2"><Check className="h-3 w-3 text-sky-600" /> 30 days retention</li>
+              </ul>
               <Link
                 href="/signup"
-                className="w-full text-center rounded-xl border border-slate-200 bg-slate-50 py-2.5 text-xs font-semibold text-slate-700 hover:border-sky-300 hover:bg-sky-50 transition-colors"
+                className="block text-center rounded-full border border-slate-200 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors"
               >
-                Get Started Free
+                Get Started
               </Link>
             </div>
 
-            {/* Pro (Highlighted) */}
-            <div className="rounded-2xl border-2 border-sky-500 bg-white p-8 shadow-xl shadow-sky-600/10 flex flex-col justify-between relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-sky-600 px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                Most Popular
-              </div>
+            <div className="rounded-2xl border border-sky-400 bg-white p-6 space-y-4 shadow-xs relative">
+              <span className="absolute -top-2.5 right-4 rounded-full bg-sky-600 px-2.5 py-0.5 text-[10px] font-medium text-white">
+                Popular
+              </span>
               <div>
-                <h4 className="text-base font-bold text-slate-900 mb-1">Pro</h4>
-                <p className="text-xs text-slate-500 mb-6">For growing startups & creators</p>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-extrabold text-slate-900">$14</span>
-                  <span className="text-xs text-slate-400">/month</span>
-                </div>
-                <ul className="space-y-3 text-xs text-slate-600 mb-8">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Up to 100,000 monthly pageviews
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Unlimited websites
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> 2 years data retention
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Custom event & goal tracking
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> CSV exports & email reports
-                  </li>
-                </ul>
+                <span className="text-xs font-semibold text-slate-900">Pro</span>
+                <div className="text-2xl font-light text-slate-900 mt-1">$14<span className="text-xs font-normal text-slate-400">/mo</span></div>
+                <span className="text-[11px] text-slate-400">For growing creators & SaaS</span>
               </div>
+              <ul className="space-y-2 text-xs text-slate-500">
+                <li className="flex items-center gap-2"><Check className="h-3 w-3 text-sky-600" /> Up to 100k pageviews/mo</li>
+                <li className="flex items-center gap-2"><Check className="h-3 w-3 text-sky-600" /> Unlimited websites</li>
+                <li className="flex items-center gap-2"><Check className="h-3 w-3 text-sky-600" /> Custom event & goal tracking</li>
+                <li className="flex items-center gap-2"><Check className="h-3 w-3 text-sky-600" /> 2 years data retention</li>
+              </ul>
               <Link
                 href="/signup"
-                className="w-full text-center rounded-xl bg-sky-600 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-sky-500 transition-colors"
+                className="block text-center rounded-full bg-sky-600 py-2 text-xs font-medium text-white hover:bg-sky-500 transition-colors shadow-xs"
               >
-                Start 14-Day Free Trial
+                Start Free Trial
               </Link>
             </div>
 
-            {/* Agency */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm flex flex-col justify-between">
+            <div className="rounded-2xl border border-slate-200/90 bg-white p-6 space-y-4">
               <div>
-                <h4 className="text-base font-bold text-slate-900 mb-1">Agency</h4>
-                <p className="text-xs text-slate-500 mb-6">For client portfolios & teams</p>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-extrabold text-slate-900">$49</span>
-                  <span className="text-xs text-slate-400">/month</span>
-                </div>
-                <ul className="space-y-3 text-xs text-slate-600 mb-8">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> 1,000,000+ monthly pageviews
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Unlimited team members & sites
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> White-label public dashboards
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Priority API ingestion
-                  </li>
-                </ul>
+                <span className="text-xs font-semibold text-slate-900">Agency</span>
+                <div className="text-2xl font-light text-slate-900 mt-1">$49<span className="text-xs font-normal text-slate-400">/mo</span></div>
+                <span className="text-[11px] text-slate-400">For client studios & teams</span>
               </div>
+              <ul className="space-y-2 text-xs text-slate-500">
+                <li className="flex items-center gap-2"><Check className="h-3 w-3 text-sky-600" /> 1M+ monthly pageviews</li>
+                <li className="flex items-center gap-2"><Check className="h-3 w-3 text-sky-600" /> Unlimited team members</li>
+                <li className="flex items-center gap-2"><Check className="h-3 w-3 text-sky-600" /> Public dashboard sharing</li>
+              </ul>
               <Link
                 href="/signup"
-                className="w-full text-center rounded-xl border border-slate-200 bg-slate-50 py-2.5 text-xs font-semibold text-slate-700 hover:border-sky-300 hover:bg-sky-50 transition-colors"
+                className="block text-center rounded-full border border-slate-200 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors"
               >
                 Contact Sales
               </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Bottom Banner */}
-      <section className="py-16 bg-gradient-to-br from-sky-600 via-sky-500 to-sky-700 text-white text-center">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <h3 className="text-3xl font-extrabold sm:text-4xl tracking-tight mb-4">
-            Ready to upgrade your website analytics?
-          </h3>
-          <p className="text-sky-100 text-base max-w-2xl mx-auto mb-8">
-            Join thousands of modern creators who respect their visitors&apos; privacy while gaining clear, actionable insight.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              href="/signup"
-              className="w-full sm:w-auto rounded-full bg-white px-8 py-3.5 text-sm font-bold text-sky-700 shadow-lg hover:bg-sky-50 transition-all"
-            >
-              Get Started for Free
-            </Link>
-            <Link
-              href="/dashboard"
-              className="w-full sm:w-auto rounded-full border border-sky-300 bg-sky-500/20 px-8 py-3.5 text-sm font-bold text-white hover:bg-sky-500/30 transition-all"
-            >
-              Open Live Dashboard
-            </Link>
           </div>
         </div>
       </section>

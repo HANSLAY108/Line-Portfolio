@@ -29,30 +29,30 @@ export default function MetricCard({
   return (
     <div
       onClick={onClick}
-      className={`group relative rounded-2xl border p-5 transition-all cursor-pointer ${
+      className={`rounded-2xl border p-4 transition-all bg-white ${
         isActive
-          ? "border-sky-500 bg-white ring-2 ring-sky-500/20 shadow-sm"
-          : "border-slate-200/80 bg-white hover:border-sky-300 hover:shadow-md"
+          ? "border-sky-500 ring-1 ring-sky-500/20 shadow-xs"
+          : "border-slate-200/90 hover:border-sky-300 shadow-xs"
       }`}
     >
-      <div className="flex items-center justify-between gap-2 mb-3">
-        <span className="text-xs font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition-colors">
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
           {title}
         </span>
-        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-sky-50 text-sky-600 group-hover:bg-sky-100 transition-colors">
-          <Icon className="h-4 w-4" />
+        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-50 text-sky-600">
+          <Icon className="h-3.5 w-3.5" />
         </div>
       </div>
 
       <div className="flex items-baseline justify-between gap-2">
-        <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+        <div className="text-2xl font-light text-slate-900 tracking-tight">
           {value}
         </div>
         <div
-          className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
+          className={`inline-flex items-center gap-1 rounded-full px-2 py-0.2 text-[11px] font-medium ${
             isPositive
-              ? "bg-emerald-50 text-emerald-700 border border-emerald-200/60"
-              : "bg-rose-50 text-rose-700 border border-rose-200/60"
+              ? "bg-emerald-50 text-emerald-700"
+              : "bg-rose-50 text-rose-700"
           }`}
         >
           {isPositive ? (
@@ -64,9 +64,9 @@ export default function MetricCard({
         </div>
       </div>
 
-      <div className="mt-2 text-xs text-slate-400 flex items-center justify-between">
+      <div className="mt-2 text-[11px] text-slate-400 flex items-center justify-between">
         <span>{periodText}</span>
-        {subtext && <span className="font-medium text-slate-500">{subtext}</span>}
+        {subtext && <span className="text-slate-500">{subtext}</span>}
       </div>
     </div>
   );

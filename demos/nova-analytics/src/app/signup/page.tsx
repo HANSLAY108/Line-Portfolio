@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { BarChart3, ArrowRight, ShieldCheck, Mail, Lock, User, CheckCircle2 } from "lucide-react";
+import { Check } from "lucide-react";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -11,145 +11,177 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !password) {
-      setError("Please fill out all fields.");
-      return;
-    }
     setLoading(true);
-    // In Phase 1 UI mode, simulate instant account creation and advance to onboarding
     setTimeout(() => {
       setLoading(false);
       router.push("/onboarding");
-    }, 600);
+    }, 500);
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F7FF] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Decorative backdrop light blue circles */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-sky-200/50 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-sky-200/50 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 text-center">
-        <Link href="/" className="inline-flex items-center gap-2.5 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-sky-600 to-sky-400 text-white shadow-md shadow-sky-600/20 group-hover:scale-105 transition-transform">
-            <BarChart3 className="h-5 w-5" />
-          </div>
-          <span className="text-xl font-bold tracking-tight text-slate-900">
-            Nova <span className="text-sky-600 font-semibold">Analytics</span>
-          </span>
-        </Link>
-        <h2 className="mt-6 text-2xl font-extrabold text-slate-900 tracking-tight">
-          Create your Nova Analytics account
-        </h2>
-        <p className="mt-2 text-xs text-slate-500">
-          Already have an account?{" "}
-          <Link href="/login" className="font-semibold text-sky-600 hover:text-sky-500">
-            Sign in
-          </Link>
-        </p>
-      </div>
-
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
-        <div className="bg-white py-8 px-6 shadow-xl shadow-sky-950/5 rounded-2xl border border-sky-100 sm:px-10">
-          <div className="mb-6 space-y-2 rounded-xl bg-sky-50/70 p-3.5 text-xs text-sky-900 border border-sky-100">
-            <div className="font-bold text-sky-950 flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-sky-600" />
-              14-Day Full-Featured Free Trial
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row text-slate-800 font-sans">
+      {/* Left Column: Form */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-between p-8 sm:p-12 lg:p-16">
+        <div>
+          {/* Logo */}
+          <Link href="/" className="inline-flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-700 text-white font-semibold text-xs">
+              N
             </div>
-            <p className="text-[11px] text-sky-700 leading-relaxed">
-              No credit card required. Zero cookies, privacy-first analytics ready in 60 seconds.
+            <span className="text-sm font-semibold tracking-tight text-slate-900">
+              Nova Analytics
+            </span>
+          </Link>
+        </div>
+
+        <div className="max-w-sm w-full mx-auto my-auto py-8">
+          <div className="mb-8">
+            <h1 className="text-2xl font-normal text-slate-900 tracking-tight">
+              Create your account
+            </h1>
+            <p className="text-xs text-slate-500 mt-1.5">
+              Start your 14-day free trial. No credit card required.
             </p>
           </div>
 
-          {error && (
-            <div className="mb-4 rounded-xl bg-rose-50 border border-rose-200 p-3 text-xs text-rose-700 font-medium">
-              {error}
-            </div>
-          )}
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Your full name
+              <label className="block text-xs font-medium text-slate-700 mb-1">
+                Full name
               </label>
-              <div className="relative rounded-xl shadow-xs">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                  <User className="h-4 w-4" />
-                </div>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Line Morelle"
-                  className="block w-full rounded-xl border border-slate-200 pl-10 pr-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50/40"
-                  required
-                />
-              </div>
+              <input
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Elena Rostova"
+                className="w-full rounded-xl border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-colors"
+              />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-medium text-slate-700 mb-1">
                 Work email
               </label>
-              <div className="relative rounded-xl shadow-xs">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                  <Mail className="h-4 w-4" />
-                </div>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="line@studio.dev"
-                  className="block w-full rounded-xl border border-slate-200 pl-10 pr-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50/40"
-                  required
-                />
-              </div>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="elena@studio.dev"
+                className="w-full rounded-xl border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-colors"
+              />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Create password
+              <label className="block text-xs font-medium text-slate-700 mb-1">
+                Password
               </label>
-              <div className="relative rounded-xl shadow-xs">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                  <Lock className="h-4 w-4" />
-                </div>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="At least 8 characters"
-                  className="block w-full rounded-xl border border-slate-200 pl-10 pr-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50/40"
-                  required
-                  minLength={8}
-                />
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="At least 8 characters"
+                minLength={8}
+                className="w-full rounded-xl border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-colors"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-full bg-sky-600 py-2.5 text-xs font-medium text-white hover:bg-sky-500 transition-colors shadow-xs disabled:opacity-50 mt-2"
+            >
+              {loading ? "Creating account..." : "Start Free Trial"}
+            </button>
+          </form>
+
+          <p className="text-center text-xs text-slate-500 mt-6">
+            Already have an account?{" "}
+            <Link href="/login" className="text-sky-600 hover:text-sky-700 font-medium">
+              Sign in
+            </Link>
+          </p>
+        </div>
+
+        <div className="text-xs text-slate-400">
+          © {new Date().getFullYear()} Nova Analytics • Privacy by design
+        </div>
+      </div>
+
+      {/* Right Column: Clean Analytics Card Preview */}
+      <div className="hidden lg:flex w-1/2 bg-[#F0F7FF] p-12 items-center justify-center border-l border-slate-200/80">
+        <div className="max-w-md w-full space-y-6">
+          <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="text-xs font-semibold text-slate-900">myportfolio.com</span>
+              </div>
+              <span className="text-[10px] text-slate-400 font-medium">Live Telemetry</span>
+            </div>
+
+            <div>
+              <div className="text-[11px] uppercase tracking-wider text-slate-400 font-medium">
+                Unique Visitors
+              </div>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span className="text-3xl font-light text-slate-900 tracking-tight">31,220</span>
+                <span className="text-xs font-medium text-emerald-600">+14.2%</span>
               </div>
             </div>
 
-            <div className="pt-2">
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex items-center justify-center gap-2 rounded-xl bg-sky-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 transition-all disabled:opacity-50"
-              >
-                {loading ? "Creating account..." : "Continue to Setup"}
-                <ArrowRight className="h-4 w-4" />
-              </button>
+            <div className="h-24 w-full">
+              <svg viewBox="0 0 300 80" className="w-full h-full overflow-visible">
+                <defs>
+                  <linearGradient id="blueGradSignup" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#0284c7" stopOpacity="0.15" />
+                    <stop offset="100%" stopColor="#0284c7" stopOpacity="0.0" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0,60 Q50,40 100,50 T200,25 T300,10 L300,80 L0,80 Z"
+                  fill="url(#blueGradSignup)"
+                />
+                <path
+                  d="M0,60 Q50,40 100,50 T200,25 T300,10"
+                  fill="none"
+                  stroke="#0284c7"
+                  strokeWidth="2"
+                />
+              </svg>
             </div>
-          </form>
 
-          <div className="mt-6 text-center text-[11px] text-slate-400 leading-normal">
-            By signing up, you agree to our Terms of Service and Privacy Commitment.
+            <div className="grid grid-cols-2 gap-4 pt-3 border-t border-slate-100 text-xs">
+              <div>
+                <span className="text-slate-400 text-[11px]">Bounce Rate</span>
+                <div className="font-medium text-slate-800 text-sm mt-0.5">36.4%</div>
+              </div>
+              <div>
+                <span className="text-slate-400 text-[11px]">Avg Visit Duration</span>
+                <div className="font-medium text-slate-800 text-sm mt-0.5">3m 12s</div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="mt-6 text-center text-xs text-slate-400 flex items-center justify-center gap-1.5">
-          <ShieldCheck className="h-4 w-4 text-sky-600" />
-          <span>Zero invasive trackers • 100% GDPR, CCPA & PECR Compliant</span>
+          <div className="space-y-2.5 text-xs text-slate-600 pl-2">
+            <div className="flex items-center gap-2">
+              <Check className="h-3.5 w-3.5 text-sky-600 shrink-0" />
+              <span>Full access to all analytics features during trial</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-3.5 w-3.5 text-sky-600 shrink-0" />
+              <span>No credit card required to get started</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-3.5 w-3.5 text-sky-600 shrink-0" />
+              <span>Set up tracking in under 60 seconds</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
