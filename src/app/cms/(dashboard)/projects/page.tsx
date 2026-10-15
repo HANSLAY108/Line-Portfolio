@@ -6,7 +6,8 @@ import { saveProjectsPage } from "@/lib/actions/settings";
 import { Card, Field, PageTitle, SaveButton } from "@/components/cms/ui";
 import ImageUpload from "@/components/cms/ImageUpload";
 import DocumentUpload from "@/components/cms/DocumentUpload";
-import { publicMediaUrl } from "@/lib/media";
+import ProjectsManager from "@/components/cms/ProjectsManager";
+import { PlusIcon } from "@/components/cms/CMSIcons";
 
 export const instant = false;
 
@@ -21,86 +22,38 @@ export default async function ProjectsAdminPage() {
   const s = settings ?? {};
 
   return (
-    <>
+    <div className="space-y-10">
       <PageTitle
-        eyebrow="Portfolio"
-        title="Projects"
+        eyebrow="Portfolio & Engineering Showcase"
+        title="Software Projects & Case Studies"
+        subtitle="Manage featured engineering work, open source repositories, and client projects curated for display."
         action={
           <Link
             href="/cms/projects/new"
-            className="rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-white hover:bg-accent-hover"
+            className="inline-flex items-center gap-1.5 rounded-full bg-[#CE6A73] px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-[#B85860]"
           >
-            Add project
+            <PlusIcon className="h-4 w-4" />
+            Add Project
           </Link>
         }
       />
 
-      <div className="space-y-8">
-        <div>
-          <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted-light">
-            Project List ({projects?.length ?? 0})
-          </h2>
-          <div className="space-y-3">
-            {(projects ?? []).map((project) => (
-              <div
-                key={project.id}
-                className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-white p-4 ring-1 ring-border"
-              >
-                <div className="flex items-center gap-4">
-                  {publicMediaUrl(project.cover_path) ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={publicMediaUrl(project.cover_path)!}
-                      alt=""
-                      className="h-14 w-20 rounded-lg object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-14 w-20 items-center justify-center rounded-lg bg-accent-soft text-xs text-accent-text font-medium">
-                      No cover
-                    </div>
-                  )}
-                  <div>
-                    <p className="font-medium">{project.title}</p>
-                    <p className="text-xs text-muted">
-                      order {project.sort_order}
-                      {project.featured ? " · featured" : ""}
-                      {project.published ? "" : " · hidden"}
-                      {project.category ? ` · ${project.category}` : ""}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Link
-                    href={`/cms/projects/${project.id}`}
-                    className="rounded-lg border border-border bg-white px-3 py-1.5 text-xs font-medium text-accent-text hover:bg-accent-soft"
-                  >
-                    Edit
-                  </Link>
-                  <form
-                    action={async () => {
-                      "use server";
-                      await deleteProject(project.id);
-                    }}
-                  >
-                    <button
-                      type="submit"
-                      className="text-xs text-muted-light hover:text-red-600"
-                    >
-                      Delete
-                    </button>
-                  </form>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* Interactive Project List with Filters & Search (Screen 2) */}
+      <ProjectsManager
+        initialProjects={projects ?? []}
+        deleteAction={deleteProject}
+      />
 
-        {/* Projects Page Section & Philosophy Visual */}
-        <Card>
-          <h2 className="mb-2 font-serif text-xl">Projects page visual & copy</h2>
-          <p className="mb-6 text-xs text-muted">
+      {/* Projects Page Section & Philosophy Visual */}
+      <Card>
+        <div className="mb-6 pb-4 border-b border-[#F7EBEB]">
+          <h2 className="font-serif text-xl font-medium text-[#292022]">
+            Projects page visual & copy
+          </h2>
+          <p className="mt-1 text-xs text-[#7A6B6E]">
             Customize the header, introduction, and philosophy visual displayed on the public /projects page.
           </p>
+        </div>
 
           <form action={saveProjectsPage} className="space-y-6">
             <ImageUpload
@@ -212,6 +165,5 @@ export default async function ProjectsAdminPage() {
           </form>
         </Card>
       </div>
-    </>
   );
 }
