@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "VELOCE — Minimalist Luxury & Headless Commerce",
-  description: "Curated architectural timepieces, leather goods, and refined objects designed by Line Morelle. Built on a headless Next.js, GraphQL, and Shopify architecture.",
+  title: "NOVELLA — Quality, Style & Everyday Marketplace",
+  description: "Curated modern marketplace designed and architected by Line Morelle. Built on a headless Next.js, GraphQL, and sub-second edge architecture.",
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen antialiased selection:bg-[#121212] selection:text-white">
+      <body className="min-h-screen antialiased bg-[#FAFAFA] text-slate-800">
         {children}
       </body>
     </html>
