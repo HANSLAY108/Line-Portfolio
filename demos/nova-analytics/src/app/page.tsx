@@ -1,789 +1,399 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import MetricCard from "../components/MetricCard";
+import AnalyticsChart, { ChartDataPoint } from "../components/AnalyticsChart";
+import {
+  ShieldCheck,
+  Zap,
+  Target,
+  BarChart2,
+  CheckCircle2,
+  ArrowRight,
+  Eye,
+  Clock,
+  Sparkles,
+  MousePointerClick,
+  Users,
+} from "lucide-react";
 
-// Custom Rich Icons
-function LogoIcon({ className = "h-7 w-7" }: { className?: string }) {
-  return (
-    <div className={`flex items-center justify-center rounded-xl bg-gradient-to-tr from-[#008779] to-[#00C49F] text-white font-black shadow-sm ${className}`}>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="h-4 w-4">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    </div>
-  );
-}
+const SAMPLE_CHART_DATA: ChartDataPoint[] = [
+  { date: "Oct 9", visitors: 2840, pageviews: 9420 },
+  { date: "Oct 10", visitors: 3120, pageviews: 11250 },
+  { date: "Oct 11", visitors: 2950, pageviews: 10180 },
+  { date: "Oct 12", visitors: 3680, pageviews: 13400 },
+  { date: "Oct 13", visitors: 4100, pageviews: 15600 },
+  { date: "Oct 14", visitors: 3820, pageviews: 14210 },
+  { date: "Oct 15", visitors: 4070, pageviews: 15360 },
+];
 
-function OverviewIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-    </svg>
-  );
-}
-
-function AccountsIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-    </svg>
-  );
-}
-
-function CardsIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-    </svg>
-  );
-}
-
-function TransactionsIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-    </svg>
-  );
-}
-
-function PaymentsIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-    </svg>
-  );
-}
-
-function InvestmentsIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-    </svg>
-  );
-}
-
-function CryptoIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  );
-}
-
-function AnalyticsIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-    </svg>
-  );
-}
-
-function ReportsIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-    </svg>
-  );
-}
-
-function SettingsIcon() {
-  return (
-    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-  );
-}
-
-export default function NovaFinEdgeApp() {
-  const [activeTab, setActiveTab] = useState("Overview");
-  const [timeFilter, setTimeFilter] = useState("This Week");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const navItems = [
-    { name: "Overview", icon: OverviewIcon },
-    { name: "Accounts", icon: AccountsIcon },
-    { name: "Cards", icon: CardsIcon },
-    { name: "Transactions", icon: TransactionsIcon },
-    { name: "Payments", icon: PaymentsIcon },
-    { name: "Investments", icon: InvestmentsIcon },
-    { name: "Crypto", icon: CryptoIcon },
-    { name: "Analytics", icon: AnalyticsIcon },
-    { name: "Reports", icon: ReportsIcon },
-    { name: "Settings", icon: SettingsIcon },
-  ];
+export default function LandingPage() {
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   return (
-    <div className="flex min-h-screen bg-[#EDF7F7] text-slate-800">
-      {/* 1. SIDEBAR */}
-      <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white/95 backdrop-blur-xl border-r border-[#E0EFEF] p-6 flex flex-col justify-between transition-transform duration-300 lg:translate-x-0 ${
-          mobileMenuOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"
-        }`}
-      >
-        <div>
-          {/* Logo */}
-          <div className="flex items-center gap-3 px-2">
-            <LogoIcon className="h-8 w-8" />
-            <div className="flex flex-col">
-              <span className="font-extrabold text-xl tracking-tight text-slate-900 leading-none">
-                Fin<span className="text-[#008779]">Edge</span>
-              </span>
-              <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest mt-0.5">
-                Financial Intel
-              </span>
-            </div>
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col">
+      <Navbar />
+
+      {/* Hero Section */}
+      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
+        {/* Soft light blue radial gradient glow */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-tr from-sky-200/40 via-sky-100/30 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3.5 py-1 text-xs font-semibold text-sky-800 mb-6 shadow-xs">
+            <Sparkles className="h-3.5 w-3.5 text-sky-600" />
+            <span>The Lightweight, Privacy-First Google Analytics Alternative</span>
           </div>
 
-          {/* Navigation Links */}
-          <nav className="mt-8 space-y-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = activeTab === item.name;
-              return (
-                <button
-                  key={item.name}
-                  onClick={() => {
-                    setActiveTab(item.name);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
-                    isActive
-                      ? "bg-[#D9F3F1] text-[#008075] shadow-xs"
-                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
-                  }`}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 max-w-4xl mx-auto leading-tight">
+            Simple, honest website analytics.{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-sky-400">
+              Zero cookie banners.
+            </span>
+          </h1>
+
+          <p className="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Get essential traffic insights in one clean, sub-second dashboard. No cookies, 100% GDPR & CCPA compliant, and a tracking snippet under 1KB.
+          </p>
+
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/signup"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-sky-600 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-sky-600/25 hover:bg-sky-500 hover:shadow-lg transition-all"
+            >
+              Start 14-Day Free Trial
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/dashboard"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 shadow-xs hover:border-sky-300 hover:text-sky-700 transition-all"
+            >
+              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Explore Interactive Demo
+            </Link>
+          </div>
+
+          <div className="mt-8 flex items-center justify-center gap-6 text-xs text-slate-500 font-medium">
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="h-4 w-4 text-sky-600" /> No credit card required
+            </span>
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="h-4 w-4 text-sky-600" /> 1-minute setup
+            </span>
+            <span className="flex items-center gap-1.5 hidden sm:flex">
+              <CheckCircle2 className="h-4 w-4 text-sky-600" /> Free demo sandbox
+            </span>
+          </div>
+
+          {/* Interactive Live Dashboard Preview */}
+          <div className="mt-14 relative mx-auto max-w-5xl rounded-2xl border border-sky-100 bg-white/80 p-3 sm:p-5 shadow-2xl shadow-sky-950/5 backdrop-blur-md">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4 text-left">
+              <div className="flex items-center gap-2.5">
+                <span className="h-3 w-3 rounded-full bg-rose-400" />
+                <span className="h-3 w-3 rounded-full bg-amber-400" />
+                <span className="h-3 w-3 rounded-full bg-emerald-400" />
+                <span className="ml-2 text-xs font-mono font-medium text-slate-400">
+                  https://nova-analytics.app/dashboard/demo
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200/60 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                  18 live visitors
+                </span>
+                <Link
+                  href="/dashboard"
+                  className="rounded-lg bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700 hover:bg-sky-100 transition-colors"
                 >
-                  <Icon />
-                  <span>{item.name}</span>
-                </button>
-              );
-            })}
-          </nav>
-        </div>
-
-        {/* Bottom Section */}
-        <div className="space-y-4 pt-6">
-          {/* Upgrade Card */}
-          <div className="rounded-2xl border border-[#D5EFEF] bg-gradient-to-br from-[#EAF8F8] to-[#DEF3F3] p-4 text-center shadow-xs">
-            <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-xl bg-white text-[#008779] shadow-xs text-base">
-              💎
-            </div>
-            <h4 className="mt-2.5 text-xs font-bold text-slate-900">Upgrade to Premium</h4>
-            <p className="mt-1 text-[11px] text-slate-500 leading-tight">
-              Unlock exclusive features and higher transaction limits.
-            </p>
-            <button
-              onClick={() => alert("Upgrading account: Unlimited real-time Kafka streaming enabled.")}
-              className="mt-3 w-full rounded-xl bg-[#008779] py-2 text-xs font-bold text-white shadow-xs hover:bg-[#007367] transition-all"
-            >
-              Upgrade Now &gt;
-            </button>
-          </div>
-
-          {/* User Profile Pill */}
-          <div className="flex items-center justify-between rounded-xl p-2 hover:bg-slate-50 cursor-pointer transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#D5EFEF] text-xs font-bold text-[#008075]">
-                LM
-              </div>
-              <div className="text-left">
-                <p className="text-xs font-bold text-slate-900 leading-none">Line Morelle</p>
-                <p className="text-[10px] text-slate-400 mt-1 leading-none">Portfolio Admin</p>
+                  Full View →
+                </Link>
               </div>
             </div>
-            <span className="text-slate-400 text-xs">▼</span>
-          </div>
-        </div>
-      </aside>
 
-      {/* Backdrop for mobile */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-black/30 backdrop-blur-xs lg:hidden"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
-
-      {/* 2. MAIN CONTENT AREA */}
-      <main className="flex-1 lg:pl-64 flex flex-col min-w-0">
-        {/* Top Header */}
-        <header className="sticky top-0 z-20 flex h-20 items-center justify-between border-b border-[#E0EFEF] bg-white/70 px-6 lg:px-10 backdrop-blur-md">
-          {/* Greeting & Mobile Toggle */}
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setMobileMenuOpen(true)}
-              className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 lg:hidden"
-            >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-
-            <div>
-              <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
-                Overview
-              </h1>
-              <p className="hidden sm:block text-xs text-slate-500 mt-0.5">
-                Welcome back, Line! Here&apos;s what&apos;s happening with your finances today.
-              </p>
-            </div>
-          </div>
-
-          {/* Right Search, Notification, Date */}
-          <div className="flex items-center gap-3 sm:gap-4">
-            {/* Search */}
-            <div className="relative hidden md:block">
-              <input
-                type="text"
-                placeholder="Search anything..."
-                className="w-48 lg:w-60 rounded-full border border-[#D5E5E5] bg-white/90 px-4 py-2 text-xs text-slate-900 placeholder:text-slate-400 outline-none transition-all focus:border-[#008779] focus:bg-white"
+            {/* Quick 4 Metrics Preview */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 text-left mb-4">
+              <MetricCard
+                title="Unique Visitors"
+                value="24,580"
+                delta="+12.5%"
+                isPositive={true}
+                icon={Users}
+              />
+              <MetricCard
+                title="Total Pageviews"
+                value="89,420"
+                delta="+18.2%"
+                isPositive={true}
+                icon={Eye}
+              />
+              <MetricCard
+                title="Bounce Rate"
+                value="38.4%"
+                delta="-4.1%"
+                isPositive={true}
+                icon={MousePointerClick}
+              />
+              <MetricCard
+                title="Avg Visit Duration"
+                value="2m 45s"
+                delta="+8.6%"
+                isPositive={true}
+                icon={Clock}
               />
             </div>
 
-            {/* Notification Bell */}
-            <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white border border-[#D5E5E5] text-slate-600 cursor-pointer hover:bg-slate-50">
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#10B981] text-[9px] font-bold text-white">
-                2
-              </span>
-            </div>
-
-            {/* Date Pill */}
-            <div className="flex items-center gap-2 rounded-full border border-[#D5E5E5] bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs">
-              <span>📅</span>
-              <span>May 12 – May 18, 2024</span>
-            </div>
+            {/* Main Interactive Chart */}
+            <AnalyticsChart data={SAMPLE_CHART_DATA} />
           </div>
-        </header>
+        </div>
+      </section>
 
-        {/* Dashboard Grid Container */}
-        <div className="p-6 lg:p-8 space-y-6">
-          {/* 3. ROW 1: TOP 5 STAT CARDS */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {/* Card 1: Total Balance */}
-            <div className="rounded-2xl border border-white/80 bg-white p-5 shadow-xs flex items-center justify-between">
-              <div className="space-y-1">
-                <span className="text-[11px] font-medium text-slate-400">Total Balance</span>
-                <p className="text-xl font-extrabold text-slate-900">$24,580.50</p>
-                <div className="flex items-center gap-1 text-[10px] font-bold text-[#10B981]">
-                  <span>↑ 12.5%</span>
-                  <span className="text-slate-400 font-normal">vs last 7 days</span>
-                </div>
-              </div>
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#E0F4F3] text-[#008779]">
-                💼
-              </div>
-            </div>
-
-            {/* Card 2: Total Income */}
-            <div className="rounded-2xl border border-white/80 bg-white p-5 shadow-xs flex items-center justify-between">
-              <div className="space-y-1">
-                <span className="text-[11px] font-medium text-slate-400">Total Income</span>
-                <p className="text-xl font-extrabold text-slate-900">$8,925.40</p>
-                <div className="flex items-center gap-1 text-[10px] font-bold text-[#10B981]">
-                  <span>↑ 8.1%</span>
-                  <span className="text-slate-400 font-normal">vs last 7 days</span>
-                </div>
-              </div>
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#E6F8F0] text-[#10B981]">
-                💵
-              </div>
-            </div>
-
-            {/* Card 3: Total Expenses */}
-            <div className="rounded-2xl border border-white/80 bg-white p-5 shadow-xs flex items-center justify-between">
-              <div className="space-y-1">
-                <span className="text-[11px] font-medium text-slate-400">Total Expenses</span>
-                <p className="text-xl font-extrabold text-slate-900">$4,320.20</p>
-                <div className="flex items-center gap-1 text-[10px] font-bold text-[#F43F5E]">
-                  <span>↓ 6.4%</span>
-                  <span className="text-slate-400 font-normal">vs last 7 days</span>
-                </div>
-              </div>
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#F4ECFB] text-[#8B5CF6]">
-                📉
-              </div>
-            </div>
-
-            {/* Card 4: Net Profit */}
-            <div className="rounded-2xl border border-white/80 bg-white p-5 shadow-xs flex items-center justify-between">
-              <div className="space-y-1">
-                <span className="text-[11px] font-medium text-slate-400">Net Profit</span>
-                <p className="text-xl font-extrabold text-slate-900">$4,605.20</p>
-                <div className="flex items-center gap-1 text-[10px] font-bold text-[#10B981]">
-                  <span>↑ 10.2%</span>
-                  <span className="text-slate-400 font-normal">vs last 7 days</span>
-                </div>
-              </div>
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#E8F1FC] text-[#3B82F6]">
-                📈
-              </div>
-            </div>
-
-            {/* Card 5: Net Cash Flow */}
-            <div className="rounded-2xl border border-white/80 bg-white p-5 shadow-xs flex items-center justify-between">
-              <div className="space-y-1">
-                <span className="text-[11px] font-medium text-slate-400">Net Cash Flow</span>
-                <p className="text-xl font-extrabold text-slate-900">$4,605.20</p>
-                <div className="flex items-center gap-1 text-[10px] font-bold text-[#10B981]">
-                  <span>↑ 10.2%</span>
-                  <span className="text-slate-400 font-normal">vs last 7 days</span>
-                </div>
-              </div>
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#E0F8F5] text-[#00C49F]">
-                📊
-              </div>
-            </div>
+      {/* Feature Pillars */}
+      <section id="features" className="py-20 bg-white border-y border-slate-100">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-sky-600 mb-2">
+              Why Nova Analytics
+            </h2>
+            <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">
+              Everything you need to understand your traffic, nothing you don&apos;t.
+            </h3>
+            <p className="mt-4 text-base text-slate-500">
+              Replace bloated tag managers with an intuitive, single-page command center.
+            </p>
           </div>
 
-          {/* 4. ROW 2: MIDDLE ANALYTICS (BALANCE CHART + SPENDING DONUT + TRANSACTIONS) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Balance Overview Wave Chart (5 cols) */}
-            <div className="lg:col-span-5 rounded-2xl border border-white/80 bg-white p-6 shadow-xs flex flex-col justify-between">
-              <div className="flex items-center justify-between pb-4">
-                <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Balance Overview
-                  </h3>
-                  <div className="mt-1 flex items-baseline gap-2">
-                    <span className="text-2xl font-extrabold text-slate-900">$24,580.50</span>
-                    <span className="text-xs font-bold text-[#10B981]">↑ 12.5%</span>
-                    <span className="text-[11px] text-slate-400">vs last 7 days</span>
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <select
-                    value={timeFilter}
-                    onChange={(e) => setTimeFilter(e.target.value)}
-                    className="cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 outline-none hover:border-slate-400"
-                  >
-                    <option value="This Week">This Week</option>
-                    <option value="This Month">This Month</option>
-                    <option value="This Year">This Year</option>
-                  </select>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="rounded-2xl border border-sky-100 bg-[#F0F7FF]/50 p-8 hover:bg-[#F0F7FF] transition-all">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-600 text-white mb-6 shadow-sm shadow-sky-600/30">
+                <ShieldCheck className="h-6 w-6" />
               </div>
-
-              {/* Interactive Smooth Wave Chart */}
-              <div className="relative mt-4 h-56 w-full">
-                <svg className="h-full w-full" viewBox="0 0 500 220" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#00A896" stopOpacity="0.28" />
-                      <stop offset="100%" stopColor="#00A896" stopOpacity="0.0" />
-                    </linearGradient>
-                  </defs>
-
-                  {/* Horizontal gridlines */}
-                  <line x1="0" y1="40" x2="500" y2="40" stroke="#F1F5F9" strokeWidth="1" />
-                  <line x1="0" y1="100" x2="500" y2="100" stroke="#F1F5F9" strokeWidth="1" />
-                  <line x1="0" y1="160" x2="500" y2="160" stroke="#F1F5F9" strokeWidth="1" />
-
-                  {/* Area fill */}
-                  <path
-                    d="M 0,170 C 60,160 100,100 160,120 C 220,140 280,80 340,95 C 400,110 450,50 500,60 L 500,220 L 0,220 Z"
-                    fill="url(#balanceGradient)"
-                  />
-
-                  {/* Wave line */}
-                  <path
-                    d="M 0,170 C 60,160 100,100 160,120 C 220,140 280,80 340,95 C 400,110 450,50 500,60"
-                    fill="none"
-                    stroke="#00A896"
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                  />
-
-                  {/* Data Tooltip Pin at May 16 */}
-                  <circle cx="340" cy="95" r="5" fill="#008779" stroke="#FFFFFF" strokeWidth="3" />
-                </svg>
-
-                {/* Floating Tooltip Label */}
-                <div className="absolute top-10 left-[62%] -translate-x-1/2 rounded-xl bg-white border border-slate-200 p-2 shadow-lg text-center pointer-events-none">
-                  <p className="text-[10px] text-slate-400">May 16</p>
-                  <p className="text-xs font-extrabold text-slate-900">$18,320</p>
-                </div>
-
-                {/* X Axis labels */}
-                <div className="flex justify-between text-[10px] font-semibold text-slate-400 pt-2 px-1">
-                  <span>May 12</span>
-                  <span>May 13</span>
-                  <span>May 14</span>
-                  <span>May 15</span>
-                  <span>May 16</span>
-                  <span>May 17</span>
-                  <span>May 18</span>
-                </div>
-              </div>
+              <h4 className="text-xl font-bold text-slate-900 mb-3">100% Privacy by Design</h4>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                No personal data, no IP addresses stored, and zero cross-site tracking cookies. Completely compliant with GDPR, CCPA, and PECR without needing annoying consent banners.
+              </p>
             </div>
 
-            {/* Spending by Category Donut Chart (4 cols) */}
-            <div className="lg:col-span-4 rounded-2xl border border-white/80 bg-white p-6 shadow-xs flex flex-col justify-between">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                Spending by Category
-              </h3>
-
-              <div className="flex items-center justify-between gap-6 my-auto pt-2">
-                {/* SVG Donut */}
-                <div className="relative h-40 w-40 shrink-0 flex items-center justify-center">
-                  <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
-                    {/* Shopping: 37.5% -> strokeDasharray="37.5 62.5" */}
-                    <circle cx="50" cy="50" r="38" fill="none" stroke="#00A896" strokeWidth="12" strokeDasharray="37.5 62.5" strokeDashoffset="0" />
-                    {/* Bills: 25.9% */}
-                    <circle cx="50" cy="50" r="38" fill="none" stroke="#00C49F" strokeWidth="12" strokeDasharray="25.9 74.1" strokeDashoffset="-37.5" />
-                    {/* Transport: 18.1% */}
-                    <circle cx="50" cy="50" r="38" fill="none" stroke="#38BDF8" strokeWidth="12" strokeDasharray="18.1 81.9" strokeDashoffset="-63.4" />
-                    {/* Food & Dining: 13.0% */}
-                    <circle cx="50" cy="50" r="38" fill="none" stroke="#818CF8" strokeWidth="12" strokeDasharray="13.0 87.0" strokeDashoffset="-81.5" />
-                    {/* Others: 5.5% */}
-                    <circle cx="50" cy="50" r="38" fill="none" stroke="#CBD5E1" strokeWidth="12" strokeDasharray="5.5 94.5" strokeDashoffset="-94.5" />
-                  </svg>
-
-                  <div className="absolute text-center">
-                    <p className="text-base font-extrabold text-slate-900">$4,320.20</p>
-                    <p className="text-[10px] text-slate-400">Total</p>
-                  </div>
-                </div>
-
-                {/* Legend List */}
-                <div className="space-y-2 text-xs font-medium text-slate-700">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#00A896]" />
-                    <div>
-                      <span className="font-semibold">Shopping</span>
-                      <p className="text-[10px] text-slate-400">$1,620.50 (37.5%)</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#00C49F]" />
-                    <div>
-                      <span className="font-semibold">Bills & Utilities</span>
-                      <p className="text-[10px] text-slate-400">$1,120.30 (25.9%)</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#38BDF8]" />
-                    <div>
-                      <span className="font-semibold">Transport</span>
-                      <p className="text-[10px] text-slate-400">$780.40 (18.1%)</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#818CF8]" />
-                    <div>
-                      <span className="font-semibold">Food & Dining</span>
-                      <p className="text-[10px] text-slate-400">$560.00 (13.0%)</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#CBD5E1]" />
-                    <div>
-                      <span className="font-semibold">Others</span>
-                      <p className="text-[10px] text-slate-400">$239.00 (5.5%)</p>
-                    </div>
-                  </div>
-                </div>
+            <div className="rounded-2xl border border-sky-100 bg-[#F0F7FF]/50 p-8 hover:bg-[#F0F7FF] transition-all">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-600 text-white mb-6 shadow-sm shadow-sky-600/30">
+                <Zap className="h-6 w-6" />
               </div>
+              <h4 className="text-xl font-bold text-slate-900 mb-3">&lt; 1 KB Script Size</h4>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                45 times lighter than Google Analytics. Loads asynchronously without blocking page rendering, preserving your Google Core Web Vitals and lightning-fast SEO scores.
+              </p>
             </div>
 
-            {/* Recent Transactions (3 cols) */}
-            <div className="lg:col-span-3 rounded-2xl border border-white/80 bg-white p-6 shadow-xs flex flex-col justify-between">
-              <div className="flex items-center justify-between pb-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Recent Transactions
-                </h3>
-                <button
-                  onClick={() => alert("Viewing all 148 past transactions.")}
-                  className="text-xs font-bold text-slate-600 hover:text-slate-900"
-                >
-                  View All
-                </button>
+            <div className="rounded-2xl border border-sky-100 bg-[#F0F7FF]/50 p-8 hover:bg-[#F0F7FF] transition-all">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-600 text-white mb-6 shadow-sm shadow-sky-600/30">
+                <Target className="h-6 w-6" />
               </div>
-
-              <div className="space-y-4 pt-1">
-                {/* Tx 1 */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50 text-orange-600 font-bold text-sm">
-                      a
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">Amazon Purchase</p>
-                      <p className="text-[10px] text-slate-400">May 18, 2024</p>
-                    </div>
-                  </div>
-                  <span className="text-xs font-bold text-slate-900">-$129.99</span>
-                </div>
-
-                {/* Tx 2 */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 font-bold text-sm">
-                      💼
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">Salary Received</p>
-                      <p className="text-[10px] text-slate-400">May 17, 2024</p>
-                    </div>
-                  </div>
-                  <span className="text-xs font-bold text-[#10B981]">+$3,850.00</span>
-                </div>
-
-                {/* Tx 3 */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-50 text-amber-600 font-bold text-sm">
-                      ⚡
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">Electricity Bill</p>
-                      <p className="text-[10px] text-slate-400">May 16, 2024</p>
-                    </div>
-                  </div>
-                  <span className="text-xs font-bold text-slate-900">-$86.40</span>
-                </div>
-
-                {/* Tx 4 */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600 font-bold text-sm">
-                      🚗
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">Uber Ride</p>
-                      <p className="text-[10px] text-slate-400">May 15, 2024</p>
-                    </div>
-                  </div>
-                  <span className="text-xs font-bold text-slate-900">-$24.50</span>
-                </div>
-
-                {/* Tx 5 */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold text-sm">
-                      ⇄
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">Transfer to Savings</p>
-                      <p className="text-[10px] text-slate-400">May 15, 2024</p>
-                    </div>
-                  </div>
-                  <span className="text-xs font-bold text-slate-900">-$500.00</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 5. ROW 3: BOTTOM ROW (MY CARDS + CRYPTO + CASH FLOW) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* My Cards (4 cols) */}
-            <div className="lg:col-span-4 rounded-2xl border border-white/80 bg-white p-6 shadow-xs flex flex-col justify-between">
-              <div className="flex items-center justify-between pb-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  My Cards
-                </h3>
-                <button
-                  onClick={() => alert("Viewing all 3 connected payment cards.")}
-                  className="text-xs font-bold text-slate-600 hover:text-slate-900"
-                >
-                  View All
-                </button>
-              </div>
-
-              <div className="flex items-center gap-4 py-2">
-                {/* Physical-style Metallic Teal VISA Card */}
-                <div className="relative h-44 w-68 rounded-2xl bg-gradient-to-tr from-[#025950] via-[#008779] to-[#00A896] p-5 text-white shadow-xl flex flex-col justify-between overflow-hidden">
-                  <div className="absolute top-0 right-0 -mr-6 -mt-6 h-32 w-32 rounded-full bg-white/10 blur-xl pointer-events-none" />
-
-                  <div className="flex items-center justify-between">
-                    {/* Chip */}
-                    <div className="h-7 w-9 rounded-md bg-gradient-to-tr from-amber-200 to-amber-400 border border-amber-300 shadow-inner flex items-center justify-center">
-                      <div className="h-4 w-6 border border-amber-500/50 rounded-sm" />
-                    </div>
-                    <span className="font-extrabold tracking-widest text-lg italic">VISA</span>
-                  </div>
-
-                  <div>
-                    <p className="font-mono text-base tracking-widest text-white/90">
-                      •••• •••• •••• 4242
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between text-[11px] font-semibold text-white/80">
-                    <span>Line Morelle</span>
-                    <span>08/28</span>
-                  </div>
-                </div>
-
-                {/* Add New Card dashed card */}
-                <div
-                  onClick={() => alert("Adding a new card: Please enter your card details.")}
-                  className="flex h-44 w-24 shrink-0 flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 hover:border-[#008779] hover:bg-[#E0F4F3]/30 cursor-pointer transition-colors text-slate-400 hover:text-[#008779]"
-                >
-                  <span className="text-xl">+</span>
-                  <span className="text-[10px] font-bold mt-1 text-center">Add Card</span>
-                </div>
-              </div>
-
-              {/* Slider dots */}
-              <div className="flex justify-center gap-1.5 pt-2">
-                <span className="h-1.5 w-4 rounded-full bg-[#008779]" />
-                <span className="h-1.5 w-1.5 rounded-full bg-slate-200" />
-                <span className="h-1.5 w-1.5 rounded-full bg-slate-200" />
-              </div>
-            </div>
-
-            {/* Crypto Portfolio (4 cols) */}
-            <div className="lg:col-span-4 rounded-2xl border border-white/80 bg-white p-6 shadow-xs flex flex-col justify-between">
-              <div className="flex items-center justify-between pb-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Crypto Portfolio
-                </h3>
-                <button
-                  onClick={() => alert("Opening full Web3 crypto vault.")}
-                  className="text-xs font-bold text-slate-600 hover:text-slate-900"
-                >
-                  View All
-                </button>
-              </div>
-
-              <div className="space-y-3.5">
-                {/* USDT */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-white font-extrabold text-xs shadow-xs">
-                      ₮
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">USDT</p>
-                      <p className="text-[10px] text-slate-400">Tether</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs font-bold text-slate-900">1,240.50</p>
-                    <p className="text-[10px] text-slate-400">$1,240.50</p>
-                  </div>
-                  <span className="text-xs font-bold text-[#10B981]">↑ 1.2%</span>
-                </div>
-
-                {/* BTC */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500 text-white font-extrabold text-xs shadow-xs">
-                      ₿
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">BTC</p>
-                      <p className="text-[10px] text-slate-400">Bitcoin</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs font-bold text-slate-900">0.0456</p>
-                    <p className="text-[10px] text-slate-400">$2,856.45</p>
-                  </div>
-                  <span className="text-xs font-bold text-[#10B981]">↑ 2.3%</span>
-                </div>
-
-                {/* ETH */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-500 text-white font-extrabold text-xs shadow-xs">
-                      Ξ
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">ETH</p>
-                      <p className="text-[10px] text-slate-400">Ethereum</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs font-bold text-slate-900">0.8500</p>
-                    <p className="text-[10px] text-slate-400">$2,125.30</p>
-                  </div>
-                  <span className="text-xs font-bold text-[#10B981]">↑ 1.8%</span>
-                </div>
-
-                {/* BNB */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 text-white font-extrabold text-xs shadow-xs">
-                      ❖
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">BNB</p>
-                      <p className="text-[10px] text-slate-400">BNB</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs font-bold text-slate-900">2.35</p>
-                    <p className="text-[10px] text-slate-400">$1,104.25</p>
-                  </div>
-                  <span className="text-xs font-bold text-[#10B981]">↑ 0.9%</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Cash Flow Inflow / Outflow Bars (4 cols) */}
-            <div className="lg:col-span-4 rounded-2xl border border-white/80 bg-white p-6 shadow-xs flex flex-col justify-between">
-              <div className="flex items-center justify-between pb-3">
-                <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Cash Flow
-                  </h3>
-                  <div className="mt-1 flex items-baseline gap-2">
-                    <span className="text-xl font-extrabold text-slate-900">$4,605.20</span>
-                    <span className="text-xs font-bold text-[#10B981]">↑ 10.2%</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1.5 text-[10px] font-semibold">
-                    <span className="h-2 w-2 rounded-full bg-[#008779]" />
-                    <span className="text-slate-600">Inflow</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 text-[10px] font-semibold">
-                    <span className="h-2 w-2 rounded-full bg-[#F43F5E]" />
-                    <span className="text-slate-600">Outflow</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bar Chart Representation */}
-              <div className="mt-2 h-44 w-full flex items-center justify-between px-2">
-                {[
-                  { day: "May 12", inH: 60, outH: 25 },
-                  { day: "May 13", inH: 45, outH: 30 },
-                  { day: "May 14", inH: 80, outH: 15 },
-                  { day: "May 15", inH: 30, outH: 70 },
-                  { day: "May 16", inH: 95, outH: 40 },
-                  { day: "May 17", inH: 70, outH: 20 },
-                  { day: "May 18", inH: 85, outH: 35 },
-                ].map((b) => (
-                  <div key={b.day} className="flex flex-col items-center gap-1 h-full justify-end">
-                    <div className="flex items-end gap-1 h-32">
-                      <div
-                        className="w-2.5 rounded-t-sm bg-[#008779] transition-all hover:bg-[#006F63]"
-                        style={{ height: `${b.inH}%` }}
-                      />
-                      <div
-                        className="w-2.5 rounded-t-sm bg-[#F43F5E] transition-all hover:bg-[#E11D48]"
-                        style={{ height: `${b.outH}%` }}
-                      />
-                    </div>
-                    <span className="text-[9px] font-semibold text-slate-400 mt-1">{b.day.split(" ")[1]}</span>
-                  </div>
-                ))}
-              </div>
+              <h4 className="text-xl font-bold text-slate-900 mb-3">Custom Conversion Goals</h4>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Measure what actually drives revenue. Track newsletter signups, purchase button clicks, and trial activations with a single JavaScript helper or URL match rule.
+              </p>
             </div>
           </div>
         </div>
-      </main>
+      </section>
+
+      {/* How it Works */}
+      <section id="how-it-works" className="py-20 bg-[#F8FAFC]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-sky-600 mb-2">
+              Setup in 60 Seconds
+            </h2>
+            <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">
+              From zero to live analytics in three quick steps
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-sky-700 font-bold text-sm mb-4">
+                1
+              </div>
+              <h4 className="text-base font-bold text-slate-900 mb-2">Create Your Account</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Sign up with your email and enter your website domain name. No credit card or complex credentials required.
+              </p>
+            </div>
+
+            <div className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-sky-700 font-bold text-sm mb-4">
+                2
+              </div>
+              <h4 className="text-base font-bold text-slate-900 mb-2">Paste 1 Line of Code</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Copy your customized lightweight snippet and insert it into your website&apos;s &lt;head&gt; tag or Next.js layout.
+              </p>
+            </div>
+
+            <div className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-sky-700 font-bold text-sm mb-4">
+                3
+              </div>
+              <h4 className="text-base font-bold text-slate-900 mb-2">Enjoy Real-Time Data</h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Watch visitors browse your pages in real time, monitor conversion funnels, and share private or public dashboards.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Matrix */}
+      <section id="pricing" className="py-20 bg-white border-t border-slate-100">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-sky-600 mb-2">
+              Transparent Pricing
+            </h2>
+            <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">
+              Simple plans for projects of every scale
+            </h3>
+            <p className="mt-4 text-base text-slate-500">
+              All plans include complete privacy features, unlimited team seats, and zero cookie popups.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* Starter */}
+            <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm flex flex-col justify-between">
+              <div>
+                <h4 className="text-base font-bold text-slate-900 mb-1">Starter</h4>
+                <p className="text-xs text-slate-500 mb-6">For personal blogs & side projects</p>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-4xl font-extrabold text-slate-900">$0</span>
+                  <span className="text-xs text-slate-400">/month</span>
+                </div>
+                <ul className="space-y-3 text-xs text-slate-600 mb-8">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Up to 10,000 monthly pageviews
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> 1 website domain
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> 30 days data retention
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Standard traffic metrics
+                  </li>
+                </ul>
+              </div>
+              <Link
+                href="/signup"
+                className="w-full text-center rounded-xl border border-slate-200 bg-slate-50 py-2.5 text-xs font-semibold text-slate-700 hover:border-sky-300 hover:bg-sky-50 transition-colors"
+              >
+                Get Started Free
+              </Link>
+            </div>
+
+            {/* Pro (Highlighted) */}
+            <div className="rounded-2xl border-2 border-sky-500 bg-white p-8 shadow-xl shadow-sky-600/10 flex flex-col justify-between relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-sky-600 px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                Most Popular
+              </div>
+              <div>
+                <h4 className="text-base font-bold text-slate-900 mb-1">Pro</h4>
+                <p className="text-xs text-slate-500 mb-6">For growing startups & creators</p>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-4xl font-extrabold text-slate-900">$14</span>
+                  <span className="text-xs text-slate-400">/month</span>
+                </div>
+                <ul className="space-y-3 text-xs text-slate-600 mb-8">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Up to 100,000 monthly pageviews
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Unlimited websites
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> 2 years data retention
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Custom event & goal tracking
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> CSV exports & email reports
+                  </li>
+                </ul>
+              </div>
+              <Link
+                href="/signup"
+                className="w-full text-center rounded-xl bg-sky-600 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-sky-500 transition-colors"
+              >
+                Start 14-Day Free Trial
+              </Link>
+            </div>
+
+            {/* Agency */}
+            <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm flex flex-col justify-between">
+              <div>
+                <h4 className="text-base font-bold text-slate-900 mb-1">Agency</h4>
+                <p className="text-xs text-slate-500 mb-6">For client portfolios & teams</p>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-4xl font-extrabold text-slate-900">$49</span>
+                  <span className="text-xs text-slate-400">/month</span>
+                </div>
+                <ul className="space-y-3 text-xs text-slate-600 mb-8">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> 1,000,000+ monthly pageviews
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Unlimited team members & sites
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> White-label public dashboards
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-sky-600" /> Priority API ingestion
+                  </li>
+                </ul>
+              </div>
+              <Link
+                href="/signup"
+                className="w-full text-center rounded-xl border border-slate-200 bg-slate-50 py-2.5 text-xs font-semibold text-slate-700 hover:border-sky-300 hover:bg-sky-50 transition-colors"
+              >
+                Contact Sales
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Bottom Banner */}
+      <section className="py-16 bg-gradient-to-br from-sky-600 via-sky-500 to-sky-700 text-white text-center">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <h3 className="text-3xl font-extrabold sm:text-4xl tracking-tight mb-4">
+            Ready to upgrade your website analytics?
+          </h3>
+          <p className="text-sky-100 text-base max-w-2xl mx-auto mb-8">
+            Join thousands of modern creators who respect their visitors&apos; privacy while gaining clear, actionable insight.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/signup"
+              className="w-full sm:w-auto rounded-full bg-white px-8 py-3.5 text-sm font-bold text-sky-700 shadow-lg hover:bg-sky-50 transition-all"
+            >
+              Get Started for Free
+            </Link>
+            <Link
+              href="/dashboard"
+              className="w-full sm:w-auto rounded-full border border-sky-300 bg-sky-500/20 px-8 py-3.5 text-sm font-bold text-white hover:bg-sky-500/30 transition-all"
+            >
+              Open Live Dashboard
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 }

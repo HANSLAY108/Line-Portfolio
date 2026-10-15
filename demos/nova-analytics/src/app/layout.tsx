@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NOVA FinEdge — Real-Time Financial Analytics & Intelligence",
-  description: "High-performance financial analytics and intelligence platform designed by Line Morelle. Real-time cash flow monitoring, multi-asset portfolio, and sub-second metrics.",
+  title: "Nova Analytics — Simple, Privacy-Friendly Website Analytics",
+  description: "Lightweight, privacy-first web analytics. No cookies, 100% GDPR compliant. Built with Next.js, Tailwind CSS, Supabase and Recharts.",
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-[#EDF7F7] text-slate-800 antialiased selection:bg-[#008779]/20 selection:text-[#008779]">
+      <body className="min-h-screen bg-[#F8FAFC] text-slate-800 antialiased selection:bg-sky-100 selection:text-sky-900">
         {children}
       </body>
     </html>
