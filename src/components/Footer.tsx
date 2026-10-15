@@ -10,7 +10,7 @@ export default async function Footer() {
   return (
     <footer className="border-t border-border">
       <div className="mx-auto flex max-w-[1120px] flex-col items-start justify-between gap-4 px-6 py-8 sm:flex-row sm:items-center lg:px-8">
-        <p className="text-[13px] leading-relaxed text-muted-light">
+        <p className="text-[13px] leading-relaxed text-muted-light" suppressHydrationWarning>
           © 2024 {settings?.display_name ?? "Line Morelle"}.{" "}
           <T k="footer.allRightsReserved">
             All rights reserved. Built with precision and care.

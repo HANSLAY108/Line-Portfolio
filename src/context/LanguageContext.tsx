@@ -24,6 +24,7 @@ interface LanguageContextType {
   setLocale: (locale: Locale) => void;
   toggleLocale: () => void;
   t: (key: string, fallback?: string) => string;
+  mounted: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType>({
@@ -31,6 +32,7 @@ const LanguageContext = createContext<LanguageContextType>({
   setLocale: () => {},
   toggleLocale: () => {},
   t: (_key, fallback) => fallback ?? "",
+  mounted: false,
 });
 
 function getNestedValue(obj: any, path: string): string | undefined {
@@ -111,7 +113,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <LanguageContext.Provider
-      value={{ locale, setLocale, toggleLocale, t }}
+      value={{ locale, setLocale, toggleLocale, t, mounted }}
     >
       {children}
     </LanguageContext.Provider>
@@ -125,6 +127,7 @@ export function useLanguage() {
 /**
  * Lightweight helper to wrap static text or DB fallback strings.
  * Renders translated string when locale is French, or original children when English.
+ * Uses suppressHydrationWarning to eliminate SSR/CSR hydration mismatch differences.
  */
 export function T({
   k,
@@ -135,10 +138,32 @@ export function T({
   children?: React.ReactNode;
   fallback?: string;
 }) {
-  const { t, locale } = useLanguage();
-  if (locale === "en" && children !== undefined) {
-    return <>{children}</>;
+  const { t, locale, mounted } = useLanguage();
+
+  if (!mounted && children !== undefined) {
+    return (
+      <span suppressHydrationWarning className="contents">
+        {children}
+      </span>
+    );
   }
-  const translated = t(k, fallback ?? (typeof children === "string" ? children : undefined));
-  return <>{translated}</>;
+
+  if (locale === "en" && children !== undefined) {
+    return (
+      <span suppressHydrationWarning className="contents">
+        {children}
+      </span>
+    );
+  }
+
+  const translated = t(
+    k,
+    fallback ?? (typeof children === "string" ? children : undefined),
+  );
+
+  return (
+    <span suppressHydrationWarning className="contents">
+      {translated}
+    </span>
+  );
 }
