@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import {
+  BarChart3,
   LayoutGrid,
   FileText,
   Share2,
@@ -24,7 +25,6 @@ import {
   AppWindow,
   Code2,
   Trash2,
-  Edit2,
   Users,
   Eye,
   MousePointerClick,
@@ -35,12 +35,15 @@ import {
   CreditCard,
   User,
   Radio,
+  FileCheck,
+  Download,
+  AlertTriangle,
+  RotateCw,
 } from "lucide-react";
 import AnalyticsChart, { ChartDataPoint } from "../../components/AnalyticsChart";
-import MetricCard from "../../components/MetricCard";
-import BreakdownCard, { BreakdownItem } from "../../components/BreakdownCard";
+import SnippetModal from "../../components/SnippetModal";
 
-// Sample Analytics Data
+// 7-day demo traffic data
 const SAMPLE_CHART_7D: ChartDataPoint[] = [
   { date: "Oct 9", visitors: 3200, pageviews: 11200 },
   { date: "Oct 10", visitors: 3450, pageviews: 12400 },
@@ -51,250 +54,103 @@ const SAMPLE_CHART_7D: ChartDataPoint[] = [
   { date: "Oct 15", visitors: 4420, pageviews: 16800 },
 ];
 
-const SAMPLE_TOP_PAGES: BreakdownItem[] = [
-  { label: "/", sublabel: "Home & Portfolio", count: 12450, percentage: 41 },
-  { label: "/projects", sublabel: "Case Studies & Work", count: 6890, percentage: 23 },
-  { label: "/blog/system-architecture", sublabel: "Blog Post", count: 4120, percentage: 14 },
-  { label: "/about", sublabel: "Biography & Background", count: 3210, percentage: 11 },
-  { label: "/contact", sublabel: "Contact & Inquiries", count: 2150, percentage: 7 },
-  { label: "/resume", sublabel: "PDF Resume View", count: 1200, percentage: 4 },
-];
-
-const SAMPLE_REFERRERS: BreakdownItem[] = [
-  { label: "Direct / None", count: 11200, percentage: 37, icon: "🔗" },
-  { label: "Google Search", count: 8400, percentage: 28, icon: "🔍" },
-  { label: "Twitter / X", count: 4950, percentage: 16, icon: "🐦" },
-  { label: "GitHub Repositories", count: 3100, percentage: 10, icon: "🐙" },
-  { label: "LinkedIn Feed", count: 1850, percentage: 6, icon: "💼" },
-  { label: "ProductHunt", count: 920, percentage: 3, icon: "🚀" },
-];
-
-const SAMPLE_COUNTRIES: BreakdownItem[] = [
-  { label: "United States", count: 9800, percentage: 33, icon: "🇺🇸" },
-  { label: "United Kingdom", count: 4600, percentage: 15, icon: "🇬🇧" },
-  { label: "Germany", count: 3700, percentage: 12, icon: "🇩🇪" },
-  { label: "France", count: 3400, percentage: 11, icon: "🇫🇷" },
-  { label: "Japan", count: 2100, percentage: 7, icon: "🇯🇵" },
-  { label: "Canada", count: 1950, percentage: 6, icon: "🇨🇦" },
-];
-
-const SAMPLE_DEVICES: BreakdownItem[] = [
-  { label: "Desktop", count: 19450, percentage: 64, icon: "💻" },
-  { label: "Mobile", count: 9420, percentage: 31, icon: "📱" },
-  { label: "Tablet", count: 1520, percentage: 5, icon: "📟" },
-];
-
-const SAMPLE_BROWSERS: BreakdownItem[] = [
-  { label: "Chrome", count: 17200, percentage: 57, icon: "🌐" },
-  { label: "Safari", count: 7400, percentage: 24, icon: "🧭" },
-  { label: "Firefox", count: 3600, percentage: 12, icon: "🦊" },
-  { label: "Edge", count: 2190, percentage: 7, icon: "🌀" },
-];
-
 interface RegisteredSite {
   id: string;
   domain: string;
   label: string;
-  status: "Active tracking" | "Waiting for data";
+  status: "Active tracking" | "Snippet not installed";
   timezone: string;
-  publicDashboard: boolean;
+  hasSnippet: boolean;
+  healthScore: number;
 }
 
 const INITIAL_SITES: RegisteredSite[] = [
   {
     id: "s1",
-    domain: "myportfolio.com",
+    domain: "linemorelle.dev",
     label: "Line's Portfolio",
     status: "Active tracking",
-    timezone: "Europe/London",
-    publicDashboard: false,
+    timezone: "Europe/Paris",
+    hasSnippet: true,
+    healthScore: 87,
   },
   {
     id: "s2",
-    domain: "atellernoir.co",
-    label: "Client Studio",
-    status: "Active tracking",
+    domain: "demo-client.com",
+    label: "Client Showcase",
+    status: "Snippet not installed",
     timezone: "America/New_York",
-    publicDashboard: true,
-  },
-];
-
-interface GoalItem {
-  id: string;
-  name: string;
-  triggerType: "custom_event" | "page_path";
-  triggerValue: string;
-  conversions: number;
-  rate: string;
-  value: string;
-}
-
-const INITIAL_GOALS: GoalItem[] = [
-  {
-    id: "g1",
-    name: "Portfolio Project Demo Click",
-    triggerType: "custom_event",
-    triggerValue: "demo_launched",
-    conversions: 1840,
-    rate: "22.4%",
-    value: "$0.00",
-  },
-  {
-    id: "g2",
-    name: "Contact Form Inquiry Sent",
-    triggerType: "custom_event",
-    triggerValue: "contact_submitted",
-    conversions: 342,
-    rate: "4.2%",
-    value: "$0.00",
-  },
-  {
-    id: "g3",
-    name: "Client Contract Signed",
-    triggerType: "page_path",
-    triggerValue: "/hire/confirmation",
-    conversions: 48,
-    rate: "0.6%",
-    value: "$24,000.00",
+    hasSnippet: false,
+    healthScore: 92,
   },
 ];
 
 export default function DashboardPage() {
-  // Navigation Sidebar State
   const [activeNav, setActiveNav] = useState<
-    "Overview" | "Pages" | "Sources" | "Locations" | "Devices" | "Goals" | "Settings"
-  >("Settings");
+    "Dashboard" | "Audit Report" | "Sites" | "Goals" | "Settings"
+  >("Dashboard");
 
-  // Settings Sub-tab State
-  const [settingsTab, setSettingsTab] = useState<
-    "general" | "snippet" | "profile" | "team" | "billing"
-  >("general");
-
-  // Site state
   const [sites, setSites] = useState<RegisteredSite[]>(INITIAL_SITES);
-  const [activeSite, setActiveSite] = useState<string>("myportfolio.com");
+  const [activeSiteDomain, setActiveSiteDomain] = useState<string>("linemorelle.dev");
   const [siteDropdownOpen, setSiteDropdownOpen] = useState(false);
+  const [snippetModalOpen, setSnippetModalOpen] = useState(false);
+  const [addSiteModalOpen, setAddSiteModalOpen] = useState(false);
 
-  // Snippet copy state
-  const [copied, setCopied] = useState(false);
+  // New site form state
+  const [newDomain, setNewDomain] = useState("");
+  const [newLabel, setNewLabel] = useState("");
+  const [newTimezone, setNewTimezone] = useState("Europe/Paris");
 
-  // Settings Toggles
+  // Settings State
+  const [settingsTab, setSettingsTab] = useState<"general" | "snippet" | "privacy">("general");
   const [customDomainProxy, setCustomDomainProxy] = useState(false);
   const [excludeOwnVisits, setExcludeOwnVisits] = useState(true);
   const [respectDNT, setRespectDNT] = useState(true);
 
-  // Goals
-  const [goals, setGoals] = useState<GoalItem[]>(INITIAL_GOALS);
-  const [newGoalModalOpen, setNewGoalModalOpen] = useState(false);
-  const [newGoalName, setNewGoalName] = useState("");
-  const [newGoalTrigger, setNewGoalTrigger] = useState("");
-
-  // Add Site Modal
-  const [addSiteModalOpen, setAddSiteModalOpen] = useState(false);
-  const [newSiteDomain, setNewSiteDomain] = useState("");
-  const [newSiteLabel, setNewSiteLabel] = useState("");
-  const [newSiteTimezone, setNewSiteTimezone] = useState("Europe/Paris");
-
-  const snippetCode = `<!-- Nova Analytics lightweight Privacy Script -->\n<script defer data-domain="${activeSite}" src="https://cdn.nova-analytics.io/js/telemetry.js"></script>`;
-
-  const handleCopySnippet = () => {
-    navigator.clipboard.writeText(snippetCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  // Find active site object
+  const currentSite = sites.find((s) => s.domain === activeSiteDomain) || sites[0];
 
   const handleAddSite = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newSiteDomain) return;
-    const newS: RegisteredSite = {
-      id: `s_${Date.now()}`,
-      domain: newSiteDomain,
-      label: newSiteLabel || newSiteDomain,
-      status: "Active tracking",
-      timezone: newSiteTimezone,
-      publicDashboard: false,
+    if (!newDomain.trim()) return;
+    const cleanDomain = newDomain.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+    const newSite: RegisteredSite = {
+      id: `site_${Date.now()}`,
+      domain: cleanDomain,
+      label: newLabel || cleanDomain,
+      status: "Snippet not installed",
+      timezone: newTimezone,
+      hasSnippet: false,
+      healthScore: 85,
     };
-    setSites([...sites, newS]);
-    setActiveSite(newSiteDomain);
-    setNewSiteDomain("");
-    setNewSiteLabel("");
+    setSites([...sites, newSite]);
+    setActiveSiteDomain(cleanDomain);
+    setNewDomain("");
+    setNewLabel("");
     setAddSiteModalOpen(false);
   };
 
-  const handleDeleteSite = (id: string) => {
-    setSites(sites.filter((s) => s.id !== id));
-  };
-
   const navItems = [
-    { name: "Overview", icon: LayoutGrid },
-    { name: "Pages", icon: FileText },
-    { name: "Sources", icon: Share2 },
-    { name: "Locations", icon: Globe },
-    { name: "Devices", icon: Monitor },
+    { name: "Dashboard", icon: LayoutGrid },
+    { name: "Audit Report", icon: FileCheck },
+    { name: "Sites", icon: Globe },
     { name: "Goals", icon: Flag },
     { name: "Settings", icon: Settings },
   ] as const;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col md:flex-row antialiased">
-      {/* ================= LEFT SIDEBAR ================= */}
-      <aside className="w-full md:w-64 border-r border-slate-200/80 bg-white flex flex-col justify-between shrink-0">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col md:flex-row antialiased selection:bg-blue-100 selection:text-blue-900">
+      {/* ================= LEFT SIDEBAR (Matching reference exactly) ================= */}
+      <aside className="w-full md:w-60 border-r border-slate-200/90 bg-white flex flex-col justify-between shrink-0">
         <div>
-          {/* Brand & Site Switcher */}
-          <div className="p-4 border-b border-slate-100">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-700 text-white font-semibold text-sm shadow-xs">
-                N
-              </div>
-              <div className="flex-1 min-w-0">
-                <Link href="/" className="text-sm font-semibold text-slate-900 block hover:text-sky-600 transition-colors">
-                  Nova Analytics
-                </Link>
-                <div className="relative mt-0.5">
-                  <button
-                    onClick={() => setSiteDropdownOpen(!siteDropdownOpen)}
-                    className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 transition-colors group"
-                  >
-                    <span className="truncate max-w-[120px]">{activeSite}</span>
-                    <span className="text-[10px] text-slate-400 group-hover:text-slate-600">⇅</span>
-                  </button>
-
-                  {siteDropdownOpen && (
-                    <div className="absolute top-full left-0 mt-1 w-48 rounded-xl border border-sky-100 bg-white p-1 shadow-lg z-50 text-xs">
-                      <div className="px-2 py-1 text-[10px] font-medium text-slate-400 uppercase tracking-wider">
-                        Select Site
-                      </div>
-                      {sites.map((s) => (
-                        <button
-                          key={s.id}
-                          onClick={() => {
-                            setActiveSite(s.domain);
-                            setSiteDropdownOpen(false);
-                          }}
-                          className={`w-full text-left px-2 py-1.5 rounded-lg flex items-center justify-between transition-colors ${
-                            activeSite === s.domain ? "bg-sky-50 text-sky-700 font-medium" : "text-slate-700 hover:bg-slate-50"
-                          }`}
-                        >
-                          <span className="truncate">{s.domain}</span>
-                          {activeSite === s.domain && <Check className="h-3 w-3 text-sky-600" />}
-                        </button>
-                      ))}
-                      <div className="my-1 border-t border-slate-100" />
-                      <button
-                        onClick={() => {
-                          setSiteDropdownOpen(false);
-                          setAddSiteModalOpen(true);
-                        }}
-                        className="w-full text-left px-2 py-1.5 rounded-lg text-sky-600 hover:bg-sky-50 font-medium flex items-center gap-1.5"
-                      >
-                        <Plus className="h-3.5 w-3.5" />
-                        Add Website
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
+          {/* Brand */}
+          <div className="p-4 border-b border-slate-100 flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-600 text-white font-bold text-xs shadow-sm">
+              <BarChart3 className="h-4 w-4" />
             </div>
+            <Link href="/" className="text-sm font-bold tracking-tight text-slate-900 hover:text-blue-600">
+              Nova<span className="text-blue-600">Analytics</span>
+            </Link>
           </div>
 
           {/* Navigation Links */}
@@ -306,13 +162,13 @@ export default function DashboardPage() {
                 <button
                   key={item.name}
                   onClick={() => setActiveNav(item.name)}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
                     isActive
-                      ? "bg-sky-50/80 text-sky-800 border-l-2 border-sky-600 font-semibold shadow-xs"
+                      ? "bg-blue-600 text-white shadow-sm"
                       : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                   }`}
                 >
-                  <Icon className={`h-4 w-4 ${isActive ? "text-sky-600" : "text-slate-400"}`} />
+                  <Icon className={`h-4 w-4 ${isActive ? "text-white" : "text-slate-400"}`} />
                   <span>{item.name}</span>
                 </button>
               );
@@ -320,563 +176,589 @@ export default function DashboardPage() {
           </nav>
         </div>
 
-        {/* Sidebar Bottom: Pro Tier & Support */}
-        <div className="p-3 border-t border-slate-100 space-y-3">
-          {/* Pro Tier Widget */}
-          <div className="rounded-xl border border-sky-100 bg-sky-50/40 p-3">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
-                PRO TIER
-              </span>
-              <span className="rounded-full bg-sky-100 px-2 py-0.2 text-[10px] font-medium text-sky-700">
-                Active
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-500 leading-tight mb-2">
-              34% of 100k views used this month.
-            </p>
-            <div className="w-full h-1 bg-slate-100 rounded-full overflow-hidden mb-2.5">
-              <div className="h-full bg-sky-500 rounded-full w-[34%]" />
-            </div>
-            <button className="w-full rounded-lg border border-slate-200 bg-white py-1.5 text-[11px] font-medium text-slate-700 hover:border-sky-300 hover:text-sky-700 transition-colors shadow-xs">
-              Upgrade Plan
-            </button>
-          </div>
+        {/* Sidebar Bottom: User & Support */}
+        <div className="p-3 border-t border-slate-100 space-y-2">
+          <Link
+            href={`/report?domain=${encodeURIComponent(currentSite.domain)}`}
+            className="w-full flex items-center justify-between p-2.5 rounded-xl border border-blue-100 bg-blue-50/50 hover:bg-blue-50 text-xs font-semibold text-blue-700 transition-colors"
+          >
+            <span className="flex items-center gap-2">
+              <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+              <span>Instant Audit</span>
+            </span>
+            <span className="text-[10px] bg-blue-600 text-white px-2 py-0.5 rounded-full font-bold">
+              {currentSite.healthScore}
+            </span>
+          </Link>
 
-          {/* Links */}
-          <div className="space-y-1 pt-1 text-xs text-slate-500">
-            <a href="#" className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:text-slate-800 transition-colors">
-              <BookOpen className="h-3.5 w-3.5 text-slate-400" />
-              <span>Documentation</span>
-            </a>
-            <a href="#" className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:text-slate-800 transition-colors">
-              <Headphones className="h-3.5 w-3.5 text-slate-400" />
-              <span>Support</span>
-            </a>
+          <div className="flex items-center justify-between p-2 rounded-xl text-xs text-slate-600">
+            <div className="flex items-center gap-2">
+              <div className="h-7 w-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs">
+                LM
+              </div>
+              <div className="text-left">
+                <div className="font-semibold text-slate-800 leading-tight">Line Morelle</div>
+                <div className="text-[10px] text-slate-400">Owner</div>
+              </div>
+            </div>
+            <Settings className="h-4 w-4 text-slate-400 hover:text-slate-600 cursor-pointer" onClick={() => setActiveNav("Settings")} />
           </div>
         </div>
       </aside>
 
-      {/* ================= MAIN CONTENT AREA ================= */}
+      {/* ================= MAIN CONTENT ================= */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Header Bar */}
-        <header className="h-16 border-b border-slate-200/80 bg-white px-6 flex items-center justify-between gap-4 shrink-0">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-xs text-slate-500">
-            <span>Dashboard</span>
-            <span className="text-slate-300">›</span>
-            <span className="font-semibold text-slate-800">{activeNav}</span>
+        {/* Top Header Bar with Site Selector & Live Telemetry pill */}
+        <header className="h-16 border-b border-slate-200/90 bg-white px-6 flex items-center justify-between gap-4 shrink-0">
+          {/* Site Switcher Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setSiteDropdownOpen(!siteDropdownOpen)}
+              className="flex items-center gap-2.5 py-1.5 px-3 rounded-xl border border-slate-200 hover:border-slate-300 bg-white text-xs font-semibold text-slate-800 transition-colors shadow-xs"
+            >
+              <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>{currentSite.domain}</span>
+              <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+            </button>
+
+            {siteDropdownOpen && (
+              <div className="absolute top-full left-0 mt-2 w-64 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl z-30 space-y-1">
+                <div className="px-2 py-1 text-[10px] uppercase font-bold text-slate-400">
+                  Select Domain
+                </div>
+                {sites.map((s) => (
+                  <button
+                    key={s.id}
+                    onClick={() => {
+                      setActiveSiteDomain(s.domain);
+                      setSiteDropdownOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between p-2 rounded-xl text-xs transition-colors ${
+                      s.domain === activeSiteDomain
+                        ? "bg-blue-50 font-bold text-blue-700"
+                        : "text-slate-700 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span className="truncate">{s.domain}</span>
+                    {s.hasSnippet ? (
+                      <span className="text-[10px] text-emerald-600 font-semibold">Active</span>
+                    ) : (
+                      <span className="text-[10px] text-amber-500 font-semibold">No snippet</span>
+                    )}
+                  </button>
+                ))}
+                <div className="border-t border-slate-100 pt-1 mt-1">
+                  <button
+                    onClick={() => {
+                      setSiteDropdownOpen(false);
+                      setAddSiteModalOpen(true);
+                    }}
+                    className="w-full flex items-center gap-2 p-2 rounded-xl text-xs font-semibold text-blue-600 hover:bg-blue-50 transition-colors"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    <span>Add New Website</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Search Bar & Actions */}
+          {/* Right Action Bar */}
           <div className="flex items-center gap-3">
-            <div className="relative hidden sm:block">
-              <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Search settings, domains, keys..."
-                className="w-64 rounded-full border border-slate-200 bg-slate-50/60 pl-9 pr-3.5 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-sky-500"
-              />
-            </div>
+            <Link
+              href={`/report?domain=${encodeURIComponent(currentSite.domain)}`}
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50/60 px-3.5 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-100/60 transition-colors"
+            >
+              <FileCheck className="h-3.5 w-3.5" />
+              <span>Full Audit Report</span>
+            </Link>
 
-            <button className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-slate-300 hover:bg-slate-50 shadow-xs">
-              <BookOpen className="h-3.5 w-3.5 text-slate-400" />
-              Docs
+            <button
+              onClick={() => setSnippetModalOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm"
+            >
+              <Code2 className="h-3.5 w-3.5" />
+              <span>Tracking Snippet</span>
             </button>
 
-            <button className="rounded-full p-2 text-slate-400 hover:bg-slate-50 hover:text-slate-600 relative">
-              <Bell className="h-4 w-4" />
-              <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-sky-500" />
+            <button
+              onClick={() => setAddSiteModalOpen(true)}
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              <span>Add Site</span>
             </button>
-
-            <button className="rounded-full p-2 text-slate-400 hover:bg-slate-50 hover:text-slate-600">
-              <SlidersHorizontal className="h-4 w-4" />
-            </button>
-
-            <div className="h-5 w-px bg-slate-200 mx-1" />
-
-            {/* User Profile */}
-            <div className="flex items-center gap-2.5">
-              <div className="h-7 w-7 rounded-full bg-gradient-to-tr from-sky-600 to-sky-400 text-white flex items-center justify-center text-xs font-medium">
-                ER
-              </div>
-              <div className="hidden lg:block text-left">
-                <div className="text-xs font-medium text-slate-800 leading-tight">Elena Rostova</div>
-                <div className="text-[10px] text-slate-400">Owner</div>
-              </div>
-            </div>
           </div>
         </header>
 
-        {/* Main Workspace Body */}
-        <main className="flex-1 p-6 lg:p-8 max-w-6xl w-full mx-auto">
-          {/* ================= VIEW: SETTINGS (Exact replica of user screenshot in blue) ================= */}
-          {activeNav === "Settings" && (
-            <div className="space-y-6">
-              {/* Page Title */}
-              <div>
-                <h1 className="text-2xl font-normal text-slate-900 tracking-tight">
-                  Workspace Preferences
-                </h1>
-                <p className="text-xs text-slate-500 mt-1">
-                  Configure your privacy-preserving web analytics, active domains, script embeds, and team access permissions.
-                </p>
-              </div>
-
-              {/* Horizontal Tabs with Icons */}
-              <div className="flex items-center gap-6 border-b border-slate-200 text-xs font-medium text-slate-500 overflow-x-auto pb-px">
-                <button
-                  onClick={() => setSettingsTab("general")}
-                  className={`flex items-center gap-2 pb-2.5 transition-colors whitespace-nowrap ${
-                    settingsTab === "general"
-                      ? "border-b-2 border-sky-600 text-sky-800 font-semibold"
-                      : "hover:text-slate-800"
-                  }`}
-                >
-                  <Globe className="h-3.5 w-3.5 text-sky-600" />
-                  General & Sites
-                </button>
-                <button
-                  onClick={() => setSettingsTab("snippet")}
-                  className={`flex items-center gap-2 pb-2.5 transition-colors whitespace-nowrap ${
-                    settingsTab === "snippet"
-                      ? "border-b-2 border-sky-600 text-sky-800 font-semibold"
-                      : "hover:text-slate-800"
-                  }`}
-                >
-                  <Code2 className="h-3.5 w-3.5" />
-                  Tracking Snippet
-                </button>
-                <button
-                  onClick={() => setSettingsTab("profile")}
-                  className={`flex items-center gap-2 pb-2.5 transition-colors whitespace-nowrap ${
-                    settingsTab === "profile"
-                      ? "border-b-2 border-sky-600 text-sky-800 font-semibold"
-                      : "hover:text-slate-800"
-                  }`}
-                >
-                  <User className="h-3.5 w-3.5" />
-                  Profile
-                </button>
-                <button
-                  onClick={() => setSettingsTab("team")}
-                  className={`flex items-center gap-2 pb-2.5 transition-colors whitespace-nowrap ${
-                    settingsTab === "team"
-                      ? "border-b-2 border-sky-600 text-sky-800 font-semibold"
-                      : "hover:text-slate-800"
-                  }`}
-                >
-                  <Users className="h-3.5 w-3.5" />
-                  Team Members
-                </button>
-                <button
-                  onClick={() => setSettingsTab("billing")}
-                  className={`flex items-center gap-2 pb-2.5 transition-colors whitespace-nowrap ${
-                    settingsTab === "billing"
-                      ? "border-b-2 border-sky-600 text-sky-800 font-semibold"
-                      : "hover:text-slate-800"
-                  }`}
-                >
-                  <CreditCard className="h-3.5 w-3.5" />
-                  Billing & Plans
-                </button>
-              </div>
-
-              {/* TAB CONTENT: General & Sites */}
-              {settingsTab === "general" && (
+        {/* Content Views */}
+        <main className="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
+          {/* ================= VIEW 1: DASHBOARD (Analytics Dashboard from Reference) ================= */}
+          {activeNav === "Dashboard" && (
+            <>
+              {/* Site has snippet active: Display full numbers */}
+              {currentSite.hasSnippet ? (
                 <div className="space-y-6">
-                  {/* Section 1: Registered Websites */}
-                  <div>
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-                      <div>
-                        <h2 className="text-sm font-semibold text-slate-900">Registered Websites</h2>
-                        <p className="text-xs text-slate-500">
-                          Manage the domains and client websites receiving telemetry events without cookies.
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => setAddSiteModalOpen(true)}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-medium text-slate-700 hover:border-sky-300 hover:text-sky-700 shadow-xs self-start sm:self-auto transition-colors"
-                      >
-                        <Plus className="h-3 w-3" />
-                        Add Another Website
-                      </button>
+                  {/* Top Bar: Performance Overview & Actions */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+                        Performance Overview
+                      </h1>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Real-time visitor telemetry for <strong className="text-slate-700">{currentSite.domain}</strong>
+                      </p>
                     </div>
 
-                    {/* Site Cards */}
-                    <div className="space-y-3">
-                      {sites.map((site) => (
-                        <div
-                          key={site.id}
-                          className="rounded-2xl border border-slate-200/90 bg-white p-4 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-sky-200 transition-colors"
-                        >
-                          <div className="flex items-center gap-3.5">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-600 shrink-0">
-                              <AppWindow className="h-5 w-5" />
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className="text-xs font-semibold text-slate-900">{site.domain}</span>
-                                <span className="text-xs text-slate-400">({site.label})</span>
-                                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700 border border-emerald-200/50">
-                                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                                  {site.status}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-4 text-[11px] text-slate-400 mt-1">
-                                <span className="flex items-center gap-1">
-                                  <Clock className="h-3 w-3" />
-                                  {site.timezone}
-                                </span>
-                                <span>•</span>
-                                <span>
-                                  Public Dashboard: <strong className="font-medium text-slate-600">{site.publicDashboard ? "On" : "Off"}</strong>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-2 self-end sm:self-auto">
-                            {site.publicDashboard && (
-                              <button className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors shadow-xs">
-                                <Share2 className="h-3 w-3 text-slate-400" />
-                                Share Link
-                              </button>
-                            )}
-                            <button className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors shadow-xs">
-                              Edit
-                            </button>
-                            <button
-                              onClick={() => handleDeleteSite(site.id)}
-                              className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 hover:text-rose-600 hover:border-rose-200 transition-colors shadow-xs"
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </div>
-                      ))}
+                    <div className="flex items-center gap-2 self-start sm:self-auto">
+                      <div className="inline-flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">
+                        <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span>18 Active Visitors</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          const csvContent = "data:text/csv;charset=utf-8,Date,Visitors,Pageviews\n" +
+                            SAMPLE_CHART_7D.map(e => `${e.date},${e.visitors},${e.pageviews}`).join("\n");
+                          const encodedUri = encodeURI(csvContent);
+                          const link = document.createElement("a");
+                          link.setAttribute("href", encodedUri);
+                          link.setAttribute("download", `nova_${currentSite.domain}_traffic.csv`);
+                          document.body.appendChild(link);
+                          link.click();
+                          document.body.removeChild(link);
+                        }}
+                        className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
+                      >
+                        <Download className="h-3 w-3 text-slate-500" />
+                        <span>Export CSV</span>
+                      </button>
                     </div>
                   </div>
 
-                  {/* Section 2: Embed Tracking Snippet */}
-                  <div className="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs space-y-5">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600 shrink-0">
-                          <Code2 className="h-4 w-4" />
+                  {/* 4 Stat Cards from Screenshot */}
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    {/* Card 1: Total Visitors */}
+                    <div className="rounded-2xl border border-slate-200/90 bg-white p-4 shadow-xs">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                          Total Visitors
+                        </span>
+                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                          +18.4%
+                        </span>
+                      </div>
+                      <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                        84,210
+                      </div>
+                      <div className="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                        <span className="text-slate-500 font-medium">8,120</span> unique today
+                      </div>
+                    </div>
+
+                    {/* Card 2: Avg Session Time */}
+                    <div className="rounded-2xl border border-slate-200/90 bg-white p-4 shadow-xs">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                          Avg Session Time
+                        </span>
+                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                          +8.2%
+                        </span>
+                      </div>
+                      <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                        04:12
+                      </div>
+                      <div className="text-[11px] text-slate-400 mt-1">
+                        +14s vs previous week
+                      </div>
+                    </div>
+
+                    {/* Card 3: Bounce Rate */}
+                    <div className="rounded-2xl border border-slate-200/90 bg-white p-4 shadow-xs">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                          Bounce Rate
+                        </span>
+                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                          -4.1%
+                        </span>
+                      </div>
+                      <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                        32.4%
+                      </div>
+                      <div className="text-[11px] text-slate-400 mt-1">
+                        Healthy reader engagement
+                      </div>
+                    </div>
+
+                    {/* Card 4: Conversion Rate */}
+                    <div className="rounded-2xl border border-slate-200/90 bg-white p-4 shadow-xs">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                          Conversion Rate
+                        </span>
+                        <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                          +1.8%
+                        </span>
+                      </div>
+                      <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                        4.62%
+                      </div>
+                      <div className="text-[11px] text-slate-400 mt-1">
+                        342 goal completions
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Main Grid: Visitor Traffic Chart (Left) + Site Health Score (Right) */}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2">
+                      <AnalyticsChart data={SAMPLE_CHART_7D} />
+                    </div>
+
+                    {/* Site Health Score Card (matching reference screenshot circle 87) */}
+                    <div className="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                          <h3 className="text-sm font-bold text-slate-900">Site Health Score</h3>
+                          <span className="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
+                            Optimal
+                          </span>
                         </div>
-                        <div>
-                          <h3 className="text-sm font-semibold text-slate-900">Embed Tracking Snippet</h3>
-                          <p className="text-xs text-slate-500">
-                            Insert this ultra-lightweight (&lt; 1KB), zero-cookie snippet into your site&apos;s <code>&lt;head&gt;</code> tag.
+
+                        {/* Circular Score Badge */}
+                        <div className="py-6 flex flex-col items-center justify-center">
+                          <div className="relative flex h-28 w-28 items-center justify-center">
+                            <svg className="h-full w-full -rotate-90" viewBox="0 0 36 36">
+                              <path
+                                className="text-slate-100"
+                                strokeWidth="3"
+                                stroke="currentColor"
+                                fill="none"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                              />
+                              <path
+                                className="text-blue-600 transition-all duration-1000"
+                                strokeDasharray={`${currentSite.healthScore}, 100`}
+                                strokeWidth="3"
+                                strokeLinecap="round"
+                                stroke="currentColor"
+                                fill="none"
+                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                              />
+                            </svg>
+                            <div className="absolute text-center">
+                              <span className="text-3xl font-extrabold text-slate-900">
+                                {currentSite.healthScore}
+                              </span>
+                              <span className="text-[10px] text-slate-400 block -mt-1">/ 100</span>
+                            </div>
+                          </div>
+                          <p className="text-xs text-slate-500 mt-2 font-medium">
+                            SEO, Speed & Security verified
                           </p>
                         </div>
+
+                        <div className="space-y-2 border-t border-slate-100 pt-3 text-xs">
+                          <div className="flex justify-between text-slate-600">
+                            <span>Performance</span>
+                            <strong className="text-emerald-600">98 / 100</strong>
+                          </div>
+                          <div className="flex justify-between text-slate-600">
+                            <span>SEO Optimization</span>
+                            <strong className="text-blue-600">94 / 100</strong>
+                          </div>
+                          <div className="flex justify-between text-slate-600">
+                            <span>Security Headers</span>
+                            <strong className="text-amber-500">82 / 100</strong>
+                          </div>
+                        </div>
                       </div>
-                      <button
-                        onClick={handleCopySnippet}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-sky-600 px-4 py-1.5 text-xs font-medium text-white hover:bg-sky-500 transition-colors shadow-xs self-start sm:self-auto"
+
+                      <Link
+                        href={`/report?domain=${encodeURIComponent(currentSite.domain)}`}
+                        className="mt-4 w-full text-center rounded-xl bg-blue-50 py-2 text-xs font-semibold text-blue-700 hover:bg-blue-100 transition-colors"
                       >
-                        {copied ? (
-                          <>
-                            <Check className="h-3.5 w-3.5" />
-                            Copied!
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="h-3.5 w-3.5" />
-                            Copy Snippet
-                          </>
-                        )}
-                      </button>
+                        Inspect Audit Report →
+                      </Link>
                     </div>
+                  </div>
 
-                    {/* Script box with soft light blue tint */}
-                    <div className="rounded-xl border border-sky-100 bg-[#F0F7FF]/50 p-4 font-mono text-xs text-slate-700 overflow-x-auto leading-relaxed">
-                      <span className="text-slate-400 block mb-1">
-                        &lt;!-- Nova Analytics lightweight Privacy Script --&gt;
-                      </span>
-                      <code>
-                        &lt;script defer data-domain=&quot;{activeSite}&quot; src=&quot;https://cdn.nova-analytics.io/js/telemetry.js&quot;&gt;&lt;/script&gt;
-                      </code>
-                    </div>
-
-                    {/* 3 Privacy & Proxy Toggles */}
-                    <div className="space-y-4 pt-1">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* Toggle 1 */}
-                        <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50">
-                          <div>
-                            <div className="text-xs font-medium text-slate-800">Custom Domain Proxy</div>
-                            <div className="text-[11px] text-slate-400">
-                              Bypass aggressive ad-blockers with a reverse CNAME proxy.
+                  {/* 2 Bottom Breakdown Cards matching screenshot */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Top Performing Pages */}
+                    <div className="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-sm font-bold text-slate-900">Top Performing Pages</h3>
+                        <span className="text-[11px] text-slate-400">Ranked by pageviews</span>
+                      </div>
+                      <div className="space-y-3">
+                        {[
+                          { path: "/", views: "37,440", rate: "44.4%" },
+                          { path: "/projects", views: "18,720", rate: "22.2%" },
+                          { path: "/blog/system-architecture", views: "14,150", rate: "16.8%" },
+                          { path: "/about", views: "8,920", rate: "10.6%" },
+                          { path: "/contact", views: "4,980", rate: "5.9%" },
+                        ].map((p, idx) => (
+                          <div key={idx} className="flex items-center justify-between text-xs py-1.5 border-b border-slate-50 last:border-0">
+                            <span className="font-mono text-slate-800 truncate pr-2">{p.path}</span>
+                            <div className="flex items-center gap-4 shrink-0">
+                              <span className="font-semibold text-slate-900">{p.views}</span>
+                              <span className="text-[10px] text-slate-400 font-mono w-10 text-right">{p.rate}</span>
                             </div>
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => setCustomDomainProxy(!customDomainProxy)}
-                            className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
-                              customDomainProxy ? "bg-sky-600" : "bg-slate-300"
-                            }`}
-                          >
-                            <span
-                              className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-xs ring-0 transition duration-200 ease-in-out ${
-                                customDomainProxy ? "translate-x-4" : "translate-x-0"
-                              }`}
-                            />
-                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Device Distribution & Top Referrers */}
+                    <div className="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-sm font-bold text-slate-900">Device Distribution</h3>
+                        <span className="text-[11px] text-slate-400">Aggregated client</span>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-2 text-center py-2">
+                        <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                          <span className="text-[10px] text-slate-400 uppercase font-medium">Desktop</span>
+                          <div className="text-base font-bold text-slate-900 mt-0.5">64%</div>
                         </div>
-
-                        {/* Toggle 2 */}
-                        <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50">
-                          <div>
-                            <div className="text-xs font-medium text-slate-800">Exclude own visits</div>
-                            <div className="text-[11px] text-slate-400">
-                              Sets an internal exclusion flag in your current browser.
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => setExcludeOwnVisits(!excludeOwnVisits)}
-                            className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
-                              excludeOwnVisits ? "bg-sky-600" : "bg-slate-300"
-                            }`}
-                          >
-                            <span
-                              className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-xs ring-0 transition duration-200 ease-in-out ${
-                                excludeOwnVisits ? "translate-x-4" : "translate-x-0"
-                              }`}
-                            />
-                          </button>
+                        <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                          <span className="text-[10px] text-slate-400 uppercase font-medium">Mobile</span>
+                          <div className="text-base font-bold text-slate-900 mt-0.5">31%</div>
+                        </div>
+                        <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                          <span className="text-[10px] text-slate-400 uppercase font-medium">Tablet</span>
+                          <div className="text-base font-bold text-slate-900 mt-0.5">5%</div>
                         </div>
                       </div>
 
-                      {/* Toggle 3 */}
-                      <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50">
-                        <div>
-                          <div className="text-xs font-medium text-slate-800">Respect Do Not Track (DNT)</div>
-                          <div className="text-[11px] text-slate-400">
-                            Automatically discards metrics from clients broadcasting the DNT or Global Privacy Control header.
-                          </div>
+                      <div className="border-t border-slate-100 pt-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="text-xs font-bold text-slate-900">Top Referrers</h4>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => setRespectDNT(!respectDNT)}
-                          className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
-                            respectDNT ? "bg-sky-600" : "bg-slate-300"
-                          }`}
-                        >
-                          <span
-                            className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-xs ring-0 transition duration-200 ease-in-out ${
-                              respectDNT ? "translate-x-4" : "translate-x-0"
-                            }`}
-                          />
-                        </button>
+                        <div className="space-y-2 text-xs">
+                          {[
+                            { source: "google.com", count: "34,120" },
+                            { source: "direct / none", count: "26,400" },
+                            { source: "github.com/line", count: "12,850" },
+                            { source: "twitter.com", count: "6,410" },
+                          ].map((ref, idx) => (
+                            <div key={idx} className="flex justify-between items-center text-slate-700">
+                              <span>{ref.source}</span>
+                              <strong className="text-slate-900">{ref.count}</strong>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              )}
+              ) : (
+                /* ================= EMPTY STATE (Snippet Not Installed) ================= */
+                <div className="space-y-6">
+                  <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                        <AlertTriangle className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h2 className="text-sm font-bold text-slate-900">
+                          Tracking snippet not installed for {currentSite.domain}
+                        </h2>
+                        <p className="text-xs text-slate-600 mt-0.5">
+                          In strict accordance with privacy rules, visitor traffic is only measured after embedding the tracking snippet.
+                        </p>
+                      </div>
+                    </div>
 
-              {/* Other settings tabs fallback preview */}
-              {settingsTab !== "general" && (
-                <div className="rounded-2xl border border-slate-200/90 bg-white p-8 text-center text-xs text-slate-500">
-                  <p>Configuration panel for <strong>{settingsTab}</strong> is active in workspace mode.</p>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        onClick={() => setSnippetModalOpen(true)}
+                        className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 shadow-sm"
+                      >
+                        Install Snippet
+                      </button>
+                      <button
+                        onClick={() => {
+                          // Simulate install
+                          setSites(
+                            sites.map((s) =>
+                              s.id === currentSite.id
+                                ? { ...s, hasSnippet: true, status: "Active tracking" }
+                                : s
+                            )
+                          );
+                        }}
+                        className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                      >
+                        Simulate Installation
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Even without snippet, Site Audit is ALWAYS available */}
+                  <div className="rounded-2xl border border-slate-200/90 bg-white p-8 text-center space-y-4">
+                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                      <Sparkles className="h-7 w-7" />
+                    </div>
+                    <div className="max-w-md mx-auto">
+                      <h3 className="text-lg font-bold text-slate-900">
+                        Instant Link Audit is Ready
+                      </h3>
+                      <p className="text-xs text-slate-500 mt-1">
+                        Link audits do not require snippet installation. Scan performance, security headers, SSL, and SEO right now.
+                      </p>
+                    </div>
+                    <Link
+                      href={`/report?domain=${encodeURIComponent(currentSite.domain)}`}
+                      className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-blue-700 shadow-sm"
+                    >
+                      <FileCheck className="h-4 w-4" />
+                      <span>View Instant Audit Report for {currentSite.domain}</span>
+                    </Link>
+                  </div>
                 </div>
               )}
-            </div>
+            </>
           )}
 
-          {/* ================= VIEW: OVERVIEW ================= */}
-          {activeNav === "Overview" && (
+          {/* ================= VIEW 2: AUDIT REPORT REDIRECT ================= */}
+          {activeNav === "Audit Report" && (
             <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-2xl font-normal text-slate-900 tracking-tight">
-                    Website Analytics Overview
-                  </h1>
-                  <p className="text-xs text-slate-500 mt-1">
-                    Real-time privacy-preserving telemetry for {activeSite}
-                  </p>
+                  <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Site Audit Engine</h1>
+                  <p className="text-xs text-slate-500 mt-0.5">Instant diagnostic for {currentSite.domain}</p>
                 </div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-800 self-start sm:self-auto">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  18 active visitors right now
-                </div>
+                <Link
+                  href={`/report?domain=${encodeURIComponent(currentSite.domain)}`}
+                  className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 shadow-sm inline-flex items-center gap-1.5"
+                >
+                  <span>Launch Detailed Scan View</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
               </div>
 
-              {/* 4 Stat Cards */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <MetricCard
-                  title="Unique Visitors"
-                  value="24,580"
-                  delta="+12.5%"
-                  isPositive={true}
-                  icon={Users}
-                />
-                <MetricCard
-                  title="Total Pageviews"
-                  value="89,420"
-                  delta="+18.2%"
-                  isPositive={true}
-                  icon={Eye}
-                />
-                <MetricCard
-                  title="Bounce Rate"
-                  value="38.4%"
-                  delta="-4.1%"
-                  isPositive={true}
-                  icon={MousePointerClick}
-                />
-                <MetricCard
-                  title="Avg Duration"
-                  value="2m 45s"
-                  delta="+8.6%"
-                  isPositive={true}
-                  icon={Clock}
-                />
-              </div>
-
-              {/* Main Chart */}
-              <AnalyticsChart data={SAMPLE_CHART_7D} />
-
-              {/* 2-column breakdown */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <BreakdownCard
-                  title="Top Visited Pages"
-                  icon={FileText}
-                  items={SAMPLE_TOP_PAGES}
-                  metricName="Pageviews"
-                />
-                <BreakdownCard
-                  title="Traffic Sources"
-                  icon={Share2}
-                  items={SAMPLE_REFERRERS}
-                  metricName="Visitors"
-                />
+              <div className="p-8 rounded-2xl border border-slate-200/90 bg-white text-center space-y-3">
+                <p className="text-xs text-slate-600">
+                  Click below to open the dedicated report page with PageSpeed metrics, detected technologies, and prioritized issues.
+                </p>
+                <Link
+                  href={`/report?domain=${encodeURIComponent(currentSite.domain)}`}
+                  className="inline-block rounded-xl bg-blue-600 px-6 py-2.5 text-xs font-bold text-white hover:bg-blue-700 shadow-sm"
+                >
+                  Open Audit Report for {currentSite.domain} →
+                </Link>
               </div>
             </div>
           )}
 
-          {/* ================= VIEW: PAGES ================= */}
-          {activeNav === "Pages" && (
+          {/* ================= VIEW 3: SITES ================= */}
+          {activeNav === "Sites" && (
             <div className="space-y-6">
-              <div>
-                <h1 className="text-2xl font-normal text-slate-900 tracking-tight">Pages & URL Traffic</h1>
-                <p className="text-xs text-slate-500 mt-1">Detailed pageview performance across all paths on {activeSite}.</p>
-              </div>
-              <BreakdownCard
-                title="All Tracked Pages"
-                icon={FileText}
-                items={SAMPLE_TOP_PAGES}
-                metricName="Pageviews"
-                maxDisplay={10}
-              />
-            </div>
-          )}
-
-          {/* ================= VIEW: SOURCES ================= */}
-          {activeNav === "Sources" && (
-            <div className="space-y-6">
-              <div>
-                <h1 className="text-2xl font-normal text-slate-900 tracking-tight">Referral Sources & Channels</h1>
-                <p className="text-xs text-slate-500 mt-1">Discover where your audience is discovering your website.</p>
-              </div>
-              <BreakdownCard
-                title="Referral Channels"
-                icon={Share2}
-                items={SAMPLE_REFERRERS}
-                metricName="Visitors"
-                maxDisplay={10}
-              />
-            </div>
-          )}
-
-          {/* ================= VIEW: LOCATIONS ================= */}
-          {activeNav === "Locations" && (
-            <div className="space-y-6">
-              <div>
-                <h1 className="text-2xl font-normal text-slate-900 tracking-tight">Geographic Audience</h1>
-                <p className="text-xs text-slate-500 mt-1">Country-level visitor breakdown resolved anonymously without storing user IPs.</p>
-              </div>
-              <BreakdownCard
-                title="Countries"
-                icon={Globe}
-                items={SAMPLE_COUNTRIES}
-                metricName="Visitors"
-                maxDisplay={10}
-              />
-            </div>
-          )}
-
-          {/* ================= VIEW: DEVICES ================= */}
-          {activeNav === "Devices" && (
-            <div className="space-y-6">
-              <div>
-                <h1 className="text-2xl font-normal text-slate-900 tracking-tight">Devices & Browsers</h1>
-                <p className="text-xs text-slate-500 mt-1">Client platforms and screen resolutions from aggregated user-agent headers.</p>
-              </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <BreakdownCard
-                  title="Device Type"
-                  icon={Monitor}
-                  items={SAMPLE_DEVICES}
-                  metricName="Share"
-                />
-                <BreakdownCard
-                  title="Web Browsers"
-                  icon={Globe}
-                  items={SAMPLE_BROWSERS}
-                  metricName="Share"
-                />
-              </div>
-            </div>
-          )}
-
-          {/* ================= VIEW: GOALS ================= */}
-          {activeNav === "Goals" && (
-            <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-2xl font-normal text-slate-900 tracking-tight">Conversion Goals</h1>
-                  <p className="text-xs text-slate-500 mt-1">Track key business events, demo launches, and signup funnels.</p>
+                  <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Registered Websites</h1>
+                  <p className="text-xs text-slate-500 mt-0.5">Manage domains receiving telemetry events and link audits.</p>
                 </div>
                 <button
-                  onClick={() => setNewGoalModalOpen(true)}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-sky-600 px-4 py-1.5 text-xs font-medium text-white hover:bg-sky-500 transition-colors shadow-xs self-start sm:self-auto"
+                  onClick={() => setAddSiteModalOpen(true)}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 shadow-sm"
                 >
-                  <Plus className="h-3 w-3" />
-                  Add Conversion Goal
+                  <Plus className="h-3.5 w-3.5" />
+                  <span>Add Website</span>
                 </button>
+              </div>
+
+              <div className="space-y-3">
+                {sites.map((site) => (
+                  <div
+                    key={site.id}
+                    className="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600 shrink-0">
+                        <AppWindow className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-bold text-slate-900">{site.domain}</span>
+                          <span className="text-xs text-slate-400">({site.label})</span>
+                          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                            site.hasSnippet
+                              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                              : "bg-amber-50 text-amber-700 border border-amber-200"
+                          }`}>
+                            <span className={`h-1.5 w-1.5 rounded-full ${site.hasSnippet ? "bg-emerald-500" : "bg-amber-500"}`} />
+                            {site.status}
+                          </span>
+                        </div>
+                        <div className="text-[11px] text-slate-400 mt-1 flex items-center gap-3">
+                          <span>Timezone: {site.timezone}</span>
+                          <span>•</span>
+                          <span>Audit Health: <strong className="text-blue-600 font-semibold">{site.healthScore}/100</strong></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 self-end sm:self-auto">
+                      <Link
+                        href={`/report?domain=${encodeURIComponent(site.domain)}`}
+                        className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
+                      >
+                        Audit
+                      </Link>
+                      <button
+                        onClick={() => {
+                          setActiveSiteDomain(site.domain);
+                          setSnippetModalOpen(true);
+                        }}
+                        className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
+                      >
+                        Snippet
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ================= VIEW 4: GOALS ================= */}
+          {activeNav === "Goals" && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Conversion Goals</h1>
+                  <p className="text-xs text-slate-500 mt-0.5">Track key user actions, form submissions, and demo launches.</p>
+                </div>
               </div>
 
               <div className="rounded-2xl border border-slate-200/90 bg-white overflow-hidden shadow-xs">
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
-                    <tr className="border-b border-slate-100 bg-slate-50/50 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                    <tr className="border-b border-slate-100 bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                       <th className="py-3 px-4">Goal Name</th>
-                      <th className="py-3 px-4">Trigger</th>
-                      <th className="py-3 px-4 text-right">Conversions</th>
-                      <th className="py-3 px-4 text-right">Rate</th>
-                      <th className="py-3 px-4 text-right">Value</th>
+                      <th className="py-3 px-4">Event Trigger</th>
+                      <th className="py-3 px-4 text-right">Completions</th>
+                      <th className="py-3 px-4 text-right">Conversion Rate</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
-                    {goals.map((g) => (
-                      <tr key={g.id} className="hover:bg-slate-50/50 transition-colors">
-                        <td className="py-3 px-4 font-medium text-slate-800 flex items-center gap-2">
-                          <Flag className="h-3.5 w-3.5 text-sky-600" />
+                    {[
+                      { name: "Portfolio Demo Click", event: "demo_launched", completions: 1840, rate: "22.4%" },
+                      { name: "Contact Form Inquiry", event: "contact_submitted", completions: 342, rate: "4.2%" },
+                      { name: "CV Downloaded", event: "cv_download", completions: 512, rate: "6.1%" },
+                    ].map((g, i) => (
+                      <tr key={i} className="hover:bg-slate-50/50 transition-colors">
+                        <td className="py-3 px-4 font-semibold text-slate-800 flex items-center gap-2">
+                          <Flag className="h-3.5 w-3.5 text-blue-600" />
                           <span>{g.name}</span>
                         </td>
-                        <td className="py-3 px-4 font-mono text-[11px] text-slate-500">
-                          {g.triggerType === "custom_event" ? "event:" : "page:"} {g.triggerValue}
-                        </td>
-                        <td className="py-3 px-4 text-right font-medium text-slate-800">
-                          {g.conversions.toLocaleString()}
-                        </td>
-                        <td className="py-3 px-4 text-right font-medium text-emerald-600">
-                          {g.rate}
-                        </td>
-                        <td className="py-3 px-4 text-right text-slate-500">{g.value}</td>
+                        <td className="py-3 px-4 font-mono text-[11px] text-slate-500">{g.event}</td>
+                        <td className="py-3 px-4 text-right font-semibold text-slate-900">{g.completions.toLocaleString()}</td>
+                        <td className="py-3 px-4 text-right font-bold text-emerald-600">{g.rate}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -884,140 +766,117 @@ export default function DashboardPage() {
               </div>
             </div>
           )}
+
+          {/* ================= VIEW 5: SETTINGS ================= */}
+          {activeNav === "Settings" && (
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Workspace Preferences</h1>
+                <p className="text-xs text-slate-500 mt-0.5">Configure tracking parameters, reverse proxy domains, and exclusions.</p>
+              </div>
+
+              <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-xs space-y-4">
+                <h2 className="text-sm font-bold text-slate-900">Privacy & Exclusion Rules</h2>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+                    <div>
+                      <div className="text-xs font-semibold text-slate-800">Custom Domain Proxy</div>
+                      <div className="text-[11px] text-slate-400">Bypass adblockers through a first-party CNAME proxy</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setCustomDomainProxy(!customDomainProxy)}
+                      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ${
+                        customDomainProxy ? "bg-blue-600" : "bg-slate-300"
+                      }`}
+                    >
+                      <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-xs transition duration-200 ${
+                        customDomainProxy ? "translate-x-4" : "translate-x-0"
+                      }`} />
+                    </button>
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+                    <div>
+                      <div className="text-xs font-semibold text-slate-800">Exclude Own Visits</div>
+                      <div className="text-[11px] text-slate-400">Sets an internal exclusion flag in this browser</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setExcludeOwnVisits(!excludeOwnVisits)}
+                      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ${
+                        excludeOwnVisits ? "bg-blue-600" : "bg-slate-300"
+                      }`}
+                    >
+                      <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-xs transition duration-200 ${
+                        excludeOwnVisits ? "translate-x-4" : "translate-x-0"
+                      }`} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </main>
       </div>
 
-      {/* ================= MODAL: Add Another Website ================= */}
+      {/* Snippet Modal */}
+      <SnippetModal
+        isOpen={snippetModalOpen}
+        onClose={() => setSnippetModalOpen(false)}
+        siteId={currentSite.id}
+        domain={currentSite.domain}
+      />
+
+      {/* Add Site Modal */}
       {addSiteModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 backdrop-blur-xs p-4">
-          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4">
+          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl space-y-4">
             <div>
-              <h3 className="text-base font-semibold text-slate-900">Add Another Website</h3>
-              <p className="text-xs text-slate-500">Register a new domain to collect privacy-first analytics.</p>
+              <h3 className="text-base font-bold text-slate-900">Add Website</h3>
+              <p className="text-xs text-slate-500">Register a new domain for link audits and visitor tracking.</p>
             </div>
-            <form onSubmit={handleAddSite} className="space-y-3.5">
+            <form onSubmit={handleAddSite} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">Domain Name</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Website URL / Domain
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. app.myproject.com"
-                  value={newSiteDomain}
-                  onChange={(e) => setNewSiteDomain(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-500 focus:outline-none"
+                  placeholder="e.g. atellernoir.co"
+                  value={newDomain}
+                  onChange={(e) => setNewDomain(e.target.value)}
+                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500 focus:outline-none"
                 />
               </div>
+
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">Display Label</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Label
+                </label>
                 <input
                   type="text"
                   placeholder="e.g. Client Web App"
-                  value={newSiteLabel}
-                  onChange={(e) => setNewSiteLabel(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-500 focus:outline-none"
+                  value={newLabel}
+                  onChange={(e) => setNewLabel(e.target.value)}
+                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500 focus:outline-none"
                 />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">Reporting Timezone</label>
-                <select
-                  value={newSiteTimezone}
-                  onChange={(e) => setNewSiteTimezone(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-500 focus:outline-none"
-                >
-                  <option value="Europe/Paris">Europe/Paris (UTC+1)</option>
-                  <option value="Europe/London">Europe/London (UTC+0)</option>
-                  <option value="America/New_York">America/New_York (UTC-5)</option>
-                  <option value="America/Los_Angeles">America/Los_Angeles (UTC-8)</option>
-                  <option value="Asia/Tokyo">Asia/Tokyo (UTC+9)</option>
-                </select>
               </div>
 
               <div className="flex items-center justify-end gap-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setAddSiteModalOpen(false)}
-                  className="rounded-full border border-slate-200 px-4 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
+                  className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="rounded-full bg-sky-600 px-4 py-1.5 text-xs font-medium text-white hover:bg-sky-500 shadow-xs"
+                  className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 shadow-sm"
                 >
                   Save Website
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* ================= MODAL: Add Conversion Goal ================= */}
-      {newGoalModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 backdrop-blur-xs p-4">
-          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-xl space-y-4">
-            <div>
-              <h3 className="text-base font-semibold text-slate-900">Add Conversion Goal</h3>
-              <p className="text-xs text-slate-500">Track a custom event or target URL path.</p>
-            </div>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (!newGoalName || !newGoalTrigger) return;
-                setGoals([
-                  ...goals,
-                  {
-                    id: `g_${Date.now()}`,
-                    name: newGoalName,
-                    triggerType: "custom_event",
-                    triggerValue: newGoalTrigger,
-                    conversions: 0,
-                    rate: "0.0%",
-                    value: "$0.00",
-                  },
-                ]);
-                setNewGoalName("");
-                setNewGoalTrigger("");
-                setNewGoalModalOpen(false);
-              }}
-              className="space-y-3.5"
-            >
-              <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">Goal Name</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Newsletter Subscribed"
-                  value={newGoalName}
-                  onChange={(e) => setNewGoalName(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-800 focus:border-sky-500 focus:outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">Event Key</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. newsletter_signup"
-                  value={newGoalTrigger}
-                  onChange={(e) => setNewGoalTrigger(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs font-mono text-slate-800 focus:border-sky-500 focus:outline-none"
-                />
-              </div>
-
-              <div className="flex items-center justify-end gap-2 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setNewGoalModalOpen(false)}
-                  className="rounded-full border border-slate-200 px-4 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="rounded-full bg-sky-600 px-4 py-1.5 text-xs font-medium text-white hover:bg-sky-500 shadow-xs"
-                >
-                  Create Goal
                 </button>
               </div>
             </form>
