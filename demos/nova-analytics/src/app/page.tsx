@@ -17,6 +17,12 @@ import {
   Lock,
   Layers,
   Sparkles,
+  Activity,
+  LineChart,
+  ShieldCheck,
+  FileText,
+  MousePointerClick,
+  ChevronRight,
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -45,37 +51,43 @@ export default function LandingPage() {
     {
       title: "Core Insights",
       description: "Deep dive into your user behavior, session durations, conversion funnels, and real-time retention.",
-      icon: "⚡",
+      icon: LineChart,
+      color: "text-blue-600 bg-blue-50 border-blue-200",
       badge: "Analytics",
     },
     {
       title: "Security Auditing",
       description: "Continuous vulnerability scanning, header audits, SSL certificate tracking, and threat mitigation.",
-      icon: "🛡️",
+      icon: ShieldCheck,
+      color: "text-amber-600 bg-amber-50 border-amber-200",
       badge: "Security",
     },
     {
       title: "Performance Optimization",
       description: "Real-time Core Web Vitals, speed index diagnostics, and automated compression recommendations.",
-      icon: "⚡",
+      icon: Zap,
+      color: "text-emerald-600 bg-emerald-50 border-emerald-200",
       badge: "Speed",
     },
     {
       title: "Real-time Monitoring",
       description: "Track live active visitors, sub-second telemetry pings, and instantaneous anomaly detection.",
-      icon: "📊",
+      icon: Activity,
+      color: "text-purple-600 bg-purple-50 border-purple-200",
       badge: "Telemetry",
     },
     {
       title: "User Tracking",
       description: "100% privacy-preserving telemetry without cookies, fingerprinting, or GDPR compliance headaches.",
-      icon: "👥",
+      icon: Users,
+      color: "text-sky-600 bg-sky-50 border-sky-200",
       badge: "Privacy",
     },
     {
       title: "Automated Reporting",
       description: "Schedule executive PDF & CSV summaries, stakeholder emails, and automated weekly digests.",
-      icon: "📄",
+      icon: FileText,
+      color: "text-indigo-600 bg-indigo-50 border-indigo-200",
       badge: "Reports",
     },
   ];
@@ -102,28 +114,41 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col font-sans selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col font-sans selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8 text-center max-w-4xl mx-auto w-full">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.15]">
+      <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8 text-center max-w-4xl mx-auto w-full relative">
+        {/* Subtle decorative glow */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
+
+        <div className="inline-flex items-center gap-2 rounded-full border border-blue-200/80 bg-blue-50/80 px-3.5 py-1 text-xs font-semibold text-blue-700 mb-6 backdrop-blur-xs shadow-xs animate-fade-scale">
+          <span className="h-2 w-2 rounded-full bg-blue-600 animate-pulse" />
+          <span>Nova Analytics 2.0 • Instant Site Audit & Privacy Telemetry</span>
+        </div>
+
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15] animate-fade-scale">
           Actionable Insights to Drive{" "}
-          <span className="text-blue-600">Precision Growth</span>
+          <span className="text-blue-600 relative inline-block">
+            Precision Growth
+            <svg className="absolute -bottom-1 left-0 w-full h-2 text-blue-300 -z-10" viewBox="0 0 100 20" preserveAspectRatio="none">
+              <path d="M0,15 Q50,0 100,15" fill="none" stroke="currentColor" strokeWidth="4" />
+            </svg>
+          </span>
         </h1>
 
         <p className="mt-5 text-sm sm:text-base text-slate-500 max-w-2xl mx-auto leading-relaxed">
-          Monitor site health, follow user behavior, and optimize performance with our
+          Monitor site health, follow real user journeys, and optimize performance with our
           all-in-one analytics engine. Web audits have never been this effortless.
         </p>
 
-        {/* Instant Audit Input Bar */}
+        {/* Instant Audit Input Bar with smooth micro-interaction */}
         <form
           onSubmit={handleInstantAudit}
-          className="mt-8 max-w-xl mx-auto flex items-center gap-2 p-1.5 rounded-2xl bg-white border border-slate-200/90 shadow-sm focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all"
+          className="mt-8 max-w-xl mx-auto flex items-center gap-2 p-1.5 rounded-2xl bg-white border border-slate-200/90 shadow-lg shadow-blue-900/5 hover:shadow-xl hover:border-blue-300 focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-600/10 transition-all duration-300"
         >
-          <div className="pl-3 text-slate-400">
-            <Globe className="h-4 w-4" />
+          <div className="pl-3.5 text-blue-600">
+            <Globe className="h-4 w-4 animate-spin-slow" />
           </div>
           <input
             type="text"
@@ -134,15 +159,16 @@ export default function LandingPage() {
           />
           <button
             type="submit"
-            className="rounded-xl bg-blue-600 px-5 py-2.5 text-xs font-semibold text-white hover:bg-blue-700 active:scale-98 transition-all shadow-sm shrink-0"
+            className="group rounded-xl bg-blue-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-blue-700 active:scale-95 transition-all duration-200 shadow-sm shadow-blue-600/20 shrink-0 flex items-center gap-1.5"
           >
-            Analyze my site
+            <span>Analyze my site</span>
+            <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
           </button>
         </form>
 
         <div className="mt-4 flex items-center justify-center gap-4 text-[11px] text-slate-400">
           <span className="flex items-center gap-1">
-            <Check className="h-3.5 w-3.5 text-emerald-500" /> Instant instant scan
+            <Check className="h-3.5 w-3.5 text-emerald-500" /> Instant scan
           </span>
           <span>•</span>
           <span className="flex items-center gap-1">
@@ -154,15 +180,15 @@ export default function LandingPage() {
           </span>
         </div>
 
-        {/* Hero Visual Mockup */}
-        <div className="mt-12 rounded-3xl border border-slate-200/90 bg-white p-3 sm:p-5 shadow-xl shadow-blue-900/5 overflow-hidden">
+        {/* Hero Visual Mockup with Floating Animation */}
+        <div className="mt-12 rounded-3xl border border-slate-200/90 bg-white p-3 sm:p-5 shadow-2xl shadow-blue-900/10 overflow-hidden transform hover:-translate-y-1 transition-all duration-500">
           <div className="rounded-2xl border border-slate-100 overflow-hidden bg-slate-900 relative aspect-[16/9] flex items-center justify-center">
-            {/* Visual gradient backdrop simulating screen */}
+            {/* Visual gradient backdrop */}
             <div className="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900 to-blue-950/80" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(59,130,246,0.18),transparent_50%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(59,130,246,0.22),transparent_50%)]" />
 
             {/* Dashboard UI Frame */}
-            <div className="relative z-10 w-[94%] h-[92%] rounded-xl border border-slate-700/60 bg-slate-900/95 shadow-2xl p-4 sm:p-6 flex flex-col justify-between text-left">
+            <div className="relative z-10 w-[94%] h-[92%] rounded-xl border border-slate-700/60 bg-slate-900/95 shadow-2xl p-4 sm:p-6 flex flex-col justify-between text-left backdrop-blur-md">
               <div className="flex items-center justify-between pb-3 border-b border-slate-800 text-xs">
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full bg-rose-500/80" />
@@ -170,7 +196,7 @@ export default function LandingPage() {
                   <div className="h-3 w-3 rounded-full bg-emerald-500/80" />
                   <span className="text-[11px] text-slate-400 font-mono ml-2">app.nova-analytics.io/overview</span>
                 </div>
-                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-medium border border-emerald-500/20">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-semibold border border-emerald-500/20">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   Live Telemetry
                 </div>
@@ -179,22 +205,22 @@ export default function LandingPage() {
               {/* Mock Analytics Chart in Hero */}
               <div className="my-auto py-2 space-y-4">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3">
+                  <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3 hover:border-slate-700 transition-colors">
                     <span className="text-[10px] uppercase text-slate-400 font-medium">Total Visitors</span>
                     <div className="text-xl sm:text-2xl font-bold text-white mt-1">84,210</div>
                     <span className="text-[10px] text-emerald-400 font-medium">+18.4%</span>
                   </div>
-                  <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3">
+                  <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3 hover:border-slate-700 transition-colors">
                     <span className="text-[10px] uppercase text-slate-400 font-medium">Avg Duration</span>
                     <div className="text-xl sm:text-2xl font-bold text-white mt-1">04:12</div>
                     <span className="text-[10px] text-emerald-400 font-medium">+8.2%</span>
                   </div>
-                  <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3">
+                  <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3 hover:border-slate-700 transition-colors">
                     <span className="text-[10px] uppercase text-slate-400 font-medium">Bounce Rate</span>
                     <div className="text-xl sm:text-2xl font-bold text-white mt-1">32.4%</div>
                     <span className="text-[10px] text-emerald-400 font-medium">-4.1%</span>
                   </div>
-                  <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3">
+                  <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3 hover:border-slate-700 transition-colors">
                     <span className="text-[10px] uppercase text-slate-400 font-medium">Site Health</span>
                     <div className="text-xl sm:text-2xl font-bold text-blue-400 mt-1">87 / 100</div>
                     <span className="text-[10px] text-blue-300 font-medium">Optimal</span>
@@ -206,7 +232,7 @@ export default function LandingPage() {
                   <svg viewBox="0 0 600 120" className="w-full h-full overflow-visible">
                     <defs>
                       <linearGradient id="heroGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.4" />
+                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.45" />
                         <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.0" />
                       </linearGradient>
                     </defs>
@@ -226,18 +252,21 @@ export default function LandingPage() {
 
               <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
                 <span>Domain: linemorelle.dev</span>
-                <span>Active audit engine v2.4</span>
+                <span>Audit engine v2.4</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Feature Grid: "Everything you need to scale" */}
-      <section className="py-20 border-t border-slate-200/80 bg-white">
+      {/* Feature Grid: "Everything you need to scale" with Custom Icons & Hover Cards */}
+      <section id="features" className="py-20 border-t border-slate-200/80 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-2xl mx-auto mb-14">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 mb-1 block">
+              PLATFORM FEATURES
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Everything you need to scale
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed">
@@ -247,36 +276,47 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-            {featureCards.map((feat, idx) => (
-              <div
-                key={idx}
-                className="group rounded-2xl border border-slate-200/90 bg-[#F8FAFC]/50 p-6 hover:bg-white hover:border-blue-300 hover:shadow-md transition-all space-y-3"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl">{feat.icon}</span>
-                  <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-[10px] font-semibold text-blue-700">
-                    {feat.badge}
-                  </span>
+            {featureCards.map((feat, idx) => {
+              const Icon = feat.icon;
+              return (
+                <div
+                  key={idx}
+                  className="group rounded-2xl border border-slate-200/90 bg-[#F8FAFC]/50 p-6 hover:bg-white hover:border-blue-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 space-y-4 relative overflow-hidden"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className={`h-11 w-11 rounded-xl border flex items-center justify-center transition-transform group-hover:scale-110 duration-300 ${feat.color}`}>
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="rounded-full bg-slate-100 group-hover:bg-blue-50 group-hover:text-blue-700 px-2.5 py-0.5 text-[10px] font-bold text-slate-600 transition-colors">
+                      {feat.badge}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                      {feat.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 leading-relaxed mt-1">
+                      {feat.description}
+                    </p>
+                  </div>
+                  <div className="pt-1 flex items-center gap-1 text-[11px] font-semibold text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span>Learn more</span>
+                    <ChevronRight className="h-3 w-3" />
+                  </div>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
-                  {feat.title}
-                </h3>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  {feat.description}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* 3 Steps to Clarity */}
+      {/* 3 Steps to Clarity with Connecting Path */}
       <section className="py-20 bg-[#F8FAFC] border-t border-slate-200/80">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 mb-1 block">
             HOW IT WORKS
           </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-14">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-14">
             Three steps to clarity
           </h2>
 
@@ -284,12 +324,12 @@ export default function LandingPage() {
             {steps.map((st, i) => {
               const Icon = st.icon;
               return (
-                <div key={i} className="flex flex-col items-center space-y-4 relative">
+                <div key={i} className="group flex flex-col items-center space-y-4 relative p-4 rounded-2xl hover:bg-white transition-all duration-300">
                   <div className="relative">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
-                      <Icon className="h-6 w-6" />
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-xl shadow-blue-600/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                      <Icon className="h-7 w-7" />
                     </div>
-                    <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-slate-900 text-white text-[10px] font-bold">
+                    <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-slate-900 text-white text-[10px] font-bold border-2 border-white shadow-xs">
                       {st.step}
                     </span>
                   </div>
@@ -308,7 +348,10 @@ export default function LandingPage() {
       <section id="pricing" className="py-20 border-t border-slate-200/80 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-2xl mx-auto mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 mb-1 block">
+              PRICING PLANS
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Transparent, scalable pricing
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-slate-500">
@@ -318,7 +361,7 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
             {/* Starter Plan */}
-            <div className="rounded-2xl border border-slate-200/90 bg-[#F8FAFC]/60 p-6 flex flex-col justify-between space-y-6">
+            <div className="rounded-2xl border border-slate-200/90 bg-[#F8FAFC]/60 p-6 flex flex-col justify-between space-y-6 hover:shadow-lg transition-all duration-300">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
                   STARTER
@@ -353,14 +396,14 @@ export default function LandingPage() {
 
               <Link
                 href="/signup"
-                className="w-full text-center rounded-xl border border-slate-300 bg-white py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
+                className="w-full text-center rounded-xl border border-slate-300 bg-white py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 active:scale-95 transition-all shadow-xs"
               >
                 Get Started
               </Link>
             </div>
 
             {/* Professional Plan (Highlighted) */}
-            <div className="rounded-2xl border-2 border-blue-600 bg-white p-6 flex flex-col justify-between space-y-6 shadow-xl shadow-blue-600/10 relative">
+            <div className="rounded-2xl border-2 border-blue-600 bg-white p-6 flex flex-col justify-between space-y-6 shadow-xl shadow-blue-600/10 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative">
               <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-blue-600 px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">
                 RECOMMENDED
               </span>
@@ -402,14 +445,14 @@ export default function LandingPage() {
 
               <Link
                 href="/signup"
-                className="w-full text-center rounded-xl bg-blue-600 py-2.5 text-xs font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm"
+                className="w-full text-center rounded-xl bg-blue-600 py-2.5 text-xs font-bold text-white hover:bg-blue-700 active:scale-95 transition-all shadow-md shadow-blue-600/20"
               >
                 Get Started
               </Link>
             </div>
 
             {/* Enterprise Plan */}
-            <div className="rounded-2xl border border-slate-200/90 bg-[#F8FAFC]/60 p-6 flex flex-col justify-between space-y-6">
+            <div className="rounded-2xl border border-slate-200/90 bg-[#F8FAFC]/60 p-6 flex flex-col justify-between space-y-6 hover:shadow-lg transition-all duration-300">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
                   ENTERPRISE
@@ -447,7 +490,7 @@ export default function LandingPage() {
 
               <Link
                 href="/signup"
-                className="w-full text-center rounded-xl border border-slate-300 bg-white py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-xs"
+                className="w-full text-center rounded-xl border border-slate-300 bg-white py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 active:scale-95 transition-all shadow-xs"
               >
                 Contact Sales
               </Link>
@@ -456,10 +499,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Dark Call-To-Action Banner */}
+      {/* Dark Call-To-Action Banner with Ambient Pulse */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
-        <div className="rounded-3xl bg-[#0B1528] p-8 sm:p-14 text-center text-white relative overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.25),transparent_60%)]" />
+        <div className="rounded-3xl bg-[#0B1528] p-8 sm:p-14 text-center text-white relative overflow-hidden shadow-2xl border border-slate-800">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.3),transparent_60%)] animate-pulse-glow" />
           <div className="relative z-10 max-w-xl mx-auto space-y-4">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
               Ready to transform your site&apos;s performance?
@@ -471,13 +514,13 @@ export default function LandingPage() {
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 href="/signup"
-                className="w-full sm:w-auto rounded-xl bg-blue-600 px-6 py-2.5 text-xs font-semibold text-white hover:bg-blue-500 transition-colors shadow-sm"
+                className="w-full sm:w-auto rounded-xl bg-blue-600 px-6 py-2.5 text-xs font-bold text-white hover:bg-blue-500 active:scale-95 transition-all shadow-lg shadow-blue-600/30"
               >
                 Start your free trial
               </Link>
               <Link
                 href="/dashboard"
-                className="w-full sm:w-auto rounded-xl border border-slate-700 bg-slate-900/80 px-6 py-2.5 text-xs font-semibold text-slate-200 hover:bg-slate-800 transition-colors"
+                className="w-full sm:w-auto rounded-xl border border-slate-700 bg-slate-900/80 px-6 py-2.5 text-xs font-semibold text-slate-200 hover:bg-slate-800 active:scale-95 transition-all"
               >
                 Explore Live Demo
               </Link>

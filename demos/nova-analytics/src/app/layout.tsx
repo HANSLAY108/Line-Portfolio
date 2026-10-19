@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "../lib/supabase/auth-context";
 
 export const metadata: Metadata = {
   title: "Nova Analytics — Simple, Privacy-Friendly Website Analytics",
@@ -13,8 +14,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-[#F8FAFC] text-slate-800 antialiased selection:bg-sky-100 selection:text-sky-900">
-        {children}
+      <body className="min-h-screen bg-[#F8FAFC] text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
