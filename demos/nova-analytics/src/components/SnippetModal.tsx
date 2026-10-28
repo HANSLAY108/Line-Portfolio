@@ -41,8 +41,8 @@ export default function SnippetModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-xs p-4 animate-in fade-in duration-200">
-      <div className="w-full max-w-xl rounded-2xl border border-sky-100 bg-white p-6 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-slate-900/40 backdrop-blur-sm p-0 sm:p-4 animate-in fade-in duration-200">
+      <div className="w-full sm:max-w-xl rounded-t-2xl sm:rounded-2xl border border-sky-100 bg-white p-5 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between pb-4 border-b border-slate-100">
           <div className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-50 text-sky-600">
@@ -62,9 +62,9 @@ export default function SnippetModal({
         </div>
 
         <div className="my-5 space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <span className="text-xs font-semibold text-slate-700">Choose your stack:</span>
-            <div className="flex items-center gap-1 rounded-lg bg-slate-100 p-1 text-xs font-semibold">
+            <div className="flex items-center gap-1 rounded-lg bg-slate-100 p-1 text-xs font-semibold overflow-x-auto">
               <button
                 onClick={() => setActiveTab("html")}
                 className={`rounded-md px-3 py-1 transition-all ${

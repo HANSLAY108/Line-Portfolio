@@ -86,6 +86,8 @@ export type ProjectRow = {
   featured: boolean;
   sort_order: number;
   published: boolean;
+  created_at?: string;
+  updated_at?: string;
 };
 
 export type SocialLink = {
@@ -99,19 +101,57 @@ export type SocialLink = {
   published: boolean;
 };
 
+export type Education = {
+  id: string;
+  degree: string;
+  institution: string;
+  period: string;
+  field_of_study: string;
+  location: string | null;
+  grade: string | null;
+  description: string;
+  coursework: string[];
+  sort_order: number;
+  published: boolean;
+  created_at?: string;
+  updated_at?: string;
+};
+
+export type Certificate = {
+  id: string;
+  title: string;
+  issuer: string;
+  issue_date: string;
+  expiry_date: string | null;
+  credential_id: string | null;
+  credential_url: string | null;
+  image_path: string | null;
+  description: string | null;
+  skills: string[];
+  sort_order: number;
+  published: boolean;
+  created_at?: string;
+  updated_at?: string;
+};
+
 export type SiteContent = {
   settings: SiteSettings | null;
   skills: Skill[];
   testimonials: Testimonial[];
   projects: ProjectRow[];
   socials: SocialLink[];
+  educations?: Education[];
+  certificates?: Certificate[];
 };
 
 export type Message = {
   id: string;
-  name: string;
+  full_name?: string;
+  name?: string;
   email: string;
-  message: string;
+  subject?: string;
+  body?: string;
+  message?: string;
   read: boolean;
   created_at: string;
 };
@@ -129,4 +169,5 @@ export type PostRow = {
   created_at: string;
   updated_at: string;
 };
+
 

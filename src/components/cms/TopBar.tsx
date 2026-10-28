@@ -23,6 +23,9 @@ export default function TopBar({ onOpenMobile }: TopBarProps) {
     if (pathname.startsWith("/cms/posts")) {
       return { title: "Blog Posts", subtitle: "Writings & Technical Essays" };
     }
+    if (pathname.startsWith("/cms/journey")) {
+      return { title: "Journey & Education", subtitle: "Academic Degrees & Verified Certifications" };
+    }
     if (pathname.startsWith("/cms/home")) {
       return { title: "Home Page", subtitle: "Hero & Portrait Configuration" };
     }

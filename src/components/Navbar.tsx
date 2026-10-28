@@ -9,6 +9,7 @@ import { CloseIcon, LogoIcon, MenuIcon } from "./icons";
 const navItems = [
   { href: "/", key: "nav.home", fallback: "Home" },
   { href: "/projects", key: "nav.projects", fallback: "Projects" },
+  { href: "/journey", key: "nav.journey", fallback: "Journey" },
   { href: "/blog", key: "nav.blog", fallback: "Blog" },
   { href: "/contact", key: "nav.contact", fallback: "Contact" },
 ];

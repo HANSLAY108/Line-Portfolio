@@ -4,13 +4,16 @@ import { requireAdmin } from "@/lib/require-admin";
 import { markMessageRead } from "@/lib/actions/lists";
 import {
   BlogIcon,
+  CertificateIcon,
   ExternalIcon,
   FolderIcon,
+  JourneyIcon,
   MediaIcon,
   MessagesIcon,
   PlusIcon,
   StarIcon,
 } from "@/components/cms/CMSIcons";
+import type { Certificate, Education, Message, PostRow, ProjectRow } from "@/lib/types";
 
 export const instant = false;
 
@@ -41,6 +44,8 @@ export default async function DashboardPage() {
     { data: projectsData },
     { data: postsData },
     { data: settings },
+    { data: educationsData },
+    { data: certsData },
   ] = await Promise.all([
     supabase
       .from("messages")
@@ -59,11 +64,21 @@ export default async function DashboardPage() {
       .select("display_name")
       .eq("id", 1)
       .maybeSingle(),
+    supabase
+      .from("educations")
+      .select("*")
+      .order("sort_order"),
+    supabase
+      .from("certificates")
+      .select("*")
+      .order("sort_order"),
   ]);
 
-  const messages = messagesData ?? [];
-  const projects = projectsData ?? [];
-  const posts = postsData ?? [];
+  const messages = (messagesData ?? []) as Message[];
+  const projects = (projectsData ?? []) as ProjectRow[];
+  const posts = (postsData ?? []) as PostRow[];
+  const educations = (educationsData ?? []) as Education[];
+  const certificates = (certsData ?? []) as Certificate[];
 
   const unreadMessages = messages.filter((m) => !m.read);
   const featuredProjects = projects.filter((p) => p.featured);
@@ -114,6 +129,13 @@ export default async function DashboardPage() {
 
           {/* Quick Actions */}
           <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/cms/journey"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#EED7DA] bg-white px-4 py-2.5 text-[12px] font-semibold text-[#292022] hover:bg-[#FAF0F2] hover:border-[#CE6A73] transition-colors shadow-xs"
+            >
+              <JourneyIcon className="h-3.5 w-3.5 text-[#CE6A73]" />
+              Journey &amp; Education
+            </Link>
             <Link
               href="/cms/projects/new"
               className="inline-flex items-center gap-1.5 rounded-full border border-[#EED7DA] bg-white px-4 py-2.5 text-[12px] font-semibold text-[#292022] hover:bg-[#FAF0F2] hover:border-[#CE6A73] transition-colors shadow-xs"
@@ -221,28 +243,31 @@ export default async function DashboardPage() {
           </p>
         </Link>
 
-        {/* Card 4: Total Profile Views */}
-        <div className="rounded-2xl border border-[#F3E2E4] bg-white p-5 shadow-[0_2px_12px_rgba(206,106,115,0.03)]">
+        {/* Card 4: Journey & Certifications */}
+        <Link
+          href="/cms/journey"
+          className="group rounded-2xl border border-[#F3E2E4] bg-white p-5 shadow-[0_2px_12px_rgba(206,106,115,0.03)] transition-all hover:shadow-md hover:border-[#CE6A73]/40"
+        >
           <div className="flex items-center justify-between text-[#9C8D90]">
             <span className="text-[11px] font-semibold uppercase tracking-[0.12em]">
-              Portfolio Health
+              Journey &amp; Certs
             </span>
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FAF0F2] text-[#CE6A73]">
-              <StarIcon className="h-3.5 w-3.5" />
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FAF0F2] text-[#CE6A73] group-hover:bg-[#CE6A73] group-hover:text-white transition-colors">
+              <JourneyIcon className="h-3.5 w-3.5" />
             </div>
           </div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="font-serif text-[2.2rem] font-medium tracking-tight text-[#292022]">
-              100%
+              {educations.length + certificates.length}
             </span>
             <span className="rounded-full bg-[#EAF7EE] px-2 py-0.5 text-[10px] font-semibold text-[#2E7D32]">
-              Active
+              {certificates.length} certs
             </span>
           </div>
           <p className="mt-1 text-[11px] text-[#9C8D90]">
-            Next.js 16 + Supabase connected
+            {educations.length} degrees &amp; {certificates.length} credentials
           </p>
-        </div>
+        </Link>
       </div>
 
       {/* ── Lower Split Grid: Inquiries (Left) vs Widgets (Right) ── */}
@@ -330,7 +355,7 @@ export default async function DashboardPage() {
                         </button>
                       </form>
                       <a
-                        href={`mailto:${msg.email}?subject=Re: ${encodeURIComponent(msg.subject)}`}
+                        href={`mailto:${msg.email}?subject=Re: ${encodeURIComponent(msg.subject ?? "")}`}
                         className="rounded-full bg-[#CE6A73] px-3.5 py-1 text-[11px] font-medium text-white hover:bg-[#B85860] transition-colors shadow-xs"
                       >
                         Reply

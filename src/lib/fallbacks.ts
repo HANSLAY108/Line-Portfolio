@@ -1,4 +1,4 @@
-import type { ProjectRow, SiteSettings, Skill, SocialLink, Testimonial } from "./types";
+import type { Certificate, Education, ProjectRow, SiteSettings, Skill, SocialLink, Testimonial } from "./types";
 
 export const fallbackSettings: SiteSettings = {
   id: 1,
@@ -248,6 +248,147 @@ export const fallbackSocials: SocialLink[] = [
     icon_key: "email",
     placement: "all",
     sort_order: 3,
+    published: true,
+  },
+];
+
+export const fallbackEducations: Education[] = [
+  {
+    id: "edu-msc-eth",
+    degree: "Master of Science in Computer Science",
+    institution: "ETH Zürich (Swiss Federal Institute of Technology)",
+    period: "2019 — 2021",
+    field_of_study: "Distributed Systems & High-Performance Computing",
+    location: "Zürich, Switzerland",
+    grade: "Summa Cum Laude (Top 3% of cohort)",
+    description:
+      "Deep theoretical and practical focus on distributed consensus, network performance, and low-latency storage engines. Completed master thesis on resilient state replication for geo-distributed transactional databases.",
+    coursework: [
+      "Distributed Systems Architecture",
+      "Advanced Operating Systems",
+      "Network Protocols & Formal Methods",
+      "Fault-Tolerant Computing",
+      "High-Performance Database Internals",
+    ],
+    sort_order: 0,
+    published: true,
+  },
+  {
+    id: "edu-bsc-epfl",
+    degree: "Bachelor of Science in Computer Science & Systems",
+    institution: "EPFL (École Polytechnique Fédérale de Lausanne)",
+    period: "2016 — 2019",
+    field_of_study: "Software Engineering & Computer Systems",
+    location: "Lausanne, Switzerland",
+    grade: "Highest Distinction",
+    description:
+      "Foundational computer science education with rigorous coursework in algorithm complexity, concurrency theory, compilers, and hardware-software interface design. Lead student researcher in the Distributed Information Systems laboratory.",
+    coursework: [
+      "Data Structures & Algorithms",
+      "Computer Architecture",
+      "Concurrent & Parallel Programming",
+      "Database Systems",
+      "Compiler Construction",
+      "Applied Discrete Mathematics",
+    ],
+    sort_order: 1,
+    published: true,
+  },
+  {
+    id: "edu-matura-cantonal",
+    degree: "Swiss Scientific Matura (Baccalauréat Scientifique)",
+    institution: "Gymnase Cantonal de Lausanne",
+    period: "2013 — 2016",
+    field_of_study: "Advanced Mathematics & Applied Physics",
+    location: "Lausanne, Switzerland",
+    grade: "Honor Award for Analytical Mathematics",
+    description:
+      "Intensive STEM curriculum with a specialization in advanced calculus, differential equations, theoretical mechanics, and introductory algorithmic logic.",
+    coursework: [
+      "Advanced Calculus & Linear Algebra",
+      "Classical & Quantum Physics",
+      "Mathematical Modeling",
+      "Algorithmic Logic",
+    ],
+    sort_order: 2,
+    published: true,
+  },
+];
+
+export const fallbackCertificates: Certificate[] = [
+  {
+    id: "cert-aws-pro",
+    title: "AWS Certified Solutions Architect – Professional",
+    issuer: "Amazon Web Services",
+    issue_date: "Oct 2023",
+    expiry_date: "Oct 2026",
+    credential_id: "AWS-PSA-8492041",
+    credential_url: "https://aws.amazon.com/verification",
+    image_path: "/images/certificates/aws-pro.svg",
+    description:
+      "Highest-tier cloud architecture certification validating advanced architectural design, multi-tier security, disaster recovery, and cost-effective distributed systems at enterprise scale.",
+    skills: ["Cloud Architecture", "AWS", "Multi-Region Resilience", "Disaster Recovery", "Cloud Security"],
+    sort_order: 0,
+    published: true,
+  },
+  {
+    id: "cert-cka",
+    title: "Certified Kubernetes Administrator (CKA)",
+    issuer: "Cloud Native Computing Foundation & Linux Foundation",
+    issue_date: "May 2023",
+    expiry_date: "May 2026",
+    credential_id: "CKA-2309-8812",
+    credential_url: "https://www.cncf.io/certification/cka/",
+    image_path: "/images/certificates/cka.svg",
+    description:
+      "Hands-on operational certification demonstrating production-grade Kubernetes cluster management, container networking (CNI), storage orchestration, etcd backup/restore, and runtime security.",
+    skills: ["Kubernetes", "Container Orchestration", "etcd", "Linux Systems", "Service Mesh", "DevOps"],
+    sort_order: 1,
+    published: true,
+  },
+  {
+    id: "cert-gcp-arch",
+    title: "Google Cloud Certified – Professional Cloud Architect",
+    issuer: "Google Cloud",
+    issue_date: "Nov 2022",
+    expiry_date: "Nov 2025",
+    credential_id: "GCP-PCA-550921",
+    credential_url: "https://cloud.google.com/certification",
+    image_path: "/images/certificates/gcp-arch.svg",
+    description:
+      "Validates proficiency in architecting resilient, highly scalable enterprise solutions on Google Cloud Platform, encompassing hybrid cloud connectivity and high-throughput data pipelines.",
+    skills: ["GCP", "Enterprise Architecture", "BigQuery", "Anthos", "Scalability", "Reliability Engineering"],
+    sort_order: 2,
+    published: true,
+  },
+  {
+    id: "cert-terraform",
+    title: "HashiCorp Certified: Terraform Associate",
+    issuer: "HashiCorp",
+    issue_date: "Mar 2022",
+    expiry_date: "Mar 2024",
+    credential_id: "HCTA-003891",
+    credential_url: "https://www.credly.com",
+    image_path: "/images/certificates/terraform.svg",
+    description:
+      "Covers declarative infrastructure-as-code principles, modular state management, automated CI/CD pipeline provisioning, and cloud governance policies.",
+    skills: ["Terraform", "Infrastructure as Code", "CI/CD", "State Management", "GitOps"],
+    sort_order: 3,
+    published: true,
+  },
+  {
+    id: "cert-deeplearning",
+    title: "Deep Learning & Neural Networks Specialization",
+    issuer: "DeepLearning.AI",
+    issue_date: "Aug 2021",
+    expiry_date: null,
+    credential_id: "DLAI-992147",
+    credential_url: "https://www.deeplearning.ai",
+    image_path: "/images/certificates/deeplearning.svg",
+    description:
+      "Comprehensive training covering modern neural network architectures, backpropagation mathematics, hyperparameter tuning, convolutional networks, and transformer attention mechanisms.",
+    skills: ["Deep Learning", "PyTorch", "Transformers", "Neural Networks", "Mathematical Optimization"],
+    sort_order: 4,
     published: true,
   },
 ];

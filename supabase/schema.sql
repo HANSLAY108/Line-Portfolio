@@ -135,6 +135,39 @@ create table if not exists public.messages (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.educations (
+  id uuid primary key default gen_random_uuid(),
+  degree text not null,
+  institution text not null,
+  period text not null,
+  field_of_study text not null default '',
+  location text,
+  grade text,
+  description text not null default '',
+  coursework text[] not null default '{}',
+  sort_order int not null default 0,
+  published boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.certificates (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  issuer text not null,
+  issue_date text not null default '',
+  expiry_date text,
+  credential_id text,
+  credential_url text,
+  image_path text,
+  description text,
+  skills text[] not null default '{}',
+  sort_order int not null default 0,
+  published boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 -- ---------------------------------------------------------------------------
 -- Updated-at trigger
 -- ---------------------------------------------------------------------------
@@ -167,6 +200,16 @@ for each row execute function public.set_updated_at();
 drop trigger if exists projects_updated_at on public.projects;
 create trigger projects_updated_at
 before update on public.projects
+for each row execute function public.set_updated_at();
+
+drop trigger if exists educations_updated_at on public.educations;
+create trigger educations_updated_at
+before update on public.educations
+for each row execute function public.set_updated_at();
+
+drop trigger if exists certificates_updated_at on public.certificates;
+create trigger certificates_updated_at
+before update on public.certificates
 for each row execute function public.set_updated_at();
 
 -- ---------------------------------------------------------------------------
@@ -267,6 +310,36 @@ create policy "public read published social_links"
 drop policy if exists "admin write social_links" on public.social_links;
 create policy "admin write social_links"
   on public.social_links for all
+  to authenticated
+  using (public.is_admin())
+  with check (public.is_admin());
+
+-- educations / certificates: public reads published; admin all
+alter table public.educations enable row level security;
+alter table public.certificates enable row level security;
+
+drop policy if exists "public read published educations" on public.educations;
+create policy "public read published educations"
+  on public.educations for select
+  to anon, authenticated
+  using (published = true or public.is_admin());
+
+drop policy if exists "admin write educations" on public.educations;
+create policy "admin write educations"
+  on public.educations for all
+  to authenticated
+  using (public.is_admin())
+  with check (public.is_admin());
+
+drop policy if exists "public read published certificates" on public.certificates;
+create policy "public read published certificates"
+  on public.certificates for select
+  to anon, authenticated
+  using (published = true or public.is_admin());
+
+drop policy if exists "admin write certificates" on public.certificates;
+create policy "admin write certificates"
+  on public.certificates for all
   to authenticated
   using (public.is_admin())
   with check (public.is_admin());
@@ -449,3 +522,106 @@ select * from (values
   ('twitter', 'X / Twitter', 'https://x.com', 'twitter', 'contact', 3)
 ) as v(platform, label, url, icon_key, placement, sort_order)
 where not exists (select 1 from public.social_links);
+
+insert into public.educations (degree, institution, period, field_of_study, location, grade, description, coursework, sort_order)
+select * from (values
+  (
+    'Master of Science in Computer Science',
+    'ETH Zürich (Swiss Federal Institute of Technology)',
+    '2019 — 2021',
+    'Distributed Systems & High-Performance Computing',
+    'Zürich, Switzerland',
+    'Summa Cum Laude (Top 3% of cohort)',
+    'Deep theoretical and practical focus on distributed consensus, network performance, and low-latency storage engines. Completed master thesis on resilient state replication for geo-distributed transactional databases.',
+    array['Distributed Systems Architecture','Advanced Operating Systems','Network Protocols & Formal Methods','Fault-Tolerant Computing','High-Performance Database Internals']::text[],
+    0
+  ),
+  (
+    'Bachelor of Science in Computer Science & Systems',
+    'EPFL (École Polytechnique Fédérale de Lausanne)',
+    '2016 — 2019',
+    'Software Engineering & Computer Systems',
+    'Lausanne, Switzerland',
+    'Highest Distinction',
+    'Foundational computer science education with rigorous coursework in algorithm complexity, concurrency theory, compilers, and hardware-software interface design. Lead student researcher in the Distributed Information Systems laboratory.',
+    array['Data Structures & Algorithms','Computer Architecture','Concurrent & Parallel Programming','Database Systems','Compiler Construction','Applied Discrete Mathematics']::text[],
+    1
+  ),
+  (
+    'Swiss Scientific Matura (Baccalauréat Scientifique)',
+    'Gymnase Cantonal de Lausanne',
+    '2013 — 2016',
+    'Advanced Mathematics & Applied Physics',
+    'Lausanne, Switzerland',
+    'Honor Award for Analytical Mathematics',
+    'Intensive STEM curriculum with a specialization in advanced calculus, differential equations, theoretical mechanics, and introductory algorithmic logic.',
+    array['Advanced Calculus & Linear Algebra','Classical & Quantum Physics','Mathematical Modeling','Algorithmic Logic']::text[],
+    2
+  )
+) as v(degree, institution, period, field_of_study, location, grade, description, coursework, sort_order)
+where not exists (select 1 from public.educations);
+
+insert into public.certificates (title, issuer, issue_date, expiry_date, credential_id, credential_url, image_path, description, skills, sort_order)
+select * from (values
+  (
+    'AWS Certified Solutions Architect – Professional',
+    'Amazon Web Services',
+    'Oct 2023',
+    'Oct 2026',
+    'AWS-PSA-8492041',
+    'https://aws.amazon.com/verification',
+    '/images/certificates/aws-pro.svg',
+    'Highest-tier cloud architecture certification validating advanced architectural design, multi-tier security, disaster recovery, and cost-effective distributed systems at enterprise scale.',
+    array['Cloud Architecture','AWS','Multi-Region Resilience','Disaster Recovery','Cloud Security']::text[],
+    0
+  ),
+  (
+    'Certified Kubernetes Administrator (CKA)',
+    'Cloud Native Computing Foundation & Linux Foundation',
+    'May 2023',
+    'May 2026',
+    'CKA-2309-8812',
+    'https://www.cncf.io/certification/cka/',
+    '/images/certificates/cka.svg',
+    'Hands-on operational certification demonstrating production-grade Kubernetes cluster management, container networking (CNI), storage orchestration, etcd backup/restore, and runtime security.',
+    array['Kubernetes','Container Orchestration','etcd','Linux Systems','Service Mesh','DevOps']::text[],
+    1
+  ),
+  (
+    'Google Cloud Certified – Professional Cloud Architect',
+    'Google Cloud',
+    'Nov 2022',
+    'Nov 2025',
+    'GCP-PCA-550921',
+    'https://cloud.google.com/certification',
+    '/images/certificates/gcp-arch.svg',
+    'Validates proficiency in architecting resilient, highly scalable enterprise solutions on Google Cloud Platform, encompassing hybrid cloud connectivity and high-throughput data pipelines.',
+    array['GCP','Enterprise Architecture','BigQuery','Anthos','Scalability','Reliability Engineering']::text[],
+    2
+  ),
+  (
+    'HashiCorp Certified: Terraform Associate',
+    'HashiCorp',
+    'Mar 2022',
+    'Mar 2024',
+    'HCTA-003891',
+    'https://www.credly.com',
+    '/images/certificates/terraform.svg',
+    'Covers declarative infrastructure-as-code principles, modular state management, automated CI/CD pipeline provisioning, and cloud governance policies.',
+    array['Terraform','Infrastructure as Code','CI/CD','State Management','GitOps']::text[],
+    3
+  ),
+  (
+    'Deep Learning & Neural Networks Specialization',
+    'DeepLearning.AI',
+    'Aug 2021',
+    null,
+    'DLAI-992147',
+    'https://www.deeplearning.ai',
+    '/images/certificates/deeplearning.svg',
+    'Comprehensive training covering modern neural network architectures, backpropagation mathematics, hyperparameter tuning, convolutional networks, and transformer attention mechanisms.',
+    array['Deep Learning','PyTorch','Transformers','Neural Networks','Mathematical Optimization']::text[],
+    4
+  )
+) as v(title, issuer, issue_date, expiry_date, credential_id, credential_url, image_path, description, skills, sort_order)
+where not exists (select 1 from public.certificates);

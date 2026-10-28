@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="tfGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#844FBA" />
+      <stop offset="100%" stop-color="#5C4EE5" />
+    </linearGradient>
+  </defs>
+  <!-- Diamond / Hex Frame -->
+  <polygon points="100,10 185,55 185,145 100,190 15,145 15,55" fill="#151226" stroke="url(#tfGrad)" stroke-width="4" stroke-linejoin="round" />
+  <!-- Terraform Blocks -->
+  <g transform="translate(100,75) scale(0.9)">
+    <polygon points="-24,-24 -7,-14 -7,14 -24,4" fill="#844FBA" />
+    <polygon points="-5,-3 -5,-31 12,-21 12,7" fill="#5C4EE5" />
+    <polygon points="-5,28 -5,0 12,10 12,38" fill="#5C4EE5" />
+    <polygon points="14,-19 31,-9 31,19 14,9" fill="#844FBA" />
+  </g>
+  <!-- Text -->
+  <text x="100" y="125" text-anchor="middle" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" letter-spacing="2">TERRAFORM</text>
+  <text x="100" y="142" text-anchor="middle" fill="#A78BFA" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" letter-spacing="1">Associate</text>
+  <text x="100" y="158" text-anchor="middle" fill="#9CA3AF" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="700" letter-spacing="2">HASHICORP</text>
+</svg>
