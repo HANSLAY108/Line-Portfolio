@@ -75,19 +75,19 @@ export default async function BlogPage() {
                             key={tag}
                             className="rounded-full border border-border px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.08em] text-muted"
                           >
-                            {tag}
+                            <T>{tag}</T>
                           </span>
                         ))}
                       </div>
                     )}
 
                     <h2 className="font-serif text-[1.2rem] font-medium leading-snug text-foreground transition-colors group-hover:text-accent-text">
-                      {post.title}
+                      <T>{post.title}</T>
                     </h2>
 
                     {post.excerpt && (
                       <p className="mt-2 line-clamp-3 text-[13px] leading-[1.65] text-muted">
-                        {post.excerpt}
+                        <T>{post.excerpt}</T>
                       </p>
                     )}
 

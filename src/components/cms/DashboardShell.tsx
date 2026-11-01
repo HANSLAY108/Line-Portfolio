@@ -7,12 +7,14 @@ import TopBar from "./TopBar";
 interface DashboardShellProps {
   children: React.ReactNode;
   unreadCount?: number;
+  unreadServiceRequestsCount?: number;
   signOutAction: () => Promise<void>;
 }
 
 export default function DashboardShell({
   children,
   unreadCount = 0,
+  unreadServiceRequestsCount = 0,
   signOutAction,
 }: DashboardShellProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -21,6 +23,7 @@ export default function DashboardShell({
     <div className="flex min-h-screen bg-[#FAF4F3] text-[#292022] font-sans antialiased">
       <Sidebar
         unreadCount={unreadCount}
+        unreadServiceRequestsCount={unreadServiceRequestsCount}
         signOutAction={signOutAction}
         mobileOpen={mobileOpen}
         onCloseMobile={() => setMobileOpen(false)}

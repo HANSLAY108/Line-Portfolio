@@ -59,24 +59,24 @@ export default async function ProjectDetailPage({ params }: Props) {
         <FadeIn direction="up">
           <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-full bg-accent-soft px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-accent-text">
-              {project.category}
+              <T>{project.category}</T>
             </span>
             {project.filters.map((f) => (
               <span
                 key={f}
                 className="rounded-full border border-border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted"
               >
-                {f}
+                <T>{f}</T>
               </span>
             ))}
           </div>
 
           <h1 className="mt-5 font-serif text-[2.5rem] font-medium leading-[1.15] tracking-tight text-foreground sm:text-[3.25rem] lg:text-[3.75rem]">
-            {project.title}
+            <T>{project.title}</T>
           </h1>
 
           <p className="mt-5 max-w-2xl text-[17px] leading-[1.7] text-muted">
-            {project.summary}
+            <T>{project.summary}</T>
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
@@ -130,7 +130,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <T k="projects_page.aboutProject">About this project</T>
               </h2>
               <p className="mt-4 text-[16px] leading-[1.8] text-muted whitespace-pre-line">
-                {project.description}
+                <T>{project.description}</T>
               </p>
             </div>
 
@@ -207,7 +207,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                     <T k="blog.previous">Previous</T>
                   </span>
                   <span className="font-serif text-[15px] font-medium text-foreground transition-colors group-hover:text-accent-text">
-                    {prevProject.title}
+                    <T>{prevProject.title}</T>
                   </span>
                 </div>
               </Link>
@@ -232,7 +232,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                     <T k="blog.next">Next</T>
                   </span>
                   <span className="font-serif text-[15px] font-medium text-foreground transition-colors group-hover:text-accent-text">
-                    {nextProject.title}
+                    <T>{nextProject.title}</T>
                   </span>
                 </div>
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-white text-muted transition-colors group-hover:border-foreground/30 group-hover:text-foreground">

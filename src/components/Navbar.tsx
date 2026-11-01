@@ -8,6 +8,7 @@ import { CloseIcon, LogoIcon, MenuIcon } from "./icons";
 
 const navItems = [
   { href: "/", key: "nav.home", fallback: "Home" },
+  { href: "/services", key: "nav.services", fallback: "Services" },
   { href: "/projects", key: "nav.projects", fallback: "Projects" },
   { href: "/journey", key: "nav.journey", fallback: "Journey" },
   { href: "/blog", key: "nav.blog", fallback: "Blog" },
@@ -33,7 +34,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <ul className="hidden items-center gap-10 md:flex">
+        <ul className="hidden items-center gap-8 lg:gap-10 md:flex">
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (
@@ -140,4 +141,3 @@ export default function Navbar() {
     </header>
   );
 }
-

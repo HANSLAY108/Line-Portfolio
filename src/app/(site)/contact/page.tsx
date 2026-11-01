@@ -107,7 +107,7 @@ export default async function ContactPage() {
                         <T k={key}>{label}</T>
                       </p>
                       <p className="mt-0.5 font-serif text-[1.05rem] font-medium text-foreground transition-colors group-hover:text-accent-text">
-                        {value}
+                        <T>{value}</T>
                       </p>
                     </div>
                   </a>

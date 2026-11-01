@@ -134,6 +134,81 @@ export type Certificate = {
   updated_at?: string;
 };
 
+export type ServiceItem = {
+  id: string;
+  slug: string;
+  icon_key: string;
+  title_en: string;
+  title_fr: string | null;
+  description_en: string;
+  description_fr: string | null;
+  bullets_en: string[];
+  bullets_fr: string[];
+  sort_order: number;
+  published: boolean;
+  created_at?: string;
+  updated_at?: string;
+};
+
+export type ServiceProcessStep = {
+  number: string;
+  title_en: string;
+  title_fr: string;
+  description_en: string;
+  description_fr: string;
+};
+
+export type ServiceFaqItem = {
+  question_en: string;
+  question_fr: string;
+  answer_en: string;
+  answer_fr: string;
+};
+
+export type ServicesPageContent = {
+  id: number;
+  hero_badge_en: string;
+  hero_badge_fr: string | null;
+  hero_title_before_en: string;
+  hero_title_before_fr: string | null;
+  hero_title_accent_en: string;
+  hero_title_accent_fr: string | null;
+  hero_title_after_en: string;
+  hero_title_after_fr: string | null;
+  hero_subtitle_en: string;
+  hero_subtitle_fr: string | null;
+  hero_cta_en: string;
+  hero_cta_fr: string | null;
+  process_badge_en: string;
+  process_badge_fr: string | null;
+  process_heading_en: string;
+  process_heading_fr: string | null;
+  process_subtitle_en: string;
+  process_subtitle_fr: string | null;
+  steps: ServiceProcessStep[];
+  faq_badge_en: string;
+  faq_badge_fr: string | null;
+  faq_heading_en: string;
+  faq_heading_fr: string | null;
+  faq_subtitle_en: string;
+  faq_subtitle_fr: string | null;
+  faqs: ServiceFaqItem[];
+  updated_at?: string;
+};
+
+export type ServiceRequest = {
+  id: string;
+  full_name: string;
+  email: string;
+  service_needed: string;
+  budget_range: string | null;
+  timeline: string | null;
+  project_details: string;
+  company_website: string | null;
+  read: boolean;
+  created_at: string;
+};
+
 export type SiteContent = {
   settings: SiteSettings | null;
   skills: Skill[];
@@ -142,6 +217,8 @@ export type SiteContent = {
   socials: SocialLink[];
   educations?: Education[];
   certificates?: Certificate[];
+  services?: ServiceItem[];
+  servicesPage?: ServicesPageContent;
 };
 
 export type Message = {
@@ -169,5 +246,3 @@ export type PostRow = {
   created_at: string;
   updated_at: string;
 };
-
-

@@ -110,10 +110,10 @@ export default async function ProjectsPage() {
                       </div>
                       <div>
                         <h3 className="text-[15px] font-semibold text-foreground">
-                          {item.title}
+                          <T>{item.title}</T>
                         </h3>
                         <p className="text-[13px] leading-relaxed text-muted">
-                          {item.description}
+                          <T>{item.description}</T>
                         </p>
                       </div>
                     </div>

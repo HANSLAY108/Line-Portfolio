@@ -32,7 +32,7 @@ type ProjectGridProps = {
 };
 
 export default function ProjectGrid({ projects }: ProjectGridProps) {
-  const { t } = useLanguage();
+  const { t, tr } = useLanguage();
   const [active, setActive] = useState<(typeof filters)[number]>("ALL WORK");
 
   const visible =
@@ -48,7 +48,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
           const displayLabel =
             filter === "ALL WORK"
               ? t("projects_page.allFilter", "ALL WORK")
-              : filter;
+              : tr(filter);
           return (
             <button
               key={filter}
@@ -76,7 +76,6 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
             project.href &&
               (/^https?:\/\//.test(project.href) || project.href.startsWith("//")),
           );
-          // If an external link was set in CMS, it is the primary destination
           const primaryHref = project.href || internalHref;
 
           return (
@@ -96,12 +95,12 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
                   <div className="relative overflow-hidden rounded-2xl">
                     <MediaFrame
                       src={project.coverUrl}
-                      alt={project.imageLabel}
-                      placeholderLabel={project.imageLabel}
+                      alt={tr(project.imageLabel)}
+                      placeholderLabel={tr(project.imageLabel)}
                       className="aspect-[16/11] w-full transition-transform duration-500 group-hover:scale-[1.02]"
                     />
                     <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground shadow-sm">
-                      {project.category}
+                      {tr(project.category)}
                     </span>
                   </div>
                 </a>
@@ -110,12 +109,12 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
                   <div className="relative overflow-hidden rounded-2xl">
                     <MediaFrame
                       src={project.coverUrl}
-                      alt={project.imageLabel}
-                      placeholderLabel={project.imageLabel}
+                      alt={tr(project.imageLabel)}
+                      placeholderLabel={tr(project.imageLabel)}
                       className="aspect-[16/11] w-full transition-transform duration-500 group-hover:scale-[1.02]"
                     />
                     <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground shadow-sm">
-                      {project.category}
+                      {tr(project.category)}
                     </span>
                   </div>
                 </Link>
@@ -130,14 +129,14 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
                     rel="noopener noreferrer"
                     className="font-serif text-[1.5rem] font-medium tracking-tight text-foreground transition-colors hover:text-accent-text"
                   >
-                    {project.title}
+                    {tr(project.title)}
                   </a>
                 ) : (
                   <Link
                     href={internalHref}
                     className="font-serif text-[1.5rem] font-medium tracking-tight text-foreground transition-colors hover:text-accent-text"
                   >
-                    {project.title}
+                    {tr(project.title)}
                   </Link>
                 )}
 
@@ -146,7 +145,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
                     href={primaryHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`Open ${project.title}`}
+                    aria-label={`Open ${tr(project.title)}`}
                     className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-foreground/5 hover:text-foreground"
                   >
                     <ArrowUpRightIcon className="h-4 w-4" />
@@ -154,7 +153,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
                 ) : (
                   <Link
                     href={internalHref}
-                    aria-label={`View ${project.title}`}
+                    aria-label={`View ${tr(project.title)}`}
                     className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-muted transition-colors group-hover:text-foreground"
                   >
                     <ArrowUpRightIcon className="h-4 w-4" />
@@ -163,7 +162,7 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
               </div>
 
               <p className="mt-3 text-[14px] leading-[1.7] text-muted">
-                {project.description}
+                {tr(project.description)}
               </p>
 
               {/* Tags & Dual Action Links */}

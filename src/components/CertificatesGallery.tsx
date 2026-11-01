@@ -11,7 +11,7 @@ interface CertificatesGalleryProps {
 }
 
 export default function CertificatesGallery({ certificates }: CertificatesGalleryProps) {
-  const { t } = useLanguage();
+  const { t, tr } = useLanguage();
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
   const [activeModalCert, setActiveModalCert] = useState<Certificate | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -81,7 +81,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={badgeUrl}
-                        alt={cert.title}
+                        alt={tr(cert.title)}
                         className="h-full w-full object-contain"
                       />
                     ) : (
@@ -91,7 +91,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
 
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Verified
+                    {tr("Verified")}
                   </span>
                 </div>
 
@@ -101,13 +101,17 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
                 </p>
 
                 <h3 className="mt-1 font-serif text-[1.25rem] font-medium leading-snug text-foreground transition-colors group-hover:text-accent-text">
-                  {cert.title}
+                  {tr(cert.title)}
                 </h3>
 
                 {/* Dates & Credential ID */}
                 <div className="mt-2.5 flex flex-wrap items-center gap-2 text-[12px] text-muted-light">
                   <span>{cert.issue_date}</span>
-                  {cert.expiry_date && <span>· Valid: {cert.expiry_date}</span>}
+                  {cert.expiry_date && (
+                    <span>
+                      · {tr("Valid")}: {cert.expiry_date}
+                    </span>
+                  )}
                 </div>
 
                 {cert.credential_id && (
@@ -120,7 +124,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
                       title="Copy Credential ID"
                       className="ml-1 text-[10px] font-sans font-semibold uppercase text-accent-text hover:underline"
                     >
-                      {copiedId === cert.credential_id ? "Copied!" : "Copy"}
+                      {copiedId === cert.credential_id ? tr("Copied!") : tr("Copy")}
                     </button>
                   </div>
                 )}
@@ -128,7 +132,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
                 {/* Description snippet */}
                 {cert.description && (
                   <p className="mt-3 text-[13px] leading-[1.65] text-muted line-clamp-3">
-                    {cert.description}
+                    {tr(cert.description)}
                   </p>
                 )}
               </div>
@@ -142,7 +146,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
                         key={skill}
                         className="rounded-full border border-border bg-[#FAF7F5] px-2.5 py-0.5 text-[10px] font-medium text-muted"
                       >
-                        {skill}
+                        {tr(skill)}
                       </span>
                     ))}
                     {cert.skills.length > 3 && (
@@ -154,7 +158,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
                 )}
 
                 <div className="flex items-center justify-between text-[12px] font-medium text-accent-text">
-                  <span className="group-hover:underline">View Details &amp; Credential</span>
+                  <span className="group-hover:underline">{tr("View Details & Credential")}</span>
                   <ArrowRightIcon className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
@@ -195,7 +199,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={publicMediaUrl(activeModalCert.image_path)!}
-                    alt={activeModalCert.title}
+                    alt={tr(activeModalCert.title)}
                     className="h-full w-full object-contain"
                   />
                 ) : (
@@ -207,7 +211,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
                   {activeModalCert.issuer}
                 </span>
                 <h3 className="font-serif text-[1.4rem] font-medium leading-snug text-foreground">
-                  {activeModalCert.title}
+                  {tr(activeModalCert.title)}
                 </h3>
               </div>
             </div>
@@ -215,28 +219,28 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
             {/* Details */}
             <div className="mt-6 space-y-4 text-[13px] text-muted leading-relaxed">
               {activeModalCert.description && (
-                <p>{activeModalCert.description}</p>
+                <p>{tr(activeModalCert.description)}</p>
               )}
 
               <div className="grid grid-cols-2 gap-3 rounded-2xl border border-border bg-[#FAF7F5] p-4 text-[12px]">
                 <div>
                   <span className="block text-[10px] font-semibold uppercase tracking-wider text-muted-light">
-                    Issued Date
+                    {tr("Issued Date")}
                   </span>
                   <span className="font-medium text-foreground">{activeModalCert.issue_date}</span>
                 </div>
                 <div>
                   <span className="block text-[10px] font-semibold uppercase tracking-wider text-muted-light">
-                    Expiration
+                    {tr("Expiration")}
                   </span>
                   <span className="font-medium text-foreground">
-                    {activeModalCert.expiry_date ?? "Permanent / No Expiration"}
+                    {activeModalCert.expiry_date ?? tr("Permanent / No Expiration")}
                   </span>
                 </div>
                 {activeModalCert.credential_id && (
                   <div className="col-span-2">
                     <span className="block text-[10px] font-semibold uppercase tracking-wider text-muted-light">
-                      Credential ID
+                      {t("journey_page.credential_id_label", "Credential ID")}
                     </span>
                     <span className="font-mono text-foreground">{activeModalCert.credential_id}</span>
                   </div>
@@ -246,7 +250,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
               {activeModalCert.skills?.length > 0 && (
                 <div>
                   <span className="mb-2 block text-[11px] font-semibold uppercase tracking-wider text-foreground">
-                    Competencies &amp; Domains
+                    {tr("Competencies & Domains")}
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {activeModalCert.skills.map((s) => (
@@ -254,7 +258,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
                         key={s}
                         className="rounded-full border border-border bg-white px-3 py-1 text-[11px] font-medium text-muted"
                       >
-                        {s}
+                        {tr(s)}
                       </span>
                     ))}
                   </div>
@@ -269,7 +273,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
                 onClick={() => setActiveModalCert(null)}
                 className="rounded-full border border-border bg-white px-4 py-2 text-[12px] font-medium text-foreground hover:bg-neutral-50"
               >
-                Close
+                {tr("Close")}
               </button>
               {activeModalCert.credential_url && (
                 <a
@@ -278,7 +282,7 @@ export default function CertificatesGallery({ certificates }: CertificatesGaller
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 rounded-full bg-accent px-5 py-2 text-[12px] font-medium text-white hover:bg-accent-hover transition-colors shadow-xs"
                 >
-                  Verify at {activeModalCert.issuer}
+                  {tr("Verify at")} {activeModalCert.issuer}
                   <ArrowRightIcon className="h-3.5 w-3.5" />
                 </a>
               )}

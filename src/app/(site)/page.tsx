@@ -108,10 +108,10 @@ export default async function Home() {
                       <Icon className="h-5 w-5" />
                     </div>
                     <h3 className="font-serif text-[1.15rem] font-medium text-foreground">
-                      {item.title}
+                      <T>{item.title}</T>
                     </h3>
                     <p className="mt-2 text-[14px] leading-[1.65] text-muted">
-                      {item.description}
+                      <T>{item.description}</T>
                     </p>
                   </div>
                 );
@@ -124,7 +124,7 @@ export default async function Home() {
                   <T k="quote.label">Client Endorsement</T>
                 </span>
                 <blockquote className="my-6 font-serif text-[1.2rem] font-medium leading-[1.4] text-foreground sm:text-[1.3rem]">
-                  &ldquo;{quote.quote}&rdquo;
+                  &ldquo;<T>{quote.quote}</T>&rdquo;
                 </blockquote>
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-soft text-accent">
@@ -135,7 +135,7 @@ export default async function Home() {
                       {quote.author_name}
                     </p>
                     <p className="text-[12px] text-muted">
-                      {quote.author_role}
+                      <T>{quote.author_role}</T>
                     </p>
                   </div>
                 </div>
@@ -164,7 +164,7 @@ export default async function Home() {
               <div className="mt-12 overflow-hidden rounded-3xl bg-white p-8 ring-1 ring-border shadow-sm sm:p-10 lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
                 <div>
                   <span className="inline-flex rounded-full bg-accent-soft px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-accent-text">
-                    Featured Project · {featured.category}
+                    <T k="featured.featuredBadge">Featured Project</T> · <T>{featured.category}</T>
                   </span>
                   <h3 className="mt-5 font-serif text-[2rem] font-medium tracking-tight text-foreground">
                     {isFeaturedExternal ? (
@@ -174,19 +174,19 @@ export default async function Home() {
                         rel="noopener noreferrer"
                         className="transition-colors hover:text-accent-text"
                       >
-                        {featured.title}
+                        <T>{featured.title}</T>
                       </a>
                     ) : (
                       <Link
                         href={featuredHref}
                         className="transition-colors hover:text-accent-text"
                       >
-                        {featured.title}
+                        <T>{featured.title}</T>
                       </Link>
                     )}
                   </h3>
                   <p className="mt-4 text-[15px] leading-[1.7] text-muted">
-                    {featured.summary}
+                    <T>{featured.summary}</T>
                   </p>
                   <div className="mt-6 flex flex-wrap gap-2">
                     {featured.tags.map((tag) => (
@@ -207,14 +207,14 @@ export default async function Home() {
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-accent-hover"
                         >
-                          View Live Project
+                          <T k="featured.viewLiveProject">View Live Project</T>
                           <ArrowRightIcon className="h-4 w-4" />
                         </a>
                         <Link
                           href={`/projects/${featured.slug}`}
                           className="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-5 py-2.5 text-[13px] font-medium text-foreground transition-colors hover:bg-accent-soft hover:text-accent-text"
                         >
-                          Case Study
+                          <T k="featured.caseStudy">Case Study</T>
                         </Link>
                       </>
                     ) : (
@@ -222,7 +222,7 @@ export default async function Home() {
                         href={`/projects/${featured.slug}`}
                         className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-accent-hover"
                       >
-                        Explore Project
+                        <T k="featured.exploreProject">Explore Project</T>
                         <ArrowRightIcon className="h-4 w-4" />
                       </Link>
                     )}
@@ -301,7 +301,7 @@ export default async function Home() {
                         </Link>
                       )}
                       <span className="mt-5 inline-block text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-text">
-                        {project.category}
+                        <T>{project.category}</T>
                       </span>
                       <h3 className="mt-2 font-serif text-[1.4rem] font-medium text-foreground">
                         {isSecExternal ? (
@@ -311,19 +311,19 @@ export default async function Home() {
                             rel="noopener noreferrer"
                             className="transition-colors hover:text-accent-text"
                           >
-                            {project.title}
+                            <T>{project.title}</T>
                           </a>
                         ) : (
                           <Link
                             href={secHref}
                             className="transition-colors hover:text-accent-text"
                           >
-                            {project.title}
+                            <T>{project.title}</T>
                           </Link>
                         )}
                       </h3>
                       <p className="mt-2 text-[14px] leading-[1.65] text-muted">
-                        {project.summary}
+                        <T>{project.summary}</T>
                       </p>
                     </div>
                     <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
@@ -338,14 +338,14 @@ export default async function Home() {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1.5 text-[13px] font-medium text-accent-text transition-colors hover:text-foreground"
                           >
-                            View Live
+                            <T k="projects_page.viewLive">View Live</T>
                             <ArrowRightIcon className="h-3.5 w-3.5" />
                           </a>
                           <Link
                             href={`/projects/${project.slug}`}
                             className="text-[12px] font-medium text-muted hover:text-foreground"
                           >
-                            Details
+                            <T k="projects_page.details">Details</T>
                           </Link>
                         </div>
                       ) : (
@@ -353,7 +353,7 @@ export default async function Home() {
                           href={secHref}
                           className="inline-flex items-center gap-1.5 text-[13px] font-medium text-accent-text transition-colors hover:text-foreground"
                         >
-                          Explore Project
+                          <T k="featured.exploreProject">Explore Project</T>
                           <ArrowRightIcon className="h-3.5 w-3.5" />
                         </Link>
                       )}

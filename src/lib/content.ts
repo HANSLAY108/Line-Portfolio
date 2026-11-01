@@ -3,6 +3,8 @@ import {
   fallbackCertificates,
   fallbackEducations,
   fallbackProjects,
+  fallbackServices,
+  fallbackServicesPageContent,
   fallbackSettings,
   fallbackSkills,
   fallbackSocials,
@@ -13,6 +15,8 @@ import type {
   Certificate,
   Education,
   ProjectRow,
+  ServiceItem,
+  ServicesPageContent,
   SiteContent,
   SiteSettings,
   Skill,
@@ -31,6 +35,8 @@ async function loadPublishedContent(): Promise<SiteContent> {
       socials: fallbackSocials,
       educations: fallbackEducations,
       certificates: fallbackCertificates,
+      services: fallbackServices,
+      servicesPage: fallbackServicesPageContent,
     };
   }
 
@@ -43,6 +49,8 @@ async function loadPublishedContent(): Promise<SiteContent> {
       socialsRes,
       educationsRes,
       certificatesRes,
+      servicesRes,
+      servicesPageRes,
     ] = await Promise.all([
       supabase.from("site_settings").select("*").eq("id", 1).maybeSingle(),
       supabase.from("skills").select("*").eq("published", true).order("sort_order"),
@@ -67,6 +75,16 @@ async function loadPublishedContent(): Promise<SiteContent> {
         .select("*")
         .eq("published", true)
         .order("sort_order"),
+      supabase
+        .from("services")
+        .select("*")
+        .eq("published", true)
+        .order("sort_order"),
+      supabase
+        .from("services_page_content")
+        .select("*")
+        .eq("id", 1)
+        .maybeSingle(),
     ]);
 
     return {
@@ -89,6 +107,23 @@ async function loadPublishedContent(): Promise<SiteContent> {
       certificates: (certificatesRes?.data as Certificate[] | null)?.length
         ? (certificatesRes.data as Certificate[])
         : fallbackCertificates,
+      services: (servicesRes?.data as ServiceItem[] | null)?.length
+        ? (servicesRes.data as ServiceItem[])
+        : fallbackServices,
+      servicesPage: (servicesPageRes?.data as ServicesPageContent | null)
+        ? {
+            ...fallbackServicesPageContent,
+            ...(servicesPageRes.data as ServicesPageContent),
+            steps: Array.isArray((servicesPageRes.data as ServicesPageContent).steps) &&
+              (servicesPageRes.data as ServicesPageContent).steps.length > 0
+              ? (servicesPageRes.data as ServicesPageContent).steps
+              : fallbackServicesPageContent.steps,
+            faqs: Array.isArray((servicesPageRes.data as ServicesPageContent).faqs) &&
+              (servicesPageRes.data as ServicesPageContent).faqs.length > 0
+              ? (servicesPageRes.data as ServicesPageContent).faqs
+              : fallbackServicesPageContent.faqs,
+          }
+        : fallbackServicesPageContent,
     };
   } catch {
     return {
@@ -99,6 +134,8 @@ async function loadPublishedContent(): Promise<SiteContent> {
       socials: fallbackSocials,
       educations: fallbackEducations,
       certificates: fallbackCertificates,
+      services: fallbackServices,
+      servicesPage: fallbackServicesPageContent,
     };
   }
 }

@@ -13,6 +13,8 @@ import {
   LogOutIcon,
   MediaIcon,
   MessagesIcon,
+  ServiceRequestsIcon,
+  ServicesIcon,
   SettingsIcon,
   SkillsIcon,
   TestimonialsIcon,
@@ -20,6 +22,7 @@ import {
 
 interface SidebarProps {
   unreadCount?: number;
+  unreadServiceRequestsCount?: number;
   signOutAction: () => Promise<void>;
   mobileOpen: boolean;
   onCloseMobile: () => void;
@@ -27,6 +30,7 @@ interface SidebarProps {
 
 export default function Sidebar({
   unreadCount = 0,
+  unreadServiceRequestsCount = 0,
   signOutAction,
   mobileOpen,
   onCloseMobile,
@@ -37,6 +41,14 @@ export default function Sidebar({
   const navItems = [
     { href: "/cms", label: "Dashboard", icon: DashboardIcon, exact: true },
     { href: "/cms/home", label: "Home Page", icon: HomeIcon },
+    { href: "/cms/services", label: "Services", icon: ServicesIcon },
+    {
+      href: "/cms/service-requests",
+      label: "Service Requests",
+      icon: ServiceRequestsIcon,
+      badge:
+        unreadServiceRequestsCount > 0 ? unreadServiceRequestsCount : undefined,
+    },
     { href: "/cms/projects", label: "Projects", icon: FolderIcon },
     { href: "/cms/posts", label: "Blog Posts", icon: BlogIcon },
     { href: "/cms/journey", label: "Journey & Education", icon: JourneyIcon },
@@ -92,7 +104,8 @@ export default function Sidebar({
             {navItems.map((item) => {
               const isActive = item.exact
                 ? pathname === item.href
-                : pathname === item.href || (item.href !== "/cms" && pathname.startsWith(item.href));
+                : pathname === item.href ||
+                  (item.href !== "/cms" && pathname.startsWith(`${item.href}/`));
               const Icon = item.icon;
 
               return (

@@ -1,4 +1,5 @@
 import type { Education } from "@/lib/types";
+import { T } from "@/context/LanguageContext";
 
 interface JourneyTimelineProps {
   educations: Education[];
@@ -7,7 +8,7 @@ interface JourneyTimelineProps {
 export default function JourneyTimeline({ educations }: JourneyTimelineProps) {
   return (
     <div className="relative border-l-2 border-border/80 pl-6 sm:pl-10 space-y-12 lg:space-y-16 ml-3 sm:ml-6">
-      {educations.map((edu, idx) => (
+      {educations.map((edu) => (
         <div key={edu.id} className="relative group">
           {/* Timeline Node Dot */}
           <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-accent bg-background transition-transform duration-300 group-hover:scale-125 shadow-xs">
@@ -23,7 +24,7 @@ export default function JourneyTimeline({ educations }: JourneyTimelineProps) {
                 </span>
                 {edu.location && (
                   <span className="text-[12px] text-muted-light font-medium">
-                    · {edu.location}
+                    · <T>{edu.location}</T>
                   </span>
                 )}
               </div>
@@ -31,7 +32,7 @@ export default function JourneyTimeline({ educations }: JourneyTimelineProps) {
               {edu.grade && (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-0.5 text-[11px] font-semibold text-emerald-800">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  {edu.grade}
+                  <T>{edu.grade}</T>
                 </span>
               )}
             </div>
@@ -39,14 +40,14 @@ export default function JourneyTimeline({ educations }: JourneyTimelineProps) {
             {/* Degree Title & Institution */}
             <div className="mt-4">
               <h3 className="font-serif text-[1.6rem] sm:text-[1.85rem] font-medium leading-tight text-foreground">
-                {edu.degree}
+                <T>{edu.degree}</T>
               </h3>
               <p className="mt-1 text-[14px] sm:text-[15px] font-medium text-accent-text">
-                {edu.institution}
+                <T>{edu.institution}</T>
               </p>
               {edu.field_of_study && (
                 <p className="mt-0.5 text-[13px] text-muted font-medium">
-                  Specialization: {edu.field_of_study}
+                  <T>Specialization:</T> <T>{edu.field_of_study}</T>
                 </p>
               )}
             </div>
@@ -54,7 +55,7 @@ export default function JourneyTimeline({ educations }: JourneyTimelineProps) {
             {/* Narrative description */}
             {edu.description && (
               <p className="mt-4 text-[14px] sm:text-[15px] leading-[1.75] text-muted">
-                {edu.description}
+                <T>{edu.description}</T>
               </p>
             )}
 
@@ -62,7 +63,7 @@ export default function JourneyTimeline({ educations }: JourneyTimelineProps) {
             {edu.coursework?.length > 0 && (
               <div className="mt-6 pt-5 border-t border-border/60">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-light mb-3">
-                  Core Coursework &amp; Research Focus
+                  <T>Core Coursework &amp; Research Focus</T>
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {edu.coursework.map((course) => (
@@ -70,7 +71,7 @@ export default function JourneyTimeline({ educations }: JourneyTimelineProps) {
                       key={course}
                       className="rounded-full border border-border bg-[#FAF7F5] px-3 py-1 text-[12px] font-medium text-muted transition-colors hover:border-foreground/30 hover:text-foreground"
                     >
-                      {course}
+                      <T>{course}</T>
                     </span>
                   ))}
                 </div>

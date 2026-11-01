@@ -57,14 +57,14 @@ export default async function BlogPostPage({ params }: Props) {
                   key={tag}
                   className="rounded-full border border-border px-3 py-1 text-[11px] font-medium uppercase tracking-[0.08em] text-muted"
                 >
-                  {tag}
+                  <T>{tag}</T>
                 </span>
               ))}
             </div>
           )}
 
           <h1 className="font-serif text-[2rem] font-medium leading-[1.2] tracking-tight text-foreground sm:text-[2.75rem]">
-            {post.title}
+            <T>{post.title}</T>
           </h1>
 
           {post.published_at && (
@@ -79,7 +79,7 @@ export default async function BlogPostPage({ params }: Props) {
 
           {post.excerpt && (
             <p className="mt-6 text-[17px] font-light leading-[1.75] text-muted">
-              {post.excerpt}
+              <T>{post.excerpt}</T>
             </p>
           )}
         </FadeIn>
@@ -105,7 +105,7 @@ export default async function BlogPostPage({ params }: Props) {
                     <T k="blog.previous">← Previous</T>
                   </span>
                   <span className="font-serif text-[1rem] font-medium text-foreground transition-colors group-hover:text-accent-text">
-                    {prev.title}
+                    <T>{prev.title}</T>
                   </span>
                 </Link>
               ) : (
@@ -120,7 +120,7 @@ export default async function BlogPostPage({ params }: Props) {
                     <T k="blog.next">Next →</T>
                   </span>
                   <span className="font-serif text-[1rem] font-medium text-foreground transition-colors group-hover:text-accent-text">
-                    {next.title}
+                    <T>{next.title}</T>
                   </span>
                 </Link>
               )}

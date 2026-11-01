@@ -13,19 +13,26 @@ export default async function DashboardLayout({
   await connection();
   const { supabase } = await requireAdmin();
 
-  // Fetch unread messages count for sidebar badge
-  const { count: unreadCount } = await supabase
-    .from("messages")
-    .select("*", { count: "exact", head: true })
-    .eq("read", false);
+  // Fetch unread messages count and unread service requests count for sidebar badges
+  const [{ count: unreadCount }, { count: unreadServiceRequestsCount }] =
+    await Promise.all([
+      supabase
+        .from("messages")
+        .select("*", { count: "exact", head: true })
+        .eq("read", false),
+      supabase
+        .from("service_requests")
+        .select("*", { count: "exact", head: true })
+        .eq("read", false),
+    ]);
 
   return (
     <DashboardShell
       unreadCount={unreadCount ?? 0}
+      unreadServiceRequestsCount={unreadServiceRequestsCount ?? 0}
       signOutAction={signOut}
     >
       {children}
     </DashboardShell>
   );
 }
-

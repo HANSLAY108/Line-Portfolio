@@ -3,12 +3,20 @@ import {
   BoltIcon,
   ChipIcon,
   CloudIcon,
+  CodeIcon,
+  CompassIcon,
   EmailIcon,
   GithubIcon,
+  GlobeIcon,
+  LanguagesIcon,
   LayersIcon,
   LinkedInIcon,
   MonitorIcon,
+  PaletteIcon,
   ServerIcon,
+  ShieldIcon,
+  SlidersIcon,
+  TerminalIcon,
   TwitterIcon,
 } from "@/components/icons";
 
@@ -21,6 +29,14 @@ const skillIcons: Record<string, Icon> = {
   chip: ChipIcon,
   bolt: BoltIcon,
   layers: LayersIcon,
+  globe: GlobeIcon,
+  code: CodeIcon,
+  palette: PaletteIcon,
+  sliders: SlidersIcon,
+  shield: ShieldIcon,
+  languages: LanguagesIcon,
+  compass: CompassIcon,
+  terminal: TerminalIcon,
 };
 
 const socialIcons: Record<string, Icon> = {
@@ -32,6 +48,10 @@ const socialIcons: Record<string, Icon> = {
 
 export function skillIcon(key: string): Icon {
   return skillIcons[key] ?? MonitorIcon;
+}
+
+export function serviceIcon(key: string): Icon {
+  return skillIcons[key] ?? GlobeIcon;
 }
 
 export function socialIcon(key: string): Icon {

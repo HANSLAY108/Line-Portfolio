@@ -19,7 +19,6 @@ export default async function JourneyPage() {
   const s = settings!;
   const cvHref = publicMediaUrl(s.cv_path) ?? "/Line-Morelle-CV.pdf";
 
-  // Filter only published entries for the public site
   const publishedEducations = educations.filter((e) => e.published);
   const publishedCertificates = certificates.filter((c) => c.published);
 
@@ -73,7 +72,7 @@ export default async function JourneyPage() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div className="rounded-2xl border border-border bg-white p-6 shadow-xs text-center sm:text-left">
               <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-text">
-                Academic Degrees
+                <T>Academic Degrees</T>
               </span>
               <p className="mt-2 font-serif text-[1.8rem] font-medium text-foreground">
                 <T k="journey_page.stats_degree">M.Sc. &amp; B.Sc.</T>
@@ -85,7 +84,7 @@ export default async function JourneyPage() {
 
             <div className="rounded-2xl border border-border bg-white p-6 shadow-xs text-center sm:text-left">
               <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-text">
-                Alma Mater
+                <T>Alma Mater</T>
               </span>
               <p className="mt-2 font-serif text-[1.8rem] font-medium text-foreground">
                 <T k="journey_page.stats_alumni">ETH Zürich &amp; EPFL</T>
@@ -97,7 +96,7 @@ export default async function JourneyPage() {
 
             <div className="rounded-2xl border border-border bg-white p-6 shadow-xs text-center sm:text-left sm:col-span-2 lg:col-span-1">
               <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-text">
-                Accreditations
+                <T>Accreditations</T>
               </span>
               <p className="mt-2 font-serif text-[1.8rem] font-medium text-foreground">
                 <T k="journey_page.stats_certs">5+ Verified Credentials</T>
@@ -115,7 +114,7 @@ export default async function JourneyPage() {
         <FadeIn direction="up">
           <div className="mb-10 max-w-2xl">
             <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-accent-text">
-              01 / Foundation
+              <T>01 / Foundation</T>
             </span>
             <h2 className="mt-2 font-serif text-[2.2rem] font-medium tracking-tight text-foreground sm:text-[2.6rem]">
               <T k="journey_page.education_section_title">Academic Foundations</T>
@@ -136,7 +135,7 @@ export default async function JourneyPage() {
         <FadeIn direction="up">
           <div className="mb-12 text-center max-w-2xl mx-auto">
             <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-accent-text">
-              02 / Accreditations
+              <T>02 / Accreditations</T>
             </span>
             <h2 className="mt-2 font-serif text-[2.2rem] font-medium tracking-tight text-foreground sm:text-[2.75rem]">
               <T k="journey_page.certificates_section_title">Verified Certifications</T>
@@ -158,7 +157,7 @@ export default async function JourneyPage() {
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
               <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-accent-text">
-                Philosophy
+                <T>Philosophy</T>
               </span>
               <h2 className="mt-3 font-serif text-[2.2rem] font-medium leading-[1.2] tracking-tight text-foreground sm:text-[2.75rem]">
                 <T k="journey_page.philosophy_title">The Engineering Mindset</T>
@@ -213,23 +212,29 @@ export default async function JourneyPage() {
         <FadeIn direction="up">
           <div className="rounded-3xl border border-border bg-accent-soft p-8 text-center sm:p-12 lg:p-16">
             <h2 className="font-serif text-[2.2rem] font-medium leading-[1.2] text-foreground sm:text-[2.75rem]">
-              Let&apos;s build something <span className="italic-accent">enduring</span>.
+              <T>Let&apos;s build something</T>{" "}
+              <span className="italic-accent">
+                <T>enduring</T>
+              </span>
+              .
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
-              Whether you need strategic software architecture, high-concurrency systems design, or an audit of your cloud infrastructure.
+              <T>
+                Whether you need strategic software architecture, high-concurrency systems design, or an audit of your cloud infrastructure.
+              </T>
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/contact"
                 className="rounded-lg bg-accent px-6 py-3 text-[14px] font-medium text-white transition-colors hover:bg-accent-hover shadow-xs"
               >
-                Start a Conversation
+                <T>Start a Conversation</T>
               </Link>
               <Link
                 href="/projects"
                 className="rounded-lg border border-border bg-white px-6 py-3 text-[14px] font-medium text-foreground transition-colors hover:border-foreground/30 hover:bg-neutral-50 shadow-xs"
               >
-                Explore Projects
+                <T>Explore Projects</T>
               </Link>
             </div>
           </div>

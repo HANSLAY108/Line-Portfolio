@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import enMessages from "../../messages/en.json";
 import frMessages from "../../messages/fr.json";
+import { translateContentString } from "@/lib/i18n/content-translations";
 
 export type Locale = "en" | "fr";
 
@@ -24,6 +25,7 @@ interface LanguageContextType {
   setLocale: (locale: Locale) => void;
   toggleLocale: () => void;
   t: (key: string, fallback?: string) => string;
+  tr: (text: string | null | undefined) => string;
   mounted: boolean;
 }
 
@@ -32,11 +34,12 @@ const LanguageContext = createContext<LanguageContextType>({
   setLocale: () => {},
   toggleLocale: () => {},
   t: (_key, fallback) => fallback ?? "",
+  tr: (text) => text ?? "",
   mounted: false,
 });
 
 function getNestedValue(obj: any, path: string): string | undefined {
-  if (!obj) return undefined;
+  if (!obj || !path) return undefined;
   const keys = path.split(".");
   let current = obj;
   for (const k of keys) {
@@ -55,7 +58,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    // 1. Check cookie or localStorage
     try {
       const match = document.cookie.match(/(?:^|; )locale=([^;]*)/);
       const cookieLocale = match ? decodeURIComponent(match[1]) : null;
@@ -63,16 +65,17 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
       if (stored === "fr" || stored === "en") {
         setLocaleState(stored);
+        document.documentElement.lang = stored;
         return;
       }
 
-      // 2. Auto-detect French browser
       if (
         typeof navigator !== "undefined" &&
         navigator.language &&
         navigator.language.toLowerCase().startsWith("fr")
       ) {
         setLocaleState("fr");
+        document.documentElement.lang = "fr";
         document.cookie = "locale=fr; path=/; max-age=31536000; SameSite=Lax";
         localStorage.setItem("preferred_locale", "fr");
       }
@@ -84,6 +87,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const setLocale = useCallback((newLocale: Locale) => {
     setLocaleState(newLocale);
     try {
+      document.documentElement.lang = newLocale;
       localStorage.setItem("preferred_locale", newLocale);
       document.cookie = `locale=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
     } catch {
@@ -95,25 +99,40 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     setLocale(locale === "en" ? "fr" : "en");
   }, [locale, setLocale]);
 
-
   const t = useCallback(
     (key: string, fallback?: string): string => {
       const activeDict = dictionaries[locale];
       const val = getNestedValue(activeDict, key);
       if (val !== undefined) return val;
 
+      if (fallback) {
+        const mapped = translateContentString(fallback, locale);
+        if (mapped !== fallback) return mapped;
+      }
+
       const fallbackDict = dictionaries.en;
       const fallbackVal = getNestedValue(fallbackDict, key);
-      if (fallbackVal !== undefined) return fallbackVal;
+      if (fallbackVal !== undefined) {
+        return locale === "fr"
+          ? translateContentString(fallbackVal, "fr")
+          : fallbackVal;
+      }
 
-      return fallback ?? key;
+      return fallback ? translateContentString(fallback, locale) : key;
+    },
+    [locale],
+  );
+
+  const tr = useCallback(
+    (text: string | null | undefined): string => {
+      return translateContentString(text, locale);
     },
     [locale],
   );
 
   return (
     <LanguageContext.Provider
-      value={{ locale, setLocale, toggleLocale, t, mounted }}
+      value={{ locale, setLocale, toggleLocale, t, tr, mounted }}
     >
       {children}
     </LanguageContext.Provider>
@@ -125,8 +144,8 @@ export function useLanguage() {
 }
 
 /**
- * Lightweight helper to wrap static text or DB fallback strings.
- * Renders translated string when locale is French, or original children when English.
+ * Lightweight helper to wrap static text or DB strings.
+ * Translates every string to French when locale === "fr", and to English when locale === "en".
  * Uses suppressHydrationWarning to eliminate SSR/CSR hydration mismatch differences.
  */
 export function T({
@@ -134,32 +153,113 @@ export function T({
   children,
   fallback,
 }: {
-  k: string;
+  k?: string;
   children?: React.ReactNode;
   fallback?: string;
 }) {
-  const { t, locale, mounted } = useLanguage();
+  const { t, tr, locale, mounted } = useLanguage();
 
-  if (!mounted && children !== undefined) {
+  const childString =
+    typeof children === "string"
+      ? children
+      : typeof children === "number"
+        ? String(children)
+        : undefined;
+
+  const hasValidChild =
+    children !== undefined && children !== null && childString !== "";
+
+  if (!mounted) {
+    if (hasValidChild) {
+      return (
+        <span suppressHydrationWarning className="contents">
+          {children}
+        </span>
+      );
+    }
+    const ssrFallback = k ? getNestedValue(dictionaries.en, k) : fallback;
     return (
       <span suppressHydrationWarning className="contents">
-        {children}
+        {ssrFallback ?? fallback ?? ""}
       </span>
     );
   }
 
-  if (locale === "en" && children !== undefined) {
+  // If no dictionary key k is provided, translate the dynamic child string directly
+  if (!k) {
+    if (childString !== undefined) {
+      return (
+        <span suppressHydrationWarning className="contents">
+          {tr(childString)}
+        </span>
+      );
+    }
     return (
       <span suppressHydrationWarning className="contents">
-        {children}
+        {fallback ? tr(fallback) : children}
       </span>
     );
   }
 
-  const translated = t(
-    k,
-    fallback ?? (typeof children === "string" ? children : undefined),
-  );
+  if (locale === "en") {
+    // In English: if childString is present, translate any French DB text to English;
+    // also if k === "hero.badge" and DB accidentally has "Building digital", use en dictionary
+    if (hasValidChild && childString !== undefined) {
+      if (k === "hero.badge" && childString.trim() === "Building digital") {
+        return (
+          <span suppressHydrationWarning className="contents">
+            {t(k, childString)}
+          </span>
+        );
+      }
+      return (
+        <span suppressHydrationWarning className="contents">
+          {tr(childString)}
+        </span>
+      );
+    }
+    if (hasValidChild) {
+      return (
+        <span suppressHydrationWarning className="contents">
+          {children}
+        </span>
+      );
+    }
+    return (
+      <span suppressHydrationWarning className="contents">
+        {t(k, fallback)}
+      </span>
+    );
+  }
+
+  // In French (locale === "fr"):
+  // If childString has an exact custom translation in content-translations (e.g. custom hero_body),
+  // prefer that if it differs from the raw English string and k is not in frMessages;
+  // otherwise use the French dictionary key `k`, falling back to `tr(childString)`.
+  const dictFr = getNestedValue(dictionaries.fr, k);
+  if (dictFr !== undefined) {
+    // Special case: if childString is a custom DB paragraph that has its own tailored FR translation
+    if (
+      childString &&
+      k === "hero.body" &&
+      tr(childString) !== childString
+    ) {
+      return (
+        <span suppressHydrationWarning className="contents">
+          {tr(childString)}
+        </span>
+      );
+    }
+    return (
+      <span suppressHydrationWarning className="contents">
+        {dictFr}
+      </span>
+    );
+  }
+
+  const translated = childString
+    ? tr(childString)
+    : t(k, fallback);
 
   return (
     <span suppressHydrationWarning className="contents">
