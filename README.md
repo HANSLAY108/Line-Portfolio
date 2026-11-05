@@ -1,4 +1,4 @@
-# Line Morelle — portfolio
+# Line Morelle - portfolio
 
 One Next.js app. Public pages at `/`. CMS at `/cms` (not linked in the navbar).
 

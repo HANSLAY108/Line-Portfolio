@@ -1,4 +1,4 @@
-# Setup — Line Morelle portfolio + CMS
+# Setup - Line Morelle portfolio + CMS
 
 One Next.js app. Public site at `/`, CMS at `/cms`.
 
@@ -18,7 +18,7 @@ The public site has **no admin routes and no link to the CMS**.
 3. Open **Project Settings → API** and copy:
    - Project URL
    - `anon` `public` key
-   - `service_role` key (server only — never put this in `NEXT_PUBLIC_` vars)
+   - `service_role` key (server only - never put this in `NEXT_PUBLIC_` vars)
 
 ---
 
@@ -48,7 +48,7 @@ CONTACT_FROM_EMAIL=Line Morelle <noreply@your-verified-domain.com>
 
 ---
 
-## 4. Auth — single admin, no public sign-up
+## 4. Auth - single admin, no public sign-up
 
 1. **Authentication → Providers → Email**: enable Email.
 2. **Authentication → Providers**: turn **off** any social providers you do not need.
@@ -135,7 +135,7 @@ The CMS sets `noindex` via metadata and is excluded from crawlers via `robots.ts
 ## 9. First-time CMS checklist
 
 1. Sign in at `/cms`.
-2. **Home** — confirm hero text; upload portrait when you have it.
-3. **Projects** — covers, featured flag, sort order.
-4. **Settings** — phone, location, CV PDF, philosophy image.
+2. **Home** - confirm hero text; upload portrait when you have it.
+3. **Projects** - covers, featured flag, sort order.
+4. **Settings** - phone, location, CV PDF, philosophy image.
 5. Submit a test message on the public Contact page and confirm it in **Messages**.

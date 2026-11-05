@@ -9,7 +9,7 @@ import { publicMediaUrl } from "@/lib/supabase";
 import { T } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "Line Morelle — Software Engineer",
+  title: "Line Morelle - Software Engineer",
   description:
     "Line Morelle architects high-performance web applications and scalable systems with a focus on minimalist aesthetics and robust engineering.",
 };

@@ -220,7 +220,7 @@ export async function POST(request: Request) {
         from,
         to,
         replyTo: email,
-        subject: `[Service Request] ${serviceNeeded} — ${fullName}`,
+        subject: `[Service Request] ${serviceNeeded} - ${fullName}`,
         text: emailLines.join("\n"),
       });
     } catch {

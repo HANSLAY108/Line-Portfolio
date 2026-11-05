@@ -7,7 +7,7 @@ import {
 } from "@/lib/fallbacks";
 
 export const metadata: Metadata = {
-  title: "Services — Line Morelle",
+  title: "Services - Line Morelle",
   description:
     "Custom website development, full-stack web applications, UI implementation, backend APIs, CMS dashboards, performance audits, and technical consulting by Line Morelle.",
 };

@@ -283,7 +283,7 @@ export default function DashboardPage() {
 
         {/* ================= MAIN CONTENT ================= */}
         <div className="flex-1 flex flex-col min-w-0">
-          {/* Top Header Bar — desktop only */}
+          {/* Top Header Bar - desktop only */}
           <header className="hidden md:flex h-16 border-b border-slate-200/90 bg-white px-6 items-center justify-between gap-4 shrink-0">
             {/* Site Switcher Dropdown */}
             <div className="relative" ref={dropdownRef}>

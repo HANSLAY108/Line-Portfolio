@@ -278,7 +278,7 @@ const REVIEWS = [
     rating: 5,
     date: "October 8, 2025",
     title: "Complete game changer for my skin",
-    body: "I've struggled with dry patches for years. After two weeks of using this serum, my skin feels plump and deeply hydrated. The texture is lightweight and absorbs instantly — no greasy residue at all.",
+    body: "I've struggled with dry patches for years. After two weeks of using this serum, my skin feels plump and deeply hydrated. The texture is lightweight and absorbs instantly - no greasy residue at all.",
     verified: true,
   },
   {
@@ -297,7 +297,7 @@ const REVIEWS = [
     avatar: "AT",
     rating: 4,
     date: "September 14, 2025",
-    title: "Love the formula — mild scent is a bonus",
+    title: "Love the formula - mild scent is a bonus",
     body: "Really impressive formula. The calming botanical scent is a nice touch without being overpowering. I dock one star only because the pump dispenser can be slightly unpredictable.",
     verified: true,
   },
@@ -318,11 +318,11 @@ const FAQS = [
   },
   {
     q: "When will I see results?",
-    a: "Most customers report visibly softer, more hydrated skin within 5–7 days. Optimal results are typically achieved after 4–6 weeks of consistent use.",
+    a: "Most customers report visibly softer, more hydrated skin within 5-7 days. Optimal results are typically achieved after 4-6 weeks of consistent use.",
   },
   {
     q: "What is your return policy?",
-    a: "We offer a 30-day satisfaction guarantee. If you're not completely happy with your purchase, contact our customer care team for a full refund or exchange — no questions asked.",
+    a: "We offer a 30-day satisfaction guarantee. If you're not completely happy with your purchase, contact our customer care team for a full refund or exchange - no questions asked.",
   },
 ];
 
@@ -395,7 +395,7 @@ export default function VelocePage() {
       <header className="sticky top-0 z-40 bg-white border-b border-[#e8e8e8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Hamburger — mobile */}
+            {/* Hamburger - mobile */}
             <button
               className="md:hidden text-[#1a1a1a] p-1"
               onClick={() => setMobileMenuOpen(true)}
@@ -502,12 +502,12 @@ export default function VelocePage() {
       </div>
 
       {/* ═══════════════════════════════════════════
-          PRODUCT DETAIL — HERO
+          PRODUCT DETAIL - HERO
       ═══════════════════════════════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
 
-          {/* LEFT — Image Gallery */}
+          {/* LEFT - Image Gallery */}
           <div className="flex flex-col-reverse sm:flex-row gap-4">
             {/* Thumbnails */}
             <div className="flex sm:flex-col gap-2.5 overflow-x-auto sm:overflow-visible">
@@ -554,7 +554,7 @@ export default function VelocePage() {
             </div>
           </div>
 
-          {/* RIGHT — Product Info */}
+          {/* RIGHT - Product Info */}
           <div className="flex flex-col justify-center">
             {/* Brand */}
             <p className="text-[11px] font-semibold tracking-widest text-[#6c5ce7] uppercase mb-2">Lumière</p>
@@ -667,7 +667,7 @@ export default function VelocePage() {
                 { Icon: IconTruck, label: "Free Shipping", sub: "On orders over $50" },
                 { Icon: IconRotateCcw, label: "30-Day Returns", sub: "No questions asked" },
                 { Icon: IconShield, label: "Secure Payment", sub: "256-bit SSL encryption" },
-                { Icon: IconHeadphones, label: "Expert Support", sub: "Mon–Fri, 9am–6pm" },
+                { Icon: IconHeadphones, label: "Expert Support", sub: "Mon-Fri, 9am-6pm" },
               ].map(({ Icon, label, sub }) => (
                 <div key={label} className="flex items-start gap-3">
                   <div className="h-9 w-9 rounded-xl bg-[#f8f8f8] flex items-center justify-center shrink-0">
@@ -869,7 +869,7 @@ export default function VelocePage() {
               {[
                 { step: "01", title: "Cleanse", desc: "Start with a clean face using your preferred gentle cleanser. Pat skin dry leaving it slightly damp for better absorption." },
                 { step: "02", title: "Tone", desc: "Apply your toner or essence as the first layer. Allow to absorb for 30 seconds before applying the serum." },
-                { step: "03", title: "Apply Serum", desc: "Dispense 2–3 drops into your fingertips. Gently press into skin — cheeks, forehead, and neck — using upward motions." },
+                { step: "03", title: "Apply Serum", desc: "Dispense 2-3 drops into your fingertips. Gently press into skin - cheeks, forehead, and neck - using upward motions." },
                 { step: "04", title: "Moisturise", desc: "Follow immediately with your moisturiser to seal in the active ingredients and lock in lasting hydration." },
               ].map(({ step, title, desc }) => (
                 <div key={step} className="flex items-start gap-5">

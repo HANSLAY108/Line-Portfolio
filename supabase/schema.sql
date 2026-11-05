@@ -1,4 +1,4 @@
--- Line Morelle portfolio — run this in the Supabase SQL editor (once).
+-- Line Morelle portfolio - run this in the Supabase SQL editor (once).
 -- After creating Line's Auth user, insert her UUID into admin_users (see SETUP.md).
 
 create extension if not exists "pgcrypto";
@@ -431,7 +431,7 @@ insert into public.site_settings (
   'A showcase of architectural precision, technical rigor, and minimalist digital craftsmanship. From distributed systems to polished frontends.',
   'More Projects Coming', 'View Archive', 'https://github.com',
   'Philosophy', 'Code as a silent, beautiful', 'utility', '.',
-  'I believe great software disappears into the experience. Every line should serve clarity, efficiency, and a Swiss-inspired sense of restraint — form following function without sacrificing beauty.',
+  'I believe great software disappears into the experience. Every line should serve clarity, efficiency, and a Swiss-inspired sense of restraint - form following function without sacrificing beauty.',
   'Optimized for Web Vitals',
   'Have a specific', 'vision', 'in mind?',
   'I am currently open to consulting for startups and architectural audits for enterprise teams. Let''s discuss your next breakthrough.',
@@ -445,10 +445,10 @@ on conflict (id) do nothing;
 
 insert into public.skills (title, description, icon_key, section, sort_order)
 select * from (values
-  ('Front-end Engineering', 'Crafting responsive, accessible interfaces with React, Next.js, and TypeScript — prioritizing performance and refined user experience.', 'monitor', 'expertise', 0),
+  ('Front-end Engineering', 'Crafting responsive, accessible interfaces with React, Next.js, and TypeScript - prioritizing performance and refined user experience.', 'monitor', 'expertise', 0),
   ('Backend Architecture', 'Designing resilient APIs and service layers with Node.js, Go, and microservices patterns built for scale and maintainability.', 'server', 'expertise', 1),
   ('Cloud Infrastructure', 'Provisioning and optimizing cloud environments across AWS and GCP with Docker, Kubernetes, and infrastructure as code.', 'cloud', 'expertise', 2),
-  ('Data Systems', 'Modeling and operating SQL and NoSQL stores — PostgreSQL, MongoDB, and pipelines that keep data reliable and available.', 'chip', 'expertise', 3),
+  ('Data Systems', 'Modeling and operating SQL and NoSQL stores - PostgreSQL, MongoDB, and pipelines that keep data reliable and available.', 'chip', 'expertise', 3),
   ('Performance', 'Optimization at every level of the stack.', 'bolt', 'philosophy', 0),
   ('Scalability', 'Architecting for growth and high-concurrency.', 'layers', 'philosophy', 1)
 ) as v(title, description, icon_key, section, sort_order)
@@ -528,7 +528,7 @@ select * from (values
   (
     'Master of Science in Computer Science',
     'ETH Zürich (Swiss Federal Institute of Technology)',
-    '2019 — 2021',
+    '2019 - 2021',
     'Distributed Systems & High-Performance Computing',
     'Zürich, Switzerland',
     'Summa Cum Laude (Top 3% of cohort)',
@@ -539,7 +539,7 @@ select * from (values
   (
     'Bachelor of Science in Computer Science & Systems',
     'EPFL (École Polytechnique Fédérale de Lausanne)',
-    '2016 — 2019',
+    '2016 - 2019',
     'Software Engineering & Computer Systems',
     'Lausanne, Switzerland',
     'Highest Distinction',
@@ -550,7 +550,7 @@ select * from (values
   (
     'Swiss Scientific Matura (Baccalauréat Scientifique)',
     'Gymnase Cantonal de Lausanne',
-    '2013 — 2016',
+    '2013 - 2016',
     'Advanced Mathematics & Applied Physics',
     'Lausanne, Switzerland',
     'Honor Award for Analytical Mathematics',
@@ -564,7 +564,7 @@ where not exists (select 1 from public.educations);
 insert into public.certificates (title, issuer, issue_date, expiry_date, credential_id, credential_url, image_path, description, skills, sort_order)
 select * from (values
   (
-    'AWS Certified Solutions Architect – Professional',
+    'AWS Certified Solutions Architect - Professional',
     'Amazon Web Services',
     'Oct 2023',
     'Oct 2026',
@@ -588,7 +588,7 @@ select * from (values
     1
   ),
   (
-    'Google Cloud Certified – Professional Cloud Architect',
+    'Google Cloud Certified - Professional Cloud Architect',
     'Google Cloud',
     'Nov 2022',
     'Nov 2025',
@@ -1007,7 +1007,7 @@ insert into public.services_page_content (
     {
       "question_en": "Can you work with an existing codebase or team?",
       "question_fr": "Pouvez-vous intervenir sur une base de code existante ?",
-      "answer_en": "Absolutely. Much of my work involves extending existing Next.js, React, and Supabase applications—adding new features, building CMS modules, or auditing and refactoring legacy code without disrupting live operations.",
+      "answer_en": "Absolutely. Much of my work involves extending existing Next.js, React, and Supabase applications-adding new features, building CMS modules, or auditing and refactoring legacy code without disrupting live operations.",
       "answer_fr": "Absolument. Une grande partie de mes missions consiste à faire évoluer des applications Next.js, React et Supabase existantes : ajout de fonctionnalités, création de modules CMS ou refactoring sans interrompre la production."
     }
   ]'::jsonb

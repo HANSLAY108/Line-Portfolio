@@ -3,7 +3,7 @@ import "./globals.css";
 import { AuthProvider } from "../lib/supabase/auth-context";
 
 export const metadata: Metadata = {
-  title: "Nova Analytics — Simple, Privacy-Friendly Website Analytics",
+  title: "Nova Analytics - Simple, Privacy-Friendly Website Analytics",
   description: "Lightweight, privacy-first web analytics. No cookies, 100% GDPR compliant. Built with Next.js, Tailwind CSS, Supabase and Recharts.",
 };
 

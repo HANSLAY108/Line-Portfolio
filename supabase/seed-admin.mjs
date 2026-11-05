@@ -1,5 +1,5 @@
 /**
- * Seed script — creates the admin user for Line Morelle's CMS.
+ * Seed script - creates the admin user for Line Morelle's CMS.
  *
  * Usage:
  *   node supabase/seed-admin.mjs
@@ -37,7 +37,7 @@ function loadEnv(filePath) {
       if (!process.env[key]) process.env[key] = value;
     }
   } catch {
-    // no .env.local — rely on actual env
+    // no .env.local - rely on actual env
   }
 }
 

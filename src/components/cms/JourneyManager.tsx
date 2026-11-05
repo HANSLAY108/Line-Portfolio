@@ -156,7 +156,7 @@ export default function JourneyManager({
                     label="Period / Years"
                     name="period"
                     required
-                    placeholder="e.g. 2019 — 2021"
+                    placeholder="e.g. 2019 - 2021"
                     defaultValue={editingEducation?.period}
                   />
                   <Field
@@ -386,7 +386,7 @@ export default function JourneyManager({
                     label="Certificate Title"
                     name="title"
                     required
-                    placeholder="e.g. AWS Certified Solutions Architect – Professional"
+                    placeholder="e.g. AWS Certified Solutions Architect - Professional"
                     defaultValue={editingCert?.title}
                   />
                   <Field

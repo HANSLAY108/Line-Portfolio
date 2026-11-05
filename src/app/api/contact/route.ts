@@ -78,7 +78,7 @@ export async function POST(request: Request) {
   }
 
   // Try service client first (bypasses RLS); fall back to anon client
-  // (requires an INSERT policy on messages for anon — see schema.sql)
+  // (requires an INSERT policy on messages for anon - see schema.sql)
   const supabase = createServiceClient() ?? createAnonClient();
   if (!supabase) {
     return NextResponse.json(

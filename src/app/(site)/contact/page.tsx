@@ -10,7 +10,7 @@ import { publicMediaUrl } from "@/lib/supabase";
 import { T } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "Contact — Line Morelle",
+  title: "Contact - Line Morelle",
   description:
     "Get in touch with Line Morelle for software architecture consulting, enterprise engineering, and new project inquiries.",
 };

@@ -6,9 +6,9 @@ import { publicMediaUrl } from "@/lib/media";
 import { T } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "Blog — Line Morelle",
+  title: "Blog - Line Morelle",
   description:
-    "Thoughts on software architecture, engineering craft, and building for the web — by Line Morelle.",
+    "Thoughts on software architecture, engineering craft, and building for the web - by Line Morelle.",
 };
 
 export default async function BlogPage() {
@@ -41,7 +41,7 @@ export default async function BlogPage() {
         {posts.length === 0 ? (
           <FadeIn direction="up">
             <p className="text-[15px] text-muted">
-              <T k="blog.noPosts">No posts published yet — check back soon.</T>
+              <T k="blog.noPosts">No posts published yet - check back soon.</T>
             </p>
           </FadeIn>
         ) : (

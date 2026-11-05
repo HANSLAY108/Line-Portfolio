@@ -9,7 +9,7 @@ import { publicMediaUrl } from "@/lib/media";
 import { T } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "Journey — Line Morelle",
+  title: "Journey - Line Morelle",
   description:
     "Explore the educational journey, academic computer science degrees, and industry-standard certifications of Line Morelle.",
 };
@@ -164,7 +164,7 @@ export default async function JourneyPage() {
               </h2>
               <p className="mt-6 text-[16px] leading-[1.75] text-muted">
                 <T k="journey_page.philosophy_body">
-                  Frameworks and libraries fluctuate, but the foundational laws of computer science—distributed consensus, algorithmic bounds, memory cache locality, and clean concurrency—remain unyielding. My education informs every architecture I build.
+                  Frameworks and libraries fluctuate, but the foundational laws of computer science-distributed consensus, algorithmic bounds, memory cache locality, and clean concurrency-remain unyielding. My education informs every architecture I build.
                 </T>
               </p>
             </div>

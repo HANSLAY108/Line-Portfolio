@@ -32,7 +32,7 @@ export default function AetherOSApp() {
   const [windows, setWindows] = useState<Record<AppId, WindowState>>({
     code: {
       id: "code",
-      title: "Aether Code Studio — main.rs",
+      title: "Aether Code Studio - main.rs",
       isOpen: true,
       isMinimized: false,
       isMaximized: false,
@@ -44,7 +44,7 @@ export default function AetherOSApp() {
     },
     canvas: {
       id: "canvas",
-      title: "Spatial Geometry Engine — WebGPU Canvas",
+      title: "Spatial Geometry Engine - WebGPU Canvas",
       isOpen: true,
       isMinimized: false,
       isMaximized: false,
@@ -56,7 +56,7 @@ export default function AetherOSApp() {
     },
     terminal: {
       id: "terminal",
-      title: "aether-sh — 80×24",
+      title: "aether-sh - 80×24",
       isOpen: false,
       isMinimized: false,
       isMaximized: false,
@@ -68,7 +68,7 @@ export default function AetherOSApp() {
     },
     files: {
       id: "files",
-      title: "Finder — Line Morelle Projects",
+      title: "Finder - Line Morelle Projects",
       isOpen: false,
       isMinimized: false,
       isMaximized: false,
@@ -308,7 +308,7 @@ export default function AetherOSApp() {
         "                  Author: Line Morelle (Zurich, CH)"
       );
     } else if (cmd === "whoami") {
-      next.push("Line Morelle — High-Performance Software Engineer & System Architect");
+      next.push("Line Morelle - High-Performance Software Engineer & System Architect");
     } else if (cmd === "ls") {
       next.push("salesboost.app   veloce-commerce/   nova-analytics/   aether-os/   cv.pdf");
     } else if (cmd === "clear") {
@@ -351,7 +351,7 @@ export default function AetherOSApp() {
           </div>
 
           <span className="hidden sm:inline-block font-semibold text-white/80">
-            {activeApp ? windows[activeApp]?.title.split("—")[0] : "Desktop"}
+            {activeApp ? windows[activeApp]?.title.split("-")[0] : "Desktop"}
           </span>
 
           <div className="hidden md:flex items-center gap-4 text-white/60 text-[11px]">
@@ -477,7 +477,7 @@ export default function AetherOSApp() {
 
             {/* Code editor content */}
             <div className="flex-1 overflow-auto p-4 font-mono text-xs text-[#E6EDF3] leading-relaxed">
-              <div className="text-white/40">// Aether Spatial OS — Core Compositor</div>
+              <div className="text-white/40">// Aether Spatial OS - Core Compositor</div>
               <div className="text-white/40">// Architected by Line Morelle (Zürich)</div>
               <br />
               <div>
@@ -648,7 +648,7 @@ export default function AetherOSApp() {
 
             <div className="flex-1 p-6 grid grid-cols-3 gap-4 text-xs font-mono">
               <div
-                onClick={() => alert("Project: Veloce Commerce — Next.js, GraphQL, Redis Headless E-Commerce")}
+                onClick={() => alert("Project: Veloce Commerce - Next.js, GraphQL, Redis Headless E-Commerce")}
                 className="cursor-pointer rounded-xl border border-white/10 bg-white/5 p-4 text-center hover:bg-white/10 transition-colors"
               >
                 <div className="text-3xl mb-2">📁</div>
@@ -657,7 +657,7 @@ export default function AetherOSApp() {
               </div>
 
               <div
-                onClick={() => alert("Project: Nova Analytics — Go, Kafka, gRPC Real-Time Infrastructure Telemetry")}
+                onClick={() => alert("Project: Nova Analytics - Go, Kafka, gRPC Real-Time Infrastructure Telemetry")}
                 className="cursor-pointer rounded-xl border border-white/10 bg-white/5 p-4 text-center hover:bg-white/10 transition-colors"
               >
                 <div className="text-3xl mb-2">📊</div>
@@ -666,7 +666,7 @@ export default function AetherOSApp() {
               </div>
 
               <div
-                onClick={() => alert("Project: SalesBoost — High-Converting Sales Automation SaaS Platform")}
+                onClick={() => alert("Project: SalesBoost - High-Converting Sales Automation SaaS Platform")}
                 className="cursor-pointer rounded-xl border border-white/10 bg-white/5 p-4 text-center hover:bg-white/10 transition-colors"
               >
                 <div className="text-3xl mb-2">🚀</div>

@@ -6,6 +6,48 @@
 
 export const EN_TO_FR_CONTENT: Record<string, string> = {
   // Hero & Site Settings custom DB values
+  // Anti-slop grounded copy (EN <-> FR)
+  "Building reliable,": "Développer des logiciels web",
+  "performant": "performants",
+  "web software.": "et fiables.",
+  "I'm Line Morelle. I build fast, accessible web applications and backend systems with clean code and modern engineering practices.":
+    "Je suis Line Morelle. Je conçois des applications web rapides et accessibles ainsi que des services backend robustes avec des pratiques d'ingénierie modernes.",
+  "Technical Capabilities": "Compétences Techniques",
+  "Modern Frontend Development": "Développement Frontend Moderne",
+  "Responsive, accessible, and fast web applications built with Next.js, React, TypeScript, and modern CSS.":
+    "Interfaces web réactives, accessibles et rapides conçues avec Next.js, React, TypeScript et le CSS moderne.",
+  "Backend & Cloud Systems": "Systèmes Backend & Cloud",
+  "REST and GraphQL APIs, database architecture, authentication, and cloud infrastructure built to scale.":
+    "APIs REST et GraphQL, architecture de bases de données, authentification et déploiements cloud pensés pour évoluer.",
+  "Interface & Interaction Design": "Design UI & UX Épuré",
+  "Clean layouts, readable typography, and intuitive user flows designed for clarity and usability.":
+    "Mises en page claires, typographie lisible et parcours utilisateurs intuitifs conçus pour la simplicité d'usage.",
+  "Let's build your next": "Construisons votre prochain",
+  "together.": "ensemble.",
+  "Have a project in mind or need an experienced developer for your team? Reach out and let's discuss your timeline and technical requirements.":
+    "Vous avez un projet en tête ou besoin d'une développeuse expérimentée au sein de votre équipe ? Échangeons sur vos délais et vos besoins techniques.",
+  "02 / Selected Work": "02 / Travaux Sélectionnés",
+  "Recent": "Projets",
+  "Engineering Approach": "Approche Technique",
+  "Software built for": "Des logiciels conçus pour",
+  "clarity and speed": "la clarté et la rapidité",
+  "Good software should be intuitive for users and maintainable for developers. I focus on clean code, solid testing, and sensible architecture rather than unnecessary complexity.":
+    "Un bon logiciel doit être intuitif pour l'utilisateur et simple à maintenir pour les développeurs. Je privilégie un code propre, des tests solides et une architecture pragmatique plutôt que la sur-ingénierie.",
+  "Have a project in": "Un projet en",
+  "mind": "tête",
+  "?": "?",
+  "I am open to new client projects, code reviews, and technical consulting. Let's talk about what you are building.":
+    "Je suis disponible pour de nouveaux projets clients, des revues de code et du conseil technique. Discutons de ce que vous souhaitez construire.",
+  "Let's talk about": "Parlons de",
+  "your project": "votre projet",
+  "Whether you have a specific project ready to build or need technical advice on an existing application, feel free to reach out.":
+    "Que vous ayez un projet prêt à démarrer ou besoin de conseils techniques sur une application existante, n'hésitez pas à m'écrire.",
+  "Send a Message": "Envoyer un message",
+  "Tell me about your project, timeline, or questions. I reply to all messages within 24 hours.":
+    "Décrivez votre projet, vos délais ou vos questions. Je réponds à tous les messages sous 24 heures.",
+  "All rights reserved. Designed and developed by Line Morelle.":
+    "Tous droits réservés. Conçu et développé par Line Morelle.",
+
   "Adaptable · Software · Engineer": "Ingénieure · Logiciel · Adaptable",
   "Building digital": "Concevoir l'élégance",
   "elegance": "numérique",
@@ -30,8 +72,8 @@ export const EN_TO_FR_CONTENT: Record<string, string> = {
 
   // Home & Projects Skills / Expertise & Philosophy
   "Front-end Engineering": "Ingénierie Front-end",
-  "Crafting responsive, accessible interfaces with React, Next.js, and TypeScript — prioritizing performance and refined user experience.":
-    "Conception d'interfaces réactives et accessibles avec React, Next.js et TypeScript — en privilégiant la performance et une expérience utilisateur soignée.",
+  "Crafting responsive, accessible interfaces with React, Next.js, and TypeScript - prioritizing performance and refined user experience.":
+    "Conception d'interfaces réactives et accessibles avec React, Next.js et TypeScript - en privilégiant la performance et une expérience utilisateur soignée.",
   "Backend Architecture": "Architecture Backend",
   "Designing resilient APIs and service layers with Node.js, Go, and microservices patterns built for scale and maintainability.":
     "Conception d'APIs résilientes et de couches de services avec Node.js, Go et des architectures microservices taillées pour la montée en charge et la maintenabilité.",
@@ -39,8 +81,8 @@ export const EN_TO_FR_CONTENT: Record<string, string> = {
   "Provisioning and optimizing cloud environments across AWS and GCP with Docker, Kubernetes, and infrastructure as code.":
     "Provisionnement et optimisation d'environnements cloud sur AWS et GCP avec Docker, Kubernetes et l'infrastructure as code.",
   "Data Systems": "Systèmes de Données",
-  "Modeling and operating SQL and NoSQL stores — PostgreSQL, MongoDB, and pipelines that keep data reliable and available.":
-    "Modélisation et exploitation de bases SQL et NoSQL — PostgreSQL, MongoDB et pipelines garantissant la fiabilité et la disponibilité des données.",
+  "Modeling and operating SQL and NoSQL stores - PostgreSQL, MongoDB, and pipelines that keep data reliable and available.":
+    "Modélisation et exploitation de bases SQL et NoSQL - PostgreSQL, MongoDB et pipelines garantissant la fiabilité et la disponibilité des données.",
   "Performance": "Performance",
   "Optimization at every level of the stack.":
     "Optimisation à chaque niveau de la pile technique.",
@@ -168,16 +210,16 @@ export const EN_TO_FR_CONTENT: Record<string, string> = {
   "Competencies & Domains": "Compétences & Domaines",
   "Close": "Fermer",
   "Verify at": "Vérifier sur",
-  "AWS Certified Solutions Architect – Professional":
-    "AWS Certified Solutions Architect – Professionnel",
+  "AWS Certified Solutions Architect - Professional":
+    "AWS Certified Solutions Architect - Professionnel",
   "Highest-tier cloud architecture certification validating advanced architectural design, multi-tier security, disaster recovery, and cost-effective distributed systems at enterprise scale.":
     "Certification d'architecture cloud de plus haut niveau validant la conception d'architectures avancées, la sécurité multi-niveaux, la reprise après sinistre et les systèmes distribués à l'échelle de l'entreprise.",
   "Certified Kubernetes Administrator (CKA)":
     "Administrateur Kubernetes Certifié (CKA)",
   "Hands-on operational certification demonstrating production-grade Kubernetes cluster management, container networking (CNI), storage orchestration, etcd backup/restore, and runtime security.":
     "Certification opérationnelle pratique démontrant la gestion de clusters Kubernetes en production, le réseau de conteneurs (CNI), l'orchestration du stockage, la sauvegarde/restauration etcd et la sécurité d'exécution.",
-  "Google Cloud Certified – Professional Cloud Architect":
-    "Google Cloud Certified – Architecte Cloud Professionnel",
+  "Google Cloud Certified - Professional Cloud Architect":
+    "Google Cloud Certified - Architecte Cloud Professionnel",
   "Validates proficiency in architecting resilient, highly scalable enterprise solutions on Google Cloud Platform, encompassing hybrid cloud connectivity and high-throughput data pipelines.":
     "Valide la maîtrise de l'architecture de solutions d'entreprise résilientes et hautement évolutives sur Google Cloud Platform, incluant la connectivité cloud hybride et les pipelines de données à haut débit.",
   "HashiCorp Certified: Terraform Associate":

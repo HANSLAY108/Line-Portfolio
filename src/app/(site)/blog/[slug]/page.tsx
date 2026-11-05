@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = posts.find((p) => p.slug === slug);
   if (!post) return {};
   return {
-    title: `${post.title} — Line Morelle`,
+    title: `${post.title} - Line Morelle`,
     description: post.excerpt || undefined,
   };
 }
@@ -175,7 +175,7 @@ function renderBody(raw: string): string {
   };
 
   for (const line of lines) {
-    // Already inside a pre block — pass through
+    // Already inside a pre block - pass through
     if (line.startsWith("<pre>") || line.startsWith("</pre>")) {
       flushList();
       out.push(line);

@@ -584,7 +584,7 @@ export default function ServicesManager({
 
                     <div>
                       <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[#7A6B6E]">
-                        Included Points (English — 1 point per line, 3 to 4 points)
+                        Included Points (English - 1 point per line, 3 to 4 points)
                       </label>
                       <textarea
                         rows={4}
@@ -602,7 +602,7 @@ export default function ServicesManager({
                   <div className="space-y-4 rounded-2xl border border-[#F3E2E4] bg-[#FDFBFB] p-4 sm:p-5">
                     <div>
                       <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[#7A6B6E]">
-                        Service Title (Français — falls back to English if empty)
+                        Service Title (Français - falls back to English if empty)
                       </label>
                       <input
                         type="text"
@@ -628,7 +628,7 @@ export default function ServicesManager({
 
                     <div>
                       <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[#7A6B6E]">
-                        Included Points (Français — 1 point par ligne)
+                        Included Points (Français - 1 point par ligne)
                       </label>
                       <textarea
                         rows={4}
@@ -1057,7 +1057,7 @@ export default function ServicesManager({
           {/* 2. HOW I WORK (4 STEPS) */}
           <Card>
             <h3 className="mb-4 font-serif text-xl font-medium text-[#292022]">
-              2. How I Work — 4 Steps ({copyLangTab.toUpperCase()})
+              2. How I Work - 4 Steps ({copyLangTab.toUpperCase()})
             </h3>
             <div className="grid gap-4">
               <div className="grid gap-4 sm:grid-cols-2">

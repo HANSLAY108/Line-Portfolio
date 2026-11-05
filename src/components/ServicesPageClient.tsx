@@ -598,11 +598,11 @@ export default function ServicesPageClient({
                     <option value="Under $2,000">
                       {t("services_page.budget_under_2k", "Under $2,000")}
                     </option>
-                    <option value="$2,000 – $5,000">
-                      {t("services_page.budget_2k_5k", "$2,000 – $5,000")}
+                    <option value="$2,000 - $5,000">
+                      {t("services_page.budget_2k_5k", "$2,000 - $5,000")}
                     </option>
-                    <option value="$5,000 – $10,000">
-                      {t("services_page.budget_5k_10k", "$5,000 – $10,000")}
+                    <option value="$5,000 - $10,000">
+                      {t("services_page.budget_5k_10k", "$5,000 - $10,000")}
                     </option>
                     <option value="$10,000+">
                       {t("services_page.budget_10k_plus", "$10,000+")}

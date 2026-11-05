@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "CMS — Line Morelle",
+  title: "CMS - Line Morelle",
   robots: { index: false, follow: false, nocache: true },
 };
 

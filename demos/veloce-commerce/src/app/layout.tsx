@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Lumière — Clean Beauty & Skincare",
+  title: "Lumière - Clean Beauty & Skincare",
   description:
     "Premium clean beauty and skincare products. Crafted with nature-derived ingredients. Free shipping over $50. Designed and built by Line Morelle.",
 };
